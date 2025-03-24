@@ -3,7 +3,7 @@ import mediapipe as mp
 
 mp_hands = mp.solutions.hands
 mp_drawing = mp.solutions.drawing_utils
-hands = mp_hands.Hands(max_num_hands=4)
+hands = mp_hands.Hands(max_num_hands=2)
 
 def process_hands(frame, frame_rgb):
     hand_results = hands.process(frame_rgb)
