@@ -21,6 +21,8 @@ if not cap.isOpened():
     exit()
 
 cv2.namedWindow("Captura", cv2.WINDOW_NORMAL)
+cv2.resizeWindow("Captura", 650, 720)  # Ancho x Alto
+
 
 # Solicitar palabra/frase al usuario
 def solicitar_palabra():
