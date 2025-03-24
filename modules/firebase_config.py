@@ -2,7 +2,7 @@ import firebase_admin
 from firebase_admin import credentials, db, storage
 
 # Ruta al archivo JSON de credenciales (descárgalo desde Firebase)
-cred = credentials.Certificate("/tu_ruta/tu_json.json")
+cred = credentials.Certificate("singlanguage-d953b-firebase-adminsdk-fbsvc-f14a257af7.json")
 
 # Inicializar la conexión con la base de datos
 firebase_admin.initialize_app(cred, {
