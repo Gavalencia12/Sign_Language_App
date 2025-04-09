@@ -4,7 +4,7 @@ from modules.firebase_config import upload_file, save_data, get_existing_files
 
 capturas_dir = "captures"
 
-#busca si hay archivos para subir
+# Busca si hay archivos para subir
 if not os.path.exists(capturas_dir):
     print("No hay archivos para subir.")
     exit()
@@ -37,15 +37,15 @@ for root, _, files in os.walk(capturas_dir):
                 print(f"⚠️ Archivo {filename} ya está en Firebase, no se sube nuevamente.")
                 continue  # Saltar este archivo
 
-            # **PROCESAR IMÁGENES**
+            # **PROCESAR IMÁGENES**: Solo convertir a escala de grises sin redimensionar
             if filename.endswith(image_extensions):
                 img = cv2.imread(file_path, cv2.IMREAD_GRAYSCALE)  # Convertir a escala de grises
                 if img is None:
                     print(f"⚠️ No se pudo leer la imagen {filename}, se omite.")
                     continue
-                
-                img_resized = cv2.resize(img, (224, 224))  # Redimensionar a 224x224
-                cv2.imwrite(file_path, img_resized)  # Sobrescribir con la imagen preprocesada
+
+                # No redimensionamos, solo procesamos a escala de grises
+                cv2.imwrite(file_path, img)  # Sobrescribir con la imagen procesada
 
             # **PROCESAR VIDEOS**
             elif filename.endswith(video_extensions):
@@ -81,7 +81,6 @@ for root, _, files in os.walk(capturas_dir):
 
                 # Reemplazar el archivo original con el procesado
                 os.replace(temp_video_path, file_path)
-
 
             # Subir archivo a Firebase Storage
             file_url = upload_file(file_path, storage_path)
