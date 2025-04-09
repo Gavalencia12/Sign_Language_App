@@ -2,12 +2,12 @@ import firebase_admin
 from firebase_admin import credentials, db, storage
 
 # Ruta al archivo JSON de credenciales (descárgalo desde Firebase)
-cred = credentials.Certificate("singlanguage-d953b-firebase-adminsdk-fbsvc-f14a257af7.json")
+cred = credentials.Certificate("singlanguage-credentials.json")
 
 # Inicializar la conexión con la base de datos
 firebase_admin.initialize_app(cred, {
-    'storageBucket': 'bucket_para_el_storage',  # Reemplaza con tu bucket real
-    'databaseURL': 'URL_de_Realtime_Database'  # Reemplaza con tu URL de Realtime Database
+    'storageBucket': 'singlanguage-d953b.firebasestorage.app',  # Reemplaza con tu bucket real
+    'databaseURL': 'https://singlanguage-d953b-default-rtdb.firebaseio.com'  # Reemplaza con tu URL de Realtime Database
 })
 
 def upload_file(file_path, storage_path):
