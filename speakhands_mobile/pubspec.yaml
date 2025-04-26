@@ -1,0 +1,43 @@
+name: speakhands_mobile
+description: Aplicación móvil de traducción y aprendizaje de lengua de señas con Flutter y IA.
+publish_to: 'none' # No se publica en pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.7.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  tflite_flutter: ^0.10.1 # Para usar el modelo .tflite
+  camera: ^0.10.5+5       # Para usar cámara del dispositivo
+  path_provider: ^2.0.15  # Para guardar o acceder a archivos si necesitas
+  firebase_core: ^2.15.1  # Para conectar Firebase (después)
+  firebase_storage: ^11.3.1 # Para subir/bajar archivos de Firebase Storage
+  provider: ^6.1.4        # Para manejo de estado simple (opcional pero recomendado)
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/model/
+    - assets/fonts/
+
+    # Si tienes sonidos, íconos o más, aquí los agregas
+
+# Opcional para futuras fuentes personalizadas
+# fonts:
+#   - family: Nunito
+#     fonts:
+#       - asset: assets/fonts/Nunito-Regular.ttf
+#       - asset: assets/fonts/Nunito-Bold.ttf
+#         weight: 700

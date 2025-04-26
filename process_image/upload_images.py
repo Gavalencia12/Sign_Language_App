@@ -102,3 +102,4 @@ for root, _, files in os.walk(capturas_dir):
                 print(f"🗑️ Archivo eliminado: {file_path}")
             except Exception as e:
                 print(f"⚠️ Error al eliminar {file_path}: {e}")
+                

@@ -11,7 +11,7 @@ from PySide6.QtGui import QImage, QPixmap
 # Configuración MediaPipe
 import mediapipe as mp
 mp_hands = mp.solutions.hands
-hands_detector = mp_hands.Hands(static_image_mode=True, max_num_hands=1)  # Solo 1 mano por ahora
+hands_detector = mp_hands.Hands(static_image_mode=True, max_num_hands=2)  # Solo 1 mano por ahora
 
 
 def detectar_mano_con_mediapipe(img_bgr):
@@ -171,3 +171,4 @@ if __name__ == "__main__":
     ventana = VideoApp()
     ventana.show()
     sys.exit(app.exec())
+    
