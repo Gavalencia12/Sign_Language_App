@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:speakhands_mobile/providers/theme_provider.dart';
 import 'package:speakhands_mobile/theme/theme.dart';
 import 'package:speakhands_mobile/screens/splash_screen.dart';
+import 'package:speakhands_mobile/screens/login_screen.dart';
 import 'package:speakhands_mobile/screens/main_nav.dart';
 
 class SpeakHandsApp extends StatelessWidget {
@@ -34,6 +35,7 @@ class _AppContent extends StatelessWidget {
       routes: {
         '/': (_) => const SplashScreen(),
         '/home': (_) => const MainNavigation(),
+        '/login': (_) => const LoginScreen(), // 👈 Agregar esta línea
       },
     );
   }

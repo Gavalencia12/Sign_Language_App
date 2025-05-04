@@ -15,10 +15,14 @@ dependencies:
   tflite_flutter: ^0.10.1 # Para usar el modelo .tflite
   camera: ^0.10.5+5       # Para usar cámara del dispositivo
   path_provider: ^2.0.15  # Para guardar o acceder a archivos si necesitas
-  firebase_core: ^2.15.1  # Para conectar Firebase (después)
+  firebase_core: ^2.15.1  # Versión de firebase_core compatible con firebase_database 10.x
+  firebase_database: ^10.5.7
   firebase_storage: ^11.3.1 # Para subir/bajar archivos de Firebase Storage
   provider: ^6.1.4        # Para manejo de estado simple (opcional pero recomendado)
-
+  firebase_auth: ^4.17.0
+  google_sign_in: ^6.2.1
+  flutter_facebook_auth: ^6.0.3
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

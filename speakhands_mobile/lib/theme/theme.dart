@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   // Colores claros (pastel)
-  static const Color lightPrimary = Color(0xFF89CFF0);
+  static const Color lightPrimary = Color(0xFF44CBCC);
   static const Color lightSecondary = Color(0xFFAEC6CF);
   static const Color lightAccent = Color(0xFFA0E7E5);
-  static const Color lightBackground = Color(0xFFFFFFFF);
+  static const Color lightBackground = Color(0xFFEFF3FF);
   static const Color lightText = Color(0xFF2F3A4A);
 
   // Colores oscuros
