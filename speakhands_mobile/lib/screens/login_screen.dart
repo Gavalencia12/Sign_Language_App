@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:speakhands_mobile/service/auth_service.dart';
+import 'package:provider/provider.dart';
+import 'package:speakhands_mobile/providers/theme_provider.dart';
+import 'package:speakhands_mobile/theme/theme.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -35,16 +38,22 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
+    final backgroundColor = themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground;
+    final appBarColor = themeProvider.isDarkMode ? AppTheme.darkPrimary : AppTheme.lightPrimary;
+    final textColor = themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A); // Color dinámico del texto
+
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+
       appBar: AppBar(
-        title: const Text("Iniciar sesión"),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.pushReplacementNamed(context, '/home'); // Botón de regreso
           },
         ),
+        backgroundColor: backgroundColor, // Usamos el color de AppTheme según el tema
       ),
       body: Center(
         child: Padding(

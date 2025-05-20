@@ -107,13 +107,13 @@ class _MainNavigationState extends State<MainNavigation> {
   IconData _getIconForIndex(int index) {
     switch (index) {
       case 0:
-        return Icons.home;
+        return Icons.house;
       case 1:
-        return Icons.gesture;
+        return Icons.connect_without_contact;
       case 2:
-        return Icons.menu_book;
+        return Icons.waving_hand;
       case 3:
-        return Icons.person;
+        return Icons.account_circle;
       default:
         return Icons.circle;
     }

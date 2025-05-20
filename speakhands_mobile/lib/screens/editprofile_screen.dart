@@ -20,7 +20,7 @@ class EditProfileScreen extends StatelessWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween, // Ajustar el texto a los extremos
           children: [
-            Text("Profile", style: TextStyle(color: textColor, fontWeight: FontWeight.bold)),
+            Text("Edit Profile", style: TextStyle(color: textColor, fontWeight: FontWeight.bold)),
             Row(
               mainAxisSize: MainAxisSize.min, // El espacio entre los dos textos de SpeakHands
               children: [
