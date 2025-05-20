@@ -40,7 +40,7 @@ class AuthService {
 
   // ========== EMAIL/CODE VERIFICATION REGISTRATION FLOW ==========
 
-  // 1. Generar y guardar código en la base de datos
+  // 1. Generate and save code to the database
   Future<void> sendVerificationCode(String email) async {
     final String code = (10000 + Random().nextInt(90000)).toString(); // Código de 5 dígitos
     final String safeEmail = email.replaceAll('.', '_');
@@ -48,14 +48,14 @@ class AuthService {
     try {
       await _database.child('verifications/$safeEmail').set({'code': code});
       print('Código enviado a $email: $code');
-      // Aquí va el envío real del correo si tienes backend
+      // Here goes the actual mail sending if you have a backend
     } catch (e) {
       print("Error al enviar código: $e");
       rethrow;
     }
   }
 
-  // 2. Verificar el código ingresado por el usuario
+  // 2. Verify the code entered by the user
   Future<bool> verifyCode(String email, String inputCode) async {
     final String safeEmail = email.replaceAll('.', '_');
     final DataSnapshot snapshot = await _database.child('verifications/$safeEmail/code').get();
@@ -68,7 +68,7 @@ class AuthService {
     }
   }
 
-  // 3. Crear cuenta de usuario con email y contraseña
+  // 3. Create a user account with email and password
   Future<UserCredential?> createUserWithEmail(String email, String password) async {
     try {
       final userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
@@ -89,18 +89,17 @@ class AuthService {
     }
   }
 
-  // ========== DATOS EN REALTIME DATABASE ==========
+  // ========== DATA IN REALTIME DATABASE ==========
 
   Future<void> _saveUserData(User user) async {
     try {
       // Create the data structure for the user
       await _database.child('usuarios').child(user.uid).set({
-        'nombre': user.displayName ?? '', // Si es con email normal puede estar vacío
+        'nombre': user.displayName ?? '', // If it is with normal email it can be empty
         'email': user.email,
         'foto': user.photoURL ?? '',
       });
       print('User data stored in the Firebase Realtime Database.');
-      print('Datos del usuario guardados correctamente');
     } catch (e) {
       print("Error saving data to Realtime Database: $e");
     }
