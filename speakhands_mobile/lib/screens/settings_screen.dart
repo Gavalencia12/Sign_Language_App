@@ -12,19 +12,19 @@ class SettingsScreen extends StatelessWidget {
 
   void _signOut(BuildContext context) async {
     await _authService.signOut();
-    // Elimina todas las pantallas previas y navega al Home
+    // Clear all previous screens and navigate to Home
     Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false); 
   }
 
   Future<String> _getUserName() async {
-    // Obtener el usuario actual desde Firebase Authentication
+    // Get the current user from Firebase Authentication
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      // Obtener el nombre del usuario desde Firestore
+      // Get the user's name from Firestore
       DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('usuarios').doc(user.uid).get();
-      return userDoc['nombre'] ?? 'Usuario'; // Devuelve el nombre del usuario o 'Usuario' si no existe
+      return userDoc['nombre'] ?? 'Usuario'; // Returns the user name or 'User' if it does not exist
     }
-    return 'Usuario'; // Si el usuario no está autenticado, se devuelve 'Usuario'
+    return 'Usuario'; // If the user is not authenticated, 'User' is returned
   }
 
 
@@ -32,19 +32,18 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
-    // Obtener el color para el AppBar y el fondo del body según el modo
     final backgroundColor = themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground;
     final appBarColor = themeProvider.isDarkMode ? AppTheme.darkPrimary : AppTheme.lightPrimary;
-    final textColor = themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A); // Color dinámico del texto
+    final textColor = themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A); 
 
     return Scaffold(
       appBar: AppBar(
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween, // Ajustar el texto a los extremos
+          mainAxisAlignment: MainAxisAlignment.spaceBetween, 
           children: [
             Text("SETTINGS", style: TextStyle(color: textColor, fontWeight: FontWeight.bold)),
             Row(
-              mainAxisSize: MainAxisSize.min, // El espacio entre los dos textos de SpeakHands
+              mainAxisSize: MainAxisSize.min, // The space between the two SpeakHands texts
               children: [
                 Text("Speak", style: TextStyle(color: textColor, fontWeight: FontWeight.bold)),
                 Text("Hands", style: TextStyle(color: Colors.teal, fontWeight: FontWeight.bold)),
@@ -53,16 +52,16 @@ class SettingsScreen extends StatelessWidget {
           ],
         ),
         backgroundColor: backgroundColor,
-        automaticallyImplyLeading: false, // Desactiva el comportamiento automático del botón de retroceso
+        automaticallyImplyLeading: false, // Disables the automatic behavior of the back button
       ),
       body: Stack(
         children: [
-          // El cuerpo con contenido desplazable
+          // The body with scrollable content
           SingleChildScrollView(
             child: Column(
               children: [
-                const SizedBox(height: 60), // Espacio para que el contenido no quede cubierto por el cuadro
-                // Primero Card
+                const SizedBox(height: 60), // Space so that the content is not covered by the box
+                // First Card
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                   color: themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground,
@@ -89,7 +88,7 @@ class SettingsScreen extends StatelessWidget {
                         leading: Icon(Icons.account_circle, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
                         title: Text("Personal Data", style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
-                          // Acción para "Personal Data"
+                          // Action to "Personal Data"
                         },
                       ),
                       Divider(color: themeProvider.isDarkMode ? Colors.white : Colors.black), // Línea divisoria
@@ -97,7 +96,7 @@ class SettingsScreen extends StatelessWidget {
                         leading: Icon(Icons.mail, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
                         title: Text("Account", style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
-                          // Acción para "Account"
+                          // Action to "Account"
                         },
                       ),
                       Divider(color: themeProvider.isDarkMode ? Colors.white : Colors.black), // Línea divisoria
@@ -105,7 +104,7 @@ class SettingsScreen extends StatelessWidget {
                         leading: Icon(Icons.security, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
                         title: Text("Privacy Policy", style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
-                          // Acción para "Privacy Policy"
+                          // Action to "Privacy Policy"
                         },
                       ),
                     ],
@@ -127,9 +126,9 @@ class SettingsScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                // Segundo Card
+                // Second Card
                 Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),                  color: themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground,
+                  margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),color: themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   child: Column(
                     children: [
@@ -137,7 +136,7 @@ class SettingsScreen extends StatelessWidget {
                         leading: Icon(Icons.g_translate, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
                         title: Text("Language", style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
-                          // Acción para "Notifications"
+                          // Action to "language"
                         },
                       ),
                       Divider(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
@@ -153,7 +152,7 @@ class SettingsScreen extends StatelessWidget {
                         leading: Icon(Icons.accessibility_new, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
                         title: Text("Accessibility", style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
-                          // Acción para "Help"
+                          // Action to "accessibility"
                         },
                       ),
                     ],
@@ -185,7 +184,7 @@ class SettingsScreen extends StatelessWidget {
                         leading: Icon(Icons.library_books, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
                         title: Text("Terms and Conditions", style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
-                          // Acción para "Notifications"
+                          // Action to "terms and conditions"
                         },
                       ),
                       Divider(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
@@ -193,7 +192,7 @@ class SettingsScreen extends StatelessWidget {
                         leading: Icon(Icons.help, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
                         title: Text("Help", style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
-                          // Acción para "Language"
+                          // Action to "help"
                         },
                       ),
                       Divider(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
@@ -201,7 +200,7 @@ class SettingsScreen extends StatelessWidget {
                         leading: Icon(Icons.assignment, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
                         title: Text("Qualife", style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
-                          // Acción para "Help"
+                          // Action to "qualife"
                         },
                       ),
                     ],
@@ -233,7 +232,7 @@ class SettingsScreen extends StatelessWidget {
                         leading: Icon(Icons.switch_account, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
                         title: Text(" Change Account", style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
-                          // Acción para "Notifications"
+                          // Action to "change account"
                         },
                       ),
                       Divider(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
@@ -241,7 +240,7 @@ class SettingsScreen extends StatelessWidget {
                         leading: Icon(Icons.logout, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
                         title: Text("Log Out", style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
-                          _signOut(context); // Cerrar sesión   
+                          _signOut(context); // Log out action   
                         },
                       ),
                     ],
@@ -251,9 +250,9 @@ class SettingsScreen extends StatelessWidget {
             ),
           ),
 
-          // El cuadro que se queda fijo
+          // The painting that stays fixed
           Positioned(
-            top: 0, // Ajusta la posición para que esté debajo del AppBar
+            top: 0, // Adjust the position so that it is below the AppBar
             left: 0,
             right: 0,
             child: Material(
