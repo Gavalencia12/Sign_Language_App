@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:speakhands_mobile/providers/theme_provider.dart';
 import 'package:speakhands_mobile/theme/theme.dart';
 
-class TranslatorScreen extends StatelessWidget {
-  const TranslatorScreen({super.key});
+class EditProfileScreen extends StatelessWidget {
+  const EditProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class TranslatorScreen extends StatelessWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween, // Ajustar el texto a los extremos
           children: [
-            Text("TRANSLATOR", style: TextStyle(color: textColor, fontWeight: FontWeight.bold)),
+            Text("Profile", style: TextStyle(color: textColor, fontWeight: FontWeight.bold)),
             Row(
               mainAxisSize: MainAxisSize.min, // El espacio entre los dos textos de SpeakHands
               children: [
@@ -31,8 +31,9 @@ class TranslatorScreen extends StatelessWidget {
           ],
         ),
         backgroundColor: backgroundColor, // Usamos el color de AppTheme según el tema
+        automaticallyImplyLeading: false, // Desactiva el comportamiento automático del botón de retroceso
       ),
-      body: Center(child: Text('Translator Screen')),
+      body: Center(child: Text('Edit Profile Screen')),
     );
   }
 }

@@ -18,6 +18,7 @@ dependencies:
   firebase_core: ^2.15.1  # Versión de firebase_core compatible con firebase_database 10.x
   firebase_database: ^10.5.7
   firebase_storage: ^11.3.1 # Para subir/bajar archivos de Firebase Storage
+  cloud_firestore: ^4.17.5 # Añade esta línea para usar Firestore
   provider: ^6.1.4        # Para manejo de estado simple (opcional pero recomendado)
   firebase_auth: ^4.17.0
   google_sign_in: ^6.2.1
