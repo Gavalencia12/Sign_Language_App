@@ -268,7 +268,7 @@ class SettingsScreen extends StatelessWidget {
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           return const CircularProgressIndicator();
                         } else if (snapshot.hasError) {
-                          return Text('Error al cargar el nombre');
+                          return Text('Error loading name');
                         } else if (snapshot.hasData) {
                           return Text(
                             "Hello, ${snapshot.data}!", // Muestra el nombre del usuario

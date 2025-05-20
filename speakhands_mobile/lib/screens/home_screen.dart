@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             Text("HOME", style: TextStyle(color: textColor, fontWeight: FontWeight.bold)),
             Row(
-              mainAxisSize: MainAxisSize.min, // The space between the two SpeakHands texts
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text("Speak", style: TextStyle(color: textColor, fontWeight: FontWeight.bold)),
                 Text("Hands", style: TextStyle(color: Colors.teal, fontWeight: FontWeight.bold)),
@@ -30,7 +30,7 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
         backgroundColor: backgroundColor, 
-
+      ),
       body: Center(child: Text('Home Screen')),
     );
   }
