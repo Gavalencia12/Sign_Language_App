@@ -10,7 +10,7 @@ class TranslatorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
-    // Obtener el color para el AppBar y el fondo del body según el modo
+    // Get the color for the AppBar and the body background according to the mode
     final backgroundColor = themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground;
     final appBarColor = themeProvider.isDarkMode ? AppTheme.darkPrimary : AppTheme.lightPrimary;
     final textColor = themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A); // Color dinámico del texto
@@ -30,7 +30,7 @@ class TranslatorScreen extends StatelessWidget {
             ),
           ],
         ),
-        backgroundColor: backgroundColor, // Usamos el color de AppTheme según el tema
+        backgroundColor: backgroundColor, // We use the AppTheme color according to the theme
       ),
       body: Center(child: Text('Translator Screen')),
     );

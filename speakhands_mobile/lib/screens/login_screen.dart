@@ -27,13 +27,13 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     if (userCredential != null) {
-      // Redirigir a la pantalla principal después de un inicio de sesión exitoso
+      // Redirect to the main screen after a successful login
       Navigator.pushReplacementNamed(context, '/home');
     }
   }
 
   void _signInFacebook() async {
-    // Implementa el inicio de sesión con Facebook aquí
+    // Implement Facebook login here
   }
 
   void _goToRegisterScreen() {
@@ -54,10 +54,10 @@ class _LoginScreenState extends State<LoginScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.pushReplacementNamed(context, '/home'); // Botón de regreso
+            Navigator.pushReplacementNamed(context, '/home'); // Return to the home screen
           },
         ),
-        backgroundColor: backgroundColor, // Usamos el color de AppTheme según el tema
+        backgroundColor: backgroundColor, // We use the AppTheme color according to the theme
       ),
       body: Center(
         child: Padding(
@@ -68,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Image.asset('assets/images/logo.png', height: 120),
               const SizedBox(height: 40),
               _isLoading
-                  ? const CircularProgressIndicator()  // Muestra el indicador de carga
+                  ? const CircularProgressIndicator()  // Display the loading indicator
                   : ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
@@ -77,12 +77,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         side: const BorderSide(color: Colors.black12),
                       ),
                       icon: const Icon(Icons.login, size: 24),
-                      label: const Text('Iniciar sesión con Google'),
+                      label: const Text('Sign in with Google'),
                       onPressed: _signInGoogle,
                     ),
               const SizedBox(height: 20),
               _isLoading
-                  ? const CircularProgressIndicator()  // Muestra el indicador de carga
+                  ? const CircularProgressIndicator()  // Display the loading indicator
                   : ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF1877F2),
@@ -90,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         minimumSize: const Size(double.infinity, 50),
                       ),
                       icon: const Icon(Icons.facebook),
-                      label: const Text('Iniciar sesión con Facebook'),
+                      label: const Text('Log in with Facebook'),
                       onPressed: _signInFacebook,
                     ),
               const SizedBox(height: 20),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:speakhands_mobile/theme/theme.dart'; // asegúrate de que esta ruta sea correcta
+import 'package:speakhands_mobile/theme/theme.dart'; 
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});

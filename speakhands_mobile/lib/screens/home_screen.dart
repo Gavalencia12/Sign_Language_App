@@ -10,19 +10,18 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
-    // Obtener el color para el AppBar y el fondo del body según el modo
     final backgroundColor = themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground;
     final appBarColor = themeProvider.isDarkMode ? AppTheme.darkPrimary : AppTheme.lightPrimary;
-    final textColor = themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A); // Color dinámico del texto
+    final textColor = themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A); 
 
     return Scaffold(
         appBar: AppBar(
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween, // Ajustar el texto a los extremos
+          mainAxisAlignment: MainAxisAlignment.spaceBetween, 
           children: [
             Text("HOME", style: TextStyle(color: textColor, fontWeight: FontWeight.bold)),
             Row(
-              mainAxisSize: MainAxisSize.min, // El espacio entre los dos textos de SpeakHands
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text("Speak", style: TextStyle(color: textColor, fontWeight: FontWeight.bold)),
                 Text("Hands", style: TextStyle(color: Colors.teal, fontWeight: FontWeight.bold)),
@@ -30,7 +29,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
-        backgroundColor: backgroundColor, // Usamos el color de AppTheme según el tema
+        backgroundColor: backgroundColor, 
       ),
       body: Center(child: Text('Home Screen')),
     );

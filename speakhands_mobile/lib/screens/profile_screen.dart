@@ -13,26 +13,25 @@ class ProfileScreen extends StatelessWidget {
 
   void _signOut(BuildContext context) async {
     await _authService.signOut();
-    Navigator.popAndPushNamed(context, '/home'); // Cierra la pantalla actual y redirige al Home
+    Navigator.popAndPushNamed(context, '/home'); // Closes the current screen and redirects to Home
   }
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
-    // Obtener el color para el AppBar y el fondo del body según el modo
     final backgroundColor = themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground;
     final appBarColor = themeProvider.isDarkMode ? AppTheme.darkPrimary : AppTheme.lightPrimary;
-    final textColor = themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A); // Color dinámico del texto
+    final textColor = themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A); 
 
     return Scaffold(
       appBar: AppBar(
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween, // Ajustar el texto a los extremos
+          mainAxisAlignment: MainAxisAlignment.spaceBetween, 
           children: [
             Text("PROFILE", style: TextStyle(color: textColor, fontWeight: FontWeight.bold)),
             Row(
-              mainAxisSize: MainAxisSize.min, // El espacio entre los dos textos de SpeakHands
+              mainAxisSize: MainAxisSize.min, // The space between the two SpeakHands texts
               children: [
                 Text("Speak", style: TextStyle(color: textColor, fontWeight: FontWeight.bold)),
                 Text("Hands", style: TextStyle(color: Colors.teal, fontWeight: FontWeight.bold)),
@@ -41,11 +40,11 @@ class ProfileScreen extends StatelessWidget {
           ],
         ),
 
-        backgroundColor: backgroundColor, // Usamos el color de AppTheme según el tema
+        backgroundColor: backgroundColor, // We use the AppTheme color according to the theme
       ),
       body: Stack(
         children: [
-          // El cuerpo con contenido desplazable
+          // The body with scrollable content
           SingleChildScrollView(
             child: Column(
               children: [

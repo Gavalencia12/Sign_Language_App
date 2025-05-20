@@ -8,32 +8,32 @@ class AuthService {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final DatabaseReference _database = FirebaseDatabase.instance.ref(); // Uso del ref()
 
-  // Método para iniciar sesión o registrar con Google
+// Method to log in or register with Google
   Future<UserCredential?> signInWithGoogle() async {
     try {
-      // Iniciar sesión con Google
+      // Sign in with Google
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) return null;
 
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
-      // Crear credenciales de Google
+      // Create Google credentials
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      // Iniciar sesión o registrar al usuario
+      // Log in or register the user
       final userCredential = await _auth.signInWithCredential(credential);
 
-      // Si es el primer inicio de sesión, guardar los datos en Realtime Database
+      // If this is the first login, save the data to Realtime Database
       if (userCredential.user != null && userCredential.additionalUserInfo!.isNewUser) {
         await _saveUserData(userCredential.user!);
       }
 
       return userCredential;
     } catch (e) {
-      print("Error al iniciar sesión con Google: $e");
+      print("Error signing in with Google: $e");
       return null;
     }
   }
@@ -93,22 +93,23 @@ class AuthService {
 
   Future<void> _saveUserData(User user) async {
     try {
-      // Crear la estructura de datos para el usuario
+      // Create the data structure for the user
       await _database.child('usuarios').child(user.uid).set({
         'nombre': user.displayName ?? '', // Si es con email normal puede estar vacío
         'email': user.email,
         'foto': user.photoURL ?? '',
       });
+      print('User data stored in the Firebase Realtime Database.');
       print('Datos del usuario guardados correctamente');
     } catch (e) {
-      print("Error al guardar datos en Realtime Database: $e");
+      print("Error saving data to Realtime Database: $e");
     }
   }
 
-  // Obtener el usuario actual
+  // Get the current user
   User? get currentUser => _auth.currentUser;
 
-  // Cerrar sesión
+  // Log out
   Future<void> signOut() async {
     await _googleSignIn.signOut();
     await _auth.signOut();

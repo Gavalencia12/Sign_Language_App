@@ -51,7 +51,7 @@ class _AppContent extends StatelessWidget {
             createdAt: args['createdAt'],
           );
         },
-        '/login': (_) => const LoginScreen(), // Pantalla de inicio de sesión
+        '/login': (_) => const LoginScreen(), // Login screen
       },
     );
   }
