@@ -36,6 +36,11 @@ class _LoginScreenState extends State<LoginScreen> {
     // Implementa el inicio de sesión con Facebook aquí
   }
 
+  void _goToRegisterScreen() {
+    // Redirigir a la pantalla de registro
+    Navigator.pushNamed(context, '/register');
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -45,7 +50,6 @@ class _LoginScreenState extends State<LoginScreen> {
     final textColor = themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A); // Color dinámico del texto
 
     return Scaffold(
-
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
@@ -89,6 +93,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       label: const Text('Iniciar sesión con Facebook'),
                       onPressed: _signInFacebook,
                     ),
+              const SizedBox(height: 20),
+              // Aquí agregamos el texto que redirige al registro
+              TextButton(
+                onPressed: _goToRegisterScreen, // Redirige a la pantalla de registro
+                child: Text(
+                  "¿No tienes una cuenta? Regístrate",
+                  style: TextStyle(
+                    color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A),
+                    fontSize: 16,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
