@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
     final textColor = themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A); 
 
     return Scaffold(
-        appBar: AppBar(
+      appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween, 
           children: [

@@ -14,13 +14,14 @@ class RegisterEmailScreen extends StatefulWidget {
 
 class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
   final _emailController = TextEditingController();
-
   final _authService = AuthService(); // instancia del servicio
 
   void _continueToVerification() async {
     final email = _emailController.text.trim();
+    print("Verificando el correo: $email");
 
     if (email.isEmpty || !email.contains('@')) {
+      print("Email no válido");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Please enter a valid email")),
       );
@@ -28,26 +29,32 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
     }
 
     try {
+      print("Buscando métodos de inicio de sesión para el correo $email");
       final methods = await _authService.fetchSignInMethods(email);
-      print("Métodos para $email: $methods"); // <- Asegúrate de que aparece algo
+      print("Métodos para $email: $methods"); // Verifica si el método se obtiene correctamente
 
       if (methods.isNotEmpty) {
+        print("El email ya está registrado");
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("This email is already registered")),
         );
-        return; 
+        return;
       }
 
+      print("Enviando código de verificación a $email");
       // Si el correo NO está registrado, continúa con el código de verificación
       await _authService.sendVerificationCode(email);
+      print("Código enviado a $email");
+
+      // Redirige a la pantalla de verificación
       Navigator.pushNamed(context, '/verify_email', arguments: email);
     } catch (e) {
+      print("Error al continuar con la verificación: $e");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Error: $e")),
       );
     }
   }
-
 
   Widget _buildStepIndicator(int currentStep) {
     return Row(
@@ -59,15 +66,13 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
           width: 20,
           height: 6,
           decoration: BoxDecoration(
-            color: isCurrent ? const Color(0xFFB388FF) : Colors.grey[300],
+            color: isCurrent ? const Color(0xFFA0E7E5) : Colors.grey[300],
             borderRadius: BorderRadius.circular(4),
           ),
         );
       }),
     );
   }
-
-
 
   @override
   Widget build(BuildContext context) {

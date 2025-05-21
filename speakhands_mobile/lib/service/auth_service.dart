@@ -6,27 +6,24 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-  final DatabaseReference _database = FirebaseDatabase.instance.ref(); // Uso del ref()
+  final DatabaseReference _database = FirebaseDatabase.instance.ref();
 
-// Method to log in or register with Google
+  // Login o registro con Google
   Future<UserCredential?> signInWithGoogle() async {
     try {
-      // Sign in with Google
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) return null;
 
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
-      // Create Google credentials
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      // Log in or register the user
       final userCredential = await _auth.signInWithCredential(credential);
 
-      // If this is the first login, save the data to Realtime Database
+      // Solo si es nuevo usuario, guarda datos iniciales
       if (userCredential.user != null && userCredential.additionalUserInfo!.isNewUser) {
         await _saveUserData(userCredential.user!);
       }
@@ -38,48 +35,54 @@ class AuthService {
     }
   }
 
-  // ========== EMAIL/CODE VERIFICATION REGISTRATION FLOW ==========
-
-  // 1. Generate and save code to the database
+  // Envío de código de verificación (email)
   Future<void> sendVerificationCode(String email) async {
-    final String code = (10000 + Random().nextInt(90000)).toString(); // Código de 5 dígitos
+    final String code = (10000 + Random().nextInt(90000)).toString();
     final String safeEmail = email.replaceAll('.', '_');
 
     try {
       await _database.child('verifications/$safeEmail').set({'code': code});
       print('Código enviado a $email: $code');
-      // Here goes the actual mail sending if you have a backend
+      // Aquí va el envío real por correo si tienes backend
     } catch (e) {
       print("Error al enviar código: $e");
       rethrow;
     }
   }
 
-  // 2. Verify the code entered by the user
+  // Verificación de código
   Future<bool> verifyCode(String email, String inputCode) async {
     final String safeEmail = email.replaceAll('.', '_');
     final DataSnapshot snapshot = await _database.child('verifications/$safeEmail/code').get();
 
     if (snapshot.exists && snapshot.value.toString() == inputCode) {
-      await _database.child('verifications/$safeEmail').remove(); // borra tras validar
+      await _database.child('verifications/$safeEmail').remove();
       return true;
     } else {
       return false;
     }
   }
 
-  // 3. Create a user account with email and password
+  // Crear cuenta con email y contraseña
   Future<UserCredential?> createUserWithEmail(String email, String password) async {
     try {
       final userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-      await _saveUserData(userCredential.user!);
+
+      // En lugar de usar .set, usa .update para no sobrescribir si el nodo existe
+      await _database.child('usuarios').child(userCredential.user!.uid).update({
+        'nombre': userCredential.user!.displayName ?? '',
+        'email': userCredential.user!.email,
+        'foto': userCredential.user!.photoURL ?? '',
+      });
+
       return userCredential;
     } catch (e) {
       print("Error al crear cuenta: $e");
       rethrow;
     }
   }
-  
+
+  // Obtener métodos de login para email
   Future<List<String>> fetchSignInMethods(String email) async {
     try {
       return await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
@@ -89,26 +92,24 @@ class AuthService {
     }
   }
 
-  // ========== DATA IN REALTIME DATABASE ==========
-
+  // Guardar datos iniciales del usuario (usado para Google Sign In)
   Future<void> _saveUserData(User user) async {
     try {
-      // Create the data structure for the user
-      await _database.child('usuarios').child(user.uid).set({
-        'nombre': user.displayName ?? '', // If it is with normal email it can be empty
+      await _database.child('usuarios').child(user.uid).update({
+        'nombre': user.displayName ?? '',
         'email': user.email,
         'foto': user.photoURL ?? '',
       });
-      print('User data stored in the Firebase Realtime Database.');
+      print('User data stored in Firebase Realtime Database.');
     } catch (e) {
       print("Error saving data to Realtime Database: $e");
     }
   }
 
-  // Get the current user
+  // Usuario actual
   User? get currentUser => _auth.currentUser;
 
-  // Log out
+  // Cerrar sesión
   Future<void> signOut() async {
     await _googleSignIn.signOut();
     await _auth.signOut();
