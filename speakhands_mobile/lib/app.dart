@@ -35,7 +35,7 @@ class _AppContent extends StatelessWidget {
       routes: {
         '/': (_) => const SplashScreen(),
         '/home': (_) => const MainNavigation(),
-        '/login': (_) => const LoginScreen(), // 👈 Agregar esta línea
+        '/login': (_) => const LoginScreen(), // Login screen
       },
     );
   }
