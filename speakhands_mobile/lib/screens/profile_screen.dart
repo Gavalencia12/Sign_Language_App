@@ -5,11 +5,44 @@ import 'package:speakhands_mobile/providers/theme_provider.dart';
 import 'package:speakhands_mobile/theme/theme.dart';
 import 'package:speakhands_mobile/screens/settings_screen.dart';
 import 'package:speakhands_mobile/screens/editprofile_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import  'package:speakhands_mobile/models/user_model.dart';
 
-class ProfileScreen extends StatelessWidget {
+
+class ProfileScreen extends StatefulWidget {
   final AuthService _authService = AuthService();
 
   ProfileScreen({super.key});
+
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  final AuthService _authService = AuthService();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final DatabaseReference _dbRef = FirebaseDatabase.instance.ref();
+
+  Usuario? usuario;
+
+  @override
+  void initState() {
+    super.initState();
+    cargarDatosUsuario();
+  }
+
+  Future<void> cargarDatosUsuario() async {
+    final user = _auth.currentUser;
+    if (user != null) {
+      final snapshot = await _dbRef.child("usuarios").child(user.uid).get();
+      if (snapshot.exists) {
+        setState(() {
+          usuario = Usuario.fromMap(snapshot.value as Map<dynamic, dynamic>);
+        });
+      }
+    }
+  }
 
   void _signOut(BuildContext context) async {
     await _authService.signOut();
@@ -74,7 +107,17 @@ class ProfileScreen extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(12),
                                     color: Colors.blueGrey[300],
                                   ),
-                                  child: const Icon(Icons.person, size: 60),
+                                  child: usuario?.foto != null
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
+                                        child: Image.network(
+                                          usuario!.foto,
+                                          width: 120,
+                                          height: 138,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      )
+                                    : const Icon(Icons.person, size: 60),
                                 ),
                                 Positioned(
                                   bottom: -10,
@@ -95,7 +138,7 @@ class ProfileScreen extends StatelessWidget {
 
                                     child: GestureDetector(
                                         onTap: () {
-                                          // Navegar a la pantalla de configuración (settings_screen.dart)
+                                          // Navigate to the settings screen (settings_screen.dart)
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(builder: (context) => EditProfileScreen()),
@@ -114,10 +157,20 @@ class ProfileScreen extends StatelessWidget {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Juan Miguel Perez Zepeda",
+                                        usuario?.nombre ?? 'User',
                                         style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold),
                                       ),
-                                      const SizedBox(height: 50),
+                                      const SizedBox(height: 5),
+                                      Row(
+                                        children: [
+                                          Text("Age: ",style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold),),
+                                          Text(
+                                            usuario?.edad ?? 'Age',
+                                            style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 25),
                                       Row(
                                         children: [
                                           Text("Nivel 12", style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold)),
@@ -139,17 +192,26 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         ListTile(
                           title: Text("Email", style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold)),
-                          subtitle: Text("jperez34@ucol.com.mx", style: TextStyle(color: textColor, fontSize: 16, fontWeight: FontWeight.bold)),
+                          subtitle: Text(
+                            usuario?.email ?? 'Email',
+                            style: TextStyle(color: textColor, fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
                         ),
                         const Divider(),
                         ListTile(
                           title: Text("Phone", style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold)),
-                          subtitle: Text("3141641172", style: TextStyle(color: textColor, fontSize: 16, fontWeight: FontWeight.bold)),
+                          subtitle: Text(
+                            usuario?.telefono ?? 'Without phone',
+                            style: TextStyle(color: textColor, fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
                         ),
                         const Divider(),
                         ListTile(
-                          title: Text("Birth date", style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold)),
-                          subtitle: Text("22/Dec/2024", style: TextStyle(color: textColor, fontSize: 16, fontWeight: FontWeight.bold)),
+                          title: Text("Birth Date", style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold)),
+                          subtitle: Text(
+                            usuario?.fechaNacimiento ?? 'Without Birth Date',
+                            style: TextStyle(color: textColor, fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
                           trailing: Icon(Icons.calendar_today, color: textColor),
                         ),
                         const Divider(),
@@ -204,12 +266,12 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         ListTile(
                           title: Text("Disability:", style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold)),
-                          subtitle: Text("SordoMudo", style: TextStyle(color: textColor, fontSize: 15)),
+                          subtitle: Text(usuario?.discapacidad ?? 'Without Disabality', style: TextStyle(color: textColor, fontSize: 15)),
                         ),
                         const Divider(),
                         ListTile(
                           title: Text("About You:", style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold)),
-                          subtitle: Text("My Name is jorge Gael Valencia Colima", style: TextStyle(color: textColor, fontSize: 15)),
+                          subtitle: Text(usuario?.about ?? 'Without information', style: TextStyle(color: textColor, fontSize: 15)),                        
                         ),
                       ],
                     ),
@@ -219,16 +281,16 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
 
-          // El cuadro que se queda fijo
+          // The painting that stays fixed
           Positioned(
-            top: 0, // Ajusta la posición para que esté debajo del AppBar
+            top: 0, // Adjust the position so that it is below the AppBar
             left: 15,
-            right: 15, // Añadí este `right` para que también ocupe el espacio disponible en el extremo derecho
+            right: 15, 
             child: Material(
               color: themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground,
               child: Container(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween, // Alinea el contenido a los extremos
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween, // Aligns content to the edges
                   children: [
                     Text(
                       "Edit your profile",
@@ -241,11 +303,11 @@ class ProfileScreen extends StatelessWidget {
                     
                     Expanded(
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end, // Alineamos "Settings" y el ícono a la derecha
+                        mainAxisAlignment: MainAxisAlignment.end, 
                         children: [
                           GestureDetector(
                             onTap: () {
-                              // Navegar a la pantalla de configuración (settings_screen.dart)
+                              // Navigate to the settings screen (settings_screen.dart)
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => SettingsScreen()),

@@ -5,28 +5,48 @@ import 'package:speakhands_mobile/providers/theme_provider.dart';
 import 'package:speakhands_mobile/theme/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart'; // Firebase Authentication
 import 'package:cloud_firestore/cloud_firestore.dart'; // Firebase Firestore
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import  'package:speakhands_mobile/models/user_model.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   final AuthService _authService = AuthService();
-  SettingsScreen({super.key});
 
+  SettingsScreen({super.key});
+  
+  @override
+  _SettingsScreenState createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  final AuthService _authService = AuthService();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final DatabaseReference _dbRef = FirebaseDatabase.instance.ref();
+
+  Usuario? usuario;
+
+  @override
+  void initState() {
+    super.initState();
+    cargarDatosUsuario();
+  }
+
+  Future<void> cargarDatosUsuario() async {
+    final user = _auth.currentUser;
+    if (user != null) {
+      final snapshot = await _dbRef.child("usuarios").child(user.uid).get();
+      if (snapshot.exists) {
+        setState(() {
+          usuario = Usuario.fromMap(snapshot.value as Map<dynamic, dynamic>);
+        });
+      }
+    }
+  }
   void _signOut(BuildContext context) async {
     await _authService.signOut();
     // Clear all previous screens and navigate to Home
     Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false); 
   }
-
-  Future<String> _getUserName() async {
-    // Get the current user from Firebase Authentication
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      // Get the user's name from Firestore
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('usuarios').doc(user.uid).get();
-      return userDoc['nombre'] ?? 'Usuario'; // Returns the user name or 'User' if it does not exist
-    }
-    return 'Usuario'; // If the user is not authenticated, 'User' is returned
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -262,33 +282,14 @@ class SettingsScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    FutureBuilder<String>(
-                      future: _getUserName(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const CircularProgressIndicator();
-                        } else if (snapshot.hasError) {
-                          return Text('Error loading name');
-                        } else if (snapshot.hasData) {
-                          return Text(
-                            "Hello, ${snapshot.data}!", // Muestra el nombre del usuario
-                            style: TextStyle(
-                              color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          );
-                        } else {
-                          return Text(
-                            "Hello, Usuario!",
-                            style: TextStyle(
-                              color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A),
-                              fontSize: 36,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          );
-                        }
-                      },
+                    Row(
+                      children: [
+                        Text("Hello, ",style: TextStyle(color: textColor, fontSize: 20, fontWeight: FontWeight.bold),),
+                        Text(
+                          usuario?.nombre ?? 'User',
+                          style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                   ],
                 ),

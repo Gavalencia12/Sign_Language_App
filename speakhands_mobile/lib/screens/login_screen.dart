@@ -3,6 +3,8 @@ import 'package:speakhands_mobile/service/auth_service.dart';
 import 'package:provider/provider.dart';
 import 'package:speakhands_mobile/providers/theme_provider.dart';
 import 'package:speakhands_mobile/theme/theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,20 +22,39 @@ class _LoginScreenState extends State<LoginScreen> {
       _isLoading = true;
     });
 
-    final userCredential = await _authService.signInWithGoogle();
+    final result = await _authService.signInWithGoogle();
 
     setState(() {
       _isLoading = false;
     });
 
-    if (userCredential != null) {
-      // Redirect to the main screen after a successful login
-      Navigator.pushReplacementNamed(context, '/home');
+    if (result != null) {
+      final bool isNew = result['isNew'];
+      final UserCredential userCredential = result['userCredential'];
+      final DateTime createdAt = result['createdAt'];
+
+      if (isNew) {
+        Navigator.pushReplacementNamed(
+          context,
+          '/complete_profile',
+          arguments: {
+            'email': userCredential.user?.email,
+            'createdAt': createdAt.toIso8601String(), // Explicitly convert to String         
+          },
+        );
+      } else {
+        Navigator.pushReplacementNamed(context, '/home');
+      }
     }
   }
 
   void _signInFacebook() async {
     // Implement Facebook login here
+  }
+
+  void _goToRegisterScreen() {
+    // Redirect to the registration screen
+    Navigator.pushNamed(context, '/register');
   }
 
   @override
@@ -42,10 +63,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final backgroundColor = themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground;
     final appBarColor = themeProvider.isDarkMode ? AppTheme.darkPrimary : AppTheme.lightPrimary;
-    final textColor = themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A); // Color dinámico del texto
+    final textColor = themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A); 
 
     return Scaffold(
-
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
@@ -89,6 +109,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       label: const Text('Log in with Facebook'),
                       onPressed: _signInFacebook,
                     ),
+              const SizedBox(height: 20),
+              // Here we add the text that redirects to the registry
+              TextButton(
+                onPressed: _goToRegisterScreen, // Redirige a la pantalla de registro
+                child: Text(
+                  "¿No tienes una cuenta? Regístrate",
+                  style: TextStyle(
+                    color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A),
+                    fontSize: 16,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
