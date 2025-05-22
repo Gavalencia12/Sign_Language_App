@@ -15,6 +15,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    aaptOptions {
+        noCompress += listOf("tflite", "task")
+    }
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
@@ -43,6 +46,11 @@ dependencies {
     implementation("com.google.firebase:firebase-auth:21.0.1")  // Firebase Auth
     implementation("com.google.firebase:firebase-core:20.1.0")  // Firebase Core
     implementation("com.google.android.gms:play-services-auth:20.0.1")  // Google Sign-In
+    implementation("androidx.camera:camera-core:1.1.0")
+    implementation("androidx.camera:camera-camera2:1.1.0")
+    implementation("androidx.camera:camera-lifecycle:1.1.0")
+    implementation("androidx.camera:camera-view:1.0.0-alpha32")
+    implementation("com.google.mediapipe:tasks-vision:0.10.7")
     // Aquí van las demás dependencias de tu proyecto...
 }
 

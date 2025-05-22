@@ -12,7 +12,7 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  tflite_flutter: ^0.10.1 # Para usar el modelo .tflite
+  tflite_flutter: ^0.11.0 # Para usar el modelo .tflite
   camera: ^0.10.5+5       # Para usar cámara del dispositivo
   path_provider: ^2.0.15  # Para guardar o acceder a archivos si necesitas
   firebase_core: ^2.15.1  # Versión de firebase_core compatible con firebase_database 10.x
@@ -35,8 +35,10 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/model/
+    - assets/model/sign_language_model.tflite
     - assets/fonts/
+    - assets/model/hand_landmarker.task
+
 
     # Si tienes sonidos, íconos o más, aquí los agregas
 
