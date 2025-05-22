@@ -40,15 +40,15 @@ class _AppContent extends StatelessWidget {
       routes: {
         '/': (_) => const SplashScreen(),
         '/home': (_) => const MainNavigation(),
-        '/register': (context) => RegisterScreen(), // Ruta a la pantalla de registro
-        '/register_email': (context) => const RegisterEmailScreen(), // Ruta a la pantalla de registro por email
-        '/verify_email': (context) => const VerifyEmailScreen(), // esta la haremos en el siguiente paso
-        '/create_password': (context) => const CreatePasswordScreen(), // Ruta a la pantalla de creación de contraseña
+        '/register': (context) => RegisterScreen(), // Path to the registration screen
+        '/register_email': (context) => const RegisterEmailScreen(), // Path to the email registration screen
+        '/verify_email': (context) => const VerifyEmailScreen(), //email verification
+        '/create_password': (context) => const CreatePasswordScreen(), // Path to the password creation screen
         '/complete_profile': (context) {
           final args = ModalRoute.of(context)!.settings.arguments as Map;
           return CompleteProfileScreen(
             email: args['email'],
-            createdAt: args['createdAt'],
+           createdAt: DateTime.parse(args['createdAt']),
           );
         },
         '/login': (_) => const LoginScreen(), // Login screen

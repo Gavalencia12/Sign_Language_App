@@ -27,6 +27,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   final _birthDateController = TextEditingController();
   final _ageController = TextEditingController();
   final _disabilityController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _aboutController = TextEditingController();
 
   DateTime? _selectedDate;
@@ -91,6 +92,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
     _birthDateController.dispose();
     _ageController.dispose();
     _disabilityController.dispose();
+    _phoneController.dispose();
     _aboutController.dispose();
     super.dispose();
   }
@@ -249,6 +251,20 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
 
             const SizedBox(height: 20),
 
+            Text("Phone Number", style: theme.textTheme.bodyLarge),
+            const SizedBox(height: 6),
+            TextField(
+              controller: _phoneController,
+              keyboardType: TextInputType.phone,
+              decoration: InputDecoration(
+                hintText: "e.g. +521234567890",
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
             Text("About you", style: theme.textTheme.bodyLarge),
             const SizedBox(height: 6),
             TextField(
@@ -310,6 +326,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                     "edad": _ageController.text.trim(),
                     "sexo": _selectedGender,
                     "discapacidad": _disabilityController.text.trim(),
+                    "telefono": _phoneController.text.trim(),
                     "about": _aboutController.text.trim(),
                     "fecha_creacion": widget.createdAt.toIso8601String(),
                     if (imageUrl != null) "foto": imageUrl,

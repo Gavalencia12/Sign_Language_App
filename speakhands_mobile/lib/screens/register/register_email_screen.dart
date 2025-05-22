@@ -14,7 +14,7 @@ class RegisterEmailScreen extends StatefulWidget {
 
 class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
   final _emailController = TextEditingController();
-  final _authService = AuthService(); // instancia del servicio
+  final _authService = AuthService(); // service instance
 
   void _continueToVerification() async {
     final email = _emailController.text.trim();
@@ -31,7 +31,7 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
     try {
       print("Buscando métodos de inicio de sesión para el correo $email");
       final methods = await _authService.fetchSignInMethods(email);
-      print("Métodos para $email: $methods"); // Verifica si el método se obtiene correctamente
+      print("Métodos para $email: $methods"); // Check if the method is fetched correctly
 
       if (methods.isNotEmpty) {
         print("El email ya está registrado");
@@ -42,11 +42,10 @@ class _RegisterEmailScreenState extends State<RegisterEmailScreen> {
       }
 
       print("Enviando código de verificación a $email");
-      // Si el correo NO está registrado, continúa con el código de verificación
-      await _authService.sendVerificationCode(email);
+      // If the email is NOT registered, continue with the verification code
       print("Código enviado a $email");
 
-      // Redirige a la pantalla de verificación
+      // Redirects to the verification screen
       Navigator.pushNamed(context, '/verify_email', arguments: email);
     } catch (e) {
       print("Error al continuar con la verificación: $e");

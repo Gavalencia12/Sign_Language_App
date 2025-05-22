@@ -21,7 +21,7 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
   bool _obscureConfirm = true;
 
 
-  // Estados de validación
+  // Validation states
   bool hasMinLength = false;
   bool hasNumber = false;
   bool hasSymbol = false;
@@ -87,14 +87,14 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
       final user = _authService.currentUser;
         if (user != null) {
         Navigator.pushReplacementNamed(
-            context,
-            '/complete_profile',
-            arguments: {
+          context,
+          '/complete_profile',
+          arguments: {
             'email': user.email!,
-            'createdAt': user.metadata.creationTime ?? DateTime.now(),
-            },
+            'createdAt': (user.metadata.creationTime ?? DateTime.now()).toIso8601String(),
+          },
         );
-        }
+      }
     } catch (e) {
       _showMessage("Error: ${e.toString()}");
     } finally {

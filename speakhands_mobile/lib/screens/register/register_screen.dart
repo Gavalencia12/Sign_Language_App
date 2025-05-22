@@ -2,12 +2,53 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:speakhands_mobile/providers/theme_provider.dart';
 import 'package:speakhands_mobile/theme/theme.dart';
+import 'package:speakhands_mobile/service/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
-  void _goToEmailRegister(BuildContext context) {
-    Navigator.pushNamed(context, '/register_email'); // ruta que crearemos en el siguiente paso
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  final AuthService _authService = AuthService();
+  bool _isLoading = false;
+
+  void _goToEmailRegister() {
+    Navigator.pushNamed(context, '/register_email');
+  }
+
+  void _signInGoogle() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    final result = await _authService.signInWithGoogle();
+
+    setState(() {
+      _isLoading = false;
+    });
+
+    if (result != null) {
+      final bool isNew = result['isNew'];
+      final UserCredential userCredential = result['userCredential'];
+      final DateTime createdAt = result['createdAt'];
+
+      if (isNew) {
+        Navigator.pushReplacementNamed(
+          context,
+          '/complete_profile',
+          arguments: {
+            'email': userCredential.user?.email,
+            'createdAt': createdAt.toIso8601String(), // Ensures it is String
+          },
+        );
+      } else {
+        Navigator.pushReplacementNamed(context, '/home');
+      }
+    }
   }
 
   @override
@@ -45,40 +86,38 @@ class RegisterScreen extends StatelessWidget {
             const SizedBox(height: 10),
             Text(
               "Begin with creating new free account. This helps you keep your learning way easier.",
-              style: TextStyle(fontSize: 14, color: textColor.withOpacity(0.7),fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 14, color: textColor.withOpacity(0.7), fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 30),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => _goToEmailRegister(context),
+                onPressed: _goToEmailRegister,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF26C6DA), // Turquesa
+                  backgroundColor: const Color(0xFF26C6DA),
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
-                child: const Text("Continue with email", style: TextStyle(fontSize: 16, color: Colors.white,fontWeight: FontWeight.bold)),
+                child: const Text("Continue with email", style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold)),
               ),
             ),
             const SizedBox(height: 20),
             Center(child: Text("or", style: TextStyle(color: textColor, fontWeight: FontWeight.bold))),
             const SizedBox(height: 20),
             _socialButton(
-              context,
               icon: Icons.facebook,
               label: "Continue with Facebook",
               onTap: () {
-                // integración futura
+                // future integration (Mariana)
               },
             ),
             const SizedBox(height: 10),
-            _socialButton(
-              context,
-              icon: Icons.g_mobiledata,
-              label: "Continue with Google",
-              onTap: () {
-                // integración futura
-              },
-            ),
+            _isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : _socialButton(
+                    icon: Icons.g_mobiledata,
+                    label: "Continue with Google",
+                    onTap: _signInGoogle,
+                  ),
             const Spacer(),
             Center(
               child: Text(
@@ -94,7 +133,7 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 
-  Widget _socialButton(BuildContext context, {required IconData icon, required String label, required VoidCallback onTap}) {
+  Widget _socialButton({required IconData icon, required String label, required VoidCallback onTap}) {
     return SizedBox(
       width: double.infinity,
       child: OutlinedButton.icon(
@@ -104,9 +143,7 @@ class RegisterScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 12),
           child: Text(label, style: const TextStyle(color: Colors.black)),
         ),
-        style: OutlinedButton.styleFrom(
-          side: const BorderSide(color: Colors.grey),
-        ),
+        style: OutlinedButton.styleFrom(side: const BorderSide(color: Colors.grey)),
       ),
     );
   }
