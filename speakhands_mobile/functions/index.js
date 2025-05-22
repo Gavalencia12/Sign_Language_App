@@ -5,16 +5,16 @@ const logger = require("firebase-functions/logger");
 
 admin.initializeApp();
 
-// Configuración del transporte SMTP usando Gmail
+// Configuring SMTP transport using Gmail
 const transporter = nodemailer.createTransport({
-  service: "gmail", // Puedes usar otros servicios SMTP si es necesario
+  service: "gmail", 
   auth: {
-    user: "gavalencia0422@gmail.com", // Tu correo electrónico
-    pass: "xvhf kwfb wsra mcsy",
+    user: "gavalencia0422@gmail.com", // your email
+    pass: "xvhf kwfb wsra mcsy", // your app password
   },
 });
 
-// Esta función se activará cuando se haga una solicitud HTTP
+// This function will be triggered when an HTTP request is made
 exports.sendVerificationEmail = onRequest(async (req, res) => {
   const {email, code} = req.body;
 
@@ -23,7 +23,7 @@ exports.sendVerificationEmail = onRequest(async (req, res) => {
     return;
   }
 
-  // Configuración del mensaje
+  // Message configuration
   const mailOptions = {
     from: "gavalencia0422@gmail.com",
     to: email,
@@ -33,7 +33,7 @@ exports.sendVerificationEmail = onRequest(async (req, res) => {
   };
 
   try {
-    // Enviar el correo
+    // Send the email
     await transporter.sendMail(mailOptions);
     logger.info(`Verification email sent to ${email}`);
     res.status(200).send("Email sent successfully");
