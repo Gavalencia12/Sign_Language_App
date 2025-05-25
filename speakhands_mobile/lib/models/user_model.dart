@@ -9,6 +9,7 @@ class Usuario {
   final String telefono;
   final String about;
 
+
   Usuario({
     required this.nombre,
     required this.email,

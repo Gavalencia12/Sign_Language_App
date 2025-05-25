@@ -62,8 +62,6 @@ class _LoginScreenState extends State<LoginScreen> {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     final backgroundColor = themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground;
-    final appBarColor = themeProvider.isDarkMode ? AppTheme.darkPrimary : AppTheme.lightPrimary;
-    final textColor = themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A); 
 
     return Scaffold(
       appBar: AppBar(

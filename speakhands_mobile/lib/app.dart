@@ -10,19 +10,23 @@ import 'package:speakhands_mobile/screens/register/register_email_screen.dart';
 import 'package:speakhands_mobile/screens/register/verify_email_screen.dart';
 import 'package:speakhands_mobile/screens/register/create_password_screen.dart';
 import 'package:speakhands_mobile/screens/register/complete_profile_screen.dart';
+import 'package:speakhands_mobile/providers/speech_provider.dart';
+
 
 class SpeakHandsApp extends StatelessWidget {
   const SpeakHandsApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => ThemeProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => SpeechProvider()), // <- voice provider
+      ],
       child: const _AppContent(),
     );
   }
 }
-
 class _AppContent extends StatelessWidget {
   const _AppContent({super.key});
 

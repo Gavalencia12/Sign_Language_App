@@ -14,8 +14,7 @@ class MainActivity: FlutterActivity() {
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler {
             call, result ->
             if (call.method == "getLandmarks") {
-                // ⚠️ Esto es un valor de prueba, simula landmarks reales
-                val landmarks = List(63) { Math.random() } // 21 puntos * 3 (x, y, z)
+                val landmarks = List(63) { Math.random() } 
                 result.success(landmarks)
             } else {
                 result.notImplemented()

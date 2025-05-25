@@ -19,7 +19,7 @@ class _MainNavigationState extends State<MainNavigation> {
   final AuthService _authService = AuthService();
 
   final screens = [
-    const HomeScreen(),
+    HomeScreen(),
     const TranslatorScreen(),
     const LearnScreen(),
     ProfileScreen(),

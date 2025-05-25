@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:speakhands_mobile/providers/theme_provider.dart';
 import 'package:speakhands_mobile/theme/theme.dart';
-import 'package:speakhands_mobile/screens/register/verify_email_screen.dart';
 import 'package:speakhands_mobile/service/auth_service.dart';
 
 class VerifyEmailScreen extends StatefulWidget {

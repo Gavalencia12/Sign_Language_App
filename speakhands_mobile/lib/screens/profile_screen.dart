@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:speakhands_mobile/service/auth_service.dart';
 import 'package:provider/provider.dart';
 import 'package:speakhands_mobile/providers/theme_provider.dart';
 import 'package:speakhands_mobile/theme/theme.dart';
@@ -8,10 +7,13 @@ import 'package:speakhands_mobile/screens/editprofile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import  'package:speakhands_mobile/models/user_model.dart';
+import 'package:speakhands_mobile/widgets/custom_app_bar.dart';
+import 'package:speakhands_mobile/data/speech_texts.dart';
+import 'package:speakhands_mobile/providers/speech_provider.dart';
+import 'package:speakhands_mobile/service/text_to_speech_service.dart';
 
 
 class ProfileScreen extends StatefulWidget {
-  final AuthService _authService = AuthService();
 
   ProfileScreen({super.key});
 
@@ -20,9 +22,9 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final AuthService _authService = AuthService();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final DatabaseReference _dbRef = FirebaseDatabase.instance.ref();
+  final TextToSpeechService ttsService = TextToSpeechService();
 
   Usuario? usuario;
 
@@ -30,6 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     cargarDatosUsuario();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _speakText());
   }
 
   Future<void> cargarDatosUsuario() async {
@@ -44,37 +47,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  void _signOut(BuildContext context) async {
-    await _authService.signOut();
-    Navigator.popAndPushNamed(context, '/home'); // Closes the current screen and redirects to Home
+  Future<void> _speakText() async {
+    final speakOn = Provider.of<SpeechProvider>(context, listen: false).enabled;
+    if (speakOn) {
+      await ttsService.stop();
+      await ttsService.speak(ProfileSpeechTexts.intro);
+    }
   }
-
+  
+  @override
+  void dispose() {
+    ttsService.stop();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
-    final backgroundColor = themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground;
-    final appBarColor = themeProvider.isDarkMode ? AppTheme.darkPrimary : AppTheme.lightPrimary;
     final textColor = themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A); 
 
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween, 
-          children: [
-            Text("PROFILE", style: TextStyle(color: textColor, fontWeight: FontWeight.bold)),
-            Row(
-              mainAxisSize: MainAxisSize.min, // The space between the two SpeakHands texts
-              children: [
-                Text("Speak", style: TextStyle(color: textColor, fontWeight: FontWeight.bold)),
-                Text("Hands", style: TextStyle(color: Colors.teal, fontWeight: FontWeight.bold)),
-              ],
-            ),
-          ],
-        ),
-
-        backgroundColor: backgroundColor, // We use the AppTheme color according to the theme
-      ),
+      appBar: const CustomAppBar(title: "PROFILE"),
       body: Stack(
         children: [
           // The body with scrollable content
@@ -145,6 +138,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           );
                                         },
                                         child: const Icon(Icons.edit, size: 32, color: Colors.black),
+                                      ),
+
+                                  ),
+                                ),
+                                Positioned(
+                                  top: -4,
+                                  right: -195,
+                                  child: Container(
+                                  
+                                    child: GestureDetector(
+                                        onTap: () {
+                                          // Navigate to the settings screen (settings_screen.dart)
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => EditProfileScreen()),
+                                          );
+                                        },
+                                        child: Icon(Icons.notifications, color: Colors.orange[400], size: 28),
                                       ),
 
                                   ),
