@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:speakhands_mobile/providers/theme_provider.dart';
 import 'package:speakhands_mobile/theme/theme.dart';
-import 'package:speakhands_mobile/screens/settings_screen.dart';
+import 'package:speakhands_mobile/screens/settings/settings_screen.dart';
 import 'package:speakhands_mobile/screens/editprofile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';

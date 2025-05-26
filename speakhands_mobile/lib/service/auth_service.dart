@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -38,6 +39,43 @@ class AuthService {
       };
     } catch (e) {
       print("Error signing in with Google: $e");
+      return null;
+    }
+  }
+
+  // Login con Facebook + registro en DB + eventos
+  Future<Map<String, dynamic>?> signInWithFacebook() async {
+    try {
+      final LoginResult result = await FacebookAuth.instance.login();
+      if (result.status != LoginStatus.success || result.accessToken == null) {
+        print('Facebook login falló: ${result.status}');
+        return null;
+      }
+
+      final OAuthCredential credential =
+          FacebookAuthProvider.credential(result.accessToken!.token);
+      final UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
+      final User? user = userCredential.user;
+
+      final bool isNew = userCredential.additionalUserInfo?.isNewUser ?? false;
+
+      if (user != null) {
+        // Guardar en Realtime Database si es nuevo
+        if (isNew) {
+          await _saveUserData(user);
+        }
+
+        print('Facebook login exitoso para ${user.email}');
+      }
+
+      return {
+        'userCredential': userCredential,
+        'isNew': isNew,
+        'createdAt': user?.metadata.creationTime,
+      };
+    } catch (e) {
+      print("Error en login con Facebook: $e");
       return null;
     }
   }
@@ -120,6 +158,7 @@ class AuthService {
   // Log Out
   Future<void> signOut() async {
     await _googleSignIn.signOut();
+    await FacebookAuth.instance.logOut();
     await _auth.signOut();
   }
 }
