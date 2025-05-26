@@ -2,5 +2,4 @@
     <string name="app_name">speakhands_mobile</string>
     <string name="facebook_app_id">510818038687730</string>
     <string name="fb_login_protocol_scheme">fb510818038687730</string>
-    <string name="facebook_client_token">f0c2a8d517b8fa57c428c252fb27140b</string>
 </resources>
