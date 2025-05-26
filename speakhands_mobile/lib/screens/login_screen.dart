@@ -5,7 +5,6 @@ import 'package:speakhands_mobile/providers/theme_provider.dart';
 import 'package:speakhands_mobile/theme/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -49,7 +48,34 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _signInFacebook() async {
-    // Implement Facebook login here
+    setState(() => _isLoading = true);
+
+    final result = await _authService.signInWithFacebook();
+
+    setState(() => _isLoading = false);
+
+    if (result != null) {
+      final bool isNew = result['isNew'];
+      final UserCredential userCredential = result['userCredential'];
+      final DateTime createdAt = result['createdAt'];
+
+      if (isNew) {
+        Navigator.pushReplacementNamed(
+          context,
+          '/complete_profile',
+          arguments: {
+            'email': userCredential.user?.email,
+            'createdAt': createdAt.toIso8601String(),
+          },
+        );
+      } else {
+        Navigator.pushReplacementNamed(context, '/home');
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Error al iniciar sesión con Facebook')),
+      );
+    }
   }
 
   void _goToRegisterScreen() {
