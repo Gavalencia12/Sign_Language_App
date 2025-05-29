@@ -63,7 +63,7 @@ class SignLanguagePredictor(QWidget):
 
         self.video_label = QLabel()
         self.video_label.setObjectName("video_frame")
-        self.video_label.setMinimumSize(800, 500)
+        self.video_label.setFixedSize(960, 540)  # Tamaño fijo para el video (16:9)
 
         self.prediction_label = QLabel("Esperando detección...")
         self.prediction_label.setObjectName("prediction_text")
@@ -74,7 +74,7 @@ class SignLanguagePredictor(QWidget):
         # Configurar layout
         layout = QVBoxLayout()
         layout.addWidget(self.title_label)
-        layout.addWidget(self.video_label)
+        layout.addWidget(self.video_label, alignment=Qt.AlignCenter)  # Centrar horizontalmente
         layout.addWidget(self.prediction_label)
         layout.addWidget(self.confidence_label)
         self.setLayout(layout)
@@ -122,9 +122,17 @@ class SignLanguagePredictor(QWidget):
             self.make_prediction(landmarks)
 
     def display_video(self, frame):
-        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        h, w, ch = frame_rgb.shape
-        q_img = QImage(frame_rgb.data, w, h, QImage.Format_RGB888)
+        # Redimensionar manteniendo la relación de aspecto para llenar el ancho
+        h, w = frame.shape[:2]
+        target_width = self.video_label.width()
+        target_height = int(target_width * h / w)  # Mantener relación de aspecto
+        
+        # Redimensionar el frame
+        resized_frame = cv2.resize(frame, (target_width, target_height))
+        
+        # Convertir a RGB y mostrar
+        frame_rgb = cv2.cvtColor(resized_frame, cv2.COLOR_BGR2RGB)
+        q_img = QImage(frame_rgb.data, target_width, target_height, QImage.Format_RGB888)
         self.video_label.setPixmap(QPixmap.fromImage(q_img))
 
     def make_prediction(self, landmarks):
