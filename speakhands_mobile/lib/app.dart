@@ -28,7 +28,7 @@ class SpeakHandsApp extends StatelessWidget {
   }
 }
 class _AppContent extends StatelessWidget {
-  const _AppContent({super.key});
+  const _AppContent();
 
   @override
   Widget build(BuildContext context) {
