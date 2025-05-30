@@ -41,7 +41,6 @@ flutter:
     - assets/images/iconos/
     - assets/images/
     - assets/model/sign_language_model.tflite
-    - assets/fonts/
     - assets/model/hand_landmarker.task
 
 # 👇 El bloque l10n VA FUERA del bloque flutter
