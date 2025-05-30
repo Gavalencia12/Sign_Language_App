@@ -11,10 +11,10 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  tflite_flutter: ^0.10.4 # Para usar el modelo .tflite
-  camera: ^0.10.5+5       # Para usar cámara del dispositivo
-  path_provider: ^2.0.15  # Para guardar o acceder a archivos si necesitas
-  firebase_core: ^2.15.1  # Versión de firebase_core compatible con firebase_database 10.x
+  tflite_flutter: ^0.11.0
+  camera: ^0.10.5+5
+  path_provider: ^2.0.15
+  firebase_core: ^2.15.1
   firebase_database: ^10.5.7
   firebase_storage: ^11.3.1
   cloud_firestore: ^4.17.5
@@ -41,6 +41,7 @@ flutter:
     - assets/images/iconos/
     - assets/images/
     - assets/model/sign_language_model.tflite
+    - assets/fonts/
     - assets/model/hand_landmarker.task
 
 # 👇 El bloque l10n VA FUERA del bloque flutter
