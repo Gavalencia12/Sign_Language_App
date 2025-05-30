@@ -11,6 +11,10 @@ import 'package:speakhands_mobile/widgets/custom_app_bar.dart';
 import 'package:speakhands_mobile/data/speech_texts.dart';
 import 'package:speakhands_mobile/providers/speech_provider.dart';
 import 'package:speakhands_mobile/service/text_to_speech_service.dart';
+import 'package:speakhands_mobile/widgets/welcome.dart';
+import 'package:speakhands_mobile/widgets/path_progress.dart';
+import 'package:speakhands_mobile/l10n/app_localizations.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -105,15 +109,25 @@ class _HomeScreenState extends State<HomeScreen> {
 
     await cargarProgresoUsuario(uid);
   }
+  int obtenerSeccionActual() {
+    if (progresos.isEmpty) return 0;
+    // Supongamos que tomas la última sección
+    final lastProgress = progresos.last;
+    final seccionStr = lastProgress.idSeccion; // Ejemplo: "seccion_2"
+    final parts = seccionStr.split('_');
+    if (parts.length == 2) {
+      return int.tryParse(parts[1]) ?? 0;
+    }
+    return 0;
+  }
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final currentSectionId = 'seccion_${obtenerSeccionActual()}';
 
     final backgroundColor = themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground;
     final textColor = themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A);
-    final subTextColor = themeProvider.isDarkMode ? Colors.white70 : Colors.grey.shade700;
-    final bellColor = Colors.redAccent;
 
     return Scaffold(
       appBar: const CustomAppBar(title: "HOME"),
@@ -124,71 +138,35 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: themeProvider.isDarkMode ? Colors.grey[850] : Colors.white,
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 22,
-                      backgroundColor: Colors.white,
-                      child: (usuario?.foto != null && usuario!.foto.isNotEmpty)
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(50),
-                              child: Image.network(
-                                usuario!.foto,
-                                width: 44,
-                                height: 44,
-                                fit: BoxFit.cover,
-                              ),
-                            )
-                          : const Icon(Icons.person, size: 28),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Hi, Welcome back!", style: TextStyle(color: subTextColor, fontSize: 14)),
-                          Text(usuario?.nombre ?? 'User',
-                              style: TextStyle(color: textColor, fontWeight: FontWeight.bold, fontSize: 16)),
-                        ],
-                      ),
-                    ),
-                    Stack(
-                      children: [
-                        Icon(Icons.notifications_none, size: 28, color: bellColor),
-                        Positioned(
-                          right: 0,
-                          top: 0,
-                          child: Container(
-                            width: 10,
-                            height: 10,
-                            decoration: BoxDecoration(
-                              color: bellColor,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                        )
-                      ],
-                    )
-                  ],
-                ),
+              WelcomeWidget(
+                userName: usuario?.nombre ?? 'User',
+                userPhotoUrl: usuario?.foto,
+                isDarkMode: themeProvider.isDarkMode,
               ),
-              const SizedBox(height: 24),
+
               Text(
-                "My progress",
+                AppLocalizations.of(context)!.my_progress,
                 style: TextStyle(
                   color: textColor,
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                 ),
               ),
-              const SizedBox(height: 16),
-              ProgresoWidget(progresos: progresos, iniciarProgreso: iniciarProgreso),
+              const SizedBox(height: 5),
+              ProgresoWidget(progresos: progresos, iniciarProgreso: iniciarProgreso,idSeccionActual: currentSectionId,),
+              
+              const SizedBox(height: 20),
+              PathProgress(
+                totalSections: 6,
+                currentSection: obtenerSeccionActual(), // Retorna la sección actual, por ejemplo 2
+              ),
+
+              ChallengeProgressWidget(
+                lessonTitle: AppLocalizations.of(context)!.alphabet_title,
+                progressPercent: 0,
+                challengeNumber: 26,
+                progressSteps: [false, false, false], // ejemplo con dos checks y un cross
+              ),
             ],
           ),
         ),

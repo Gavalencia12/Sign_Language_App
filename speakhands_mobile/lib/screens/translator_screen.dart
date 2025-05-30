@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:speakhands_mobile/providers/theme_provider.dart';
 import 'package:speakhands_mobile/theme/theme.dart';
 import 'package:speakhands_mobile/widgets/custom_app_bar.dart';
-import 'package:speakhands_mobile/data/speech_texts.dart';
+import 'package:speakhands_mobile/l10n/app_localizations.dart';
 import 'package:speakhands_mobile/providers/speech_provider.dart';
 import 'package:speakhands_mobile/service/text_to_speech_service.dart';
 
@@ -26,7 +26,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
   final TextToSpeechService ttsService = TextToSpeechService();
   bool _isDisposed = false;
 
-  String _translationResult = "Waiting for prediction...";
+  String _translationResult = "";
 
   static const platform = MethodChannel('com.speakhands/landmarks');
 
@@ -43,21 +43,26 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
     final speakOn = Provider.of<SpeechProvider>(context, listen: false).enabled;
     if (!speakOn || _isDisposed) return;
 
+    final loc = AppLocalizations.of(context)!;
+
     await ttsService.stop();
     if (_isDisposed) return;
-    await ttsService.speak(TranslatorSpeechTexts.screenTitle);
+    await ttsService.speak(loc.screen_intro);
     await Future.delayed(const Duration(milliseconds: 1500));
     if (_isDisposed) return;
-    await ttsService.speak(TranslatorSpeechTexts.subtitle);
+    await ttsService.speak(loc.subtitle_intro);
     await Future.delayed(const Duration(milliseconds: 1000));
     if (_isDisposed) return;
-    await ttsService.speak(TranslatorSpeechTexts.cameraOff);
+    await ttsService.speak(loc.camera_toggle_off);
   }
 
   Future<void> _loadModel() async {
     try {
       _interpreter = await Interpreter.fromAsset('assets/model/sign_language_model.tflite');
-      if (!_isDisposed) setState(() => _isModelLoaded = true);
+      if (!_isDisposed) setState(() {
+        _isModelLoaded = true;
+        _translationResult = AppLocalizations.of(context)!.waiting_prediction;
+      });
     } catch (e) {
       print("Error al cargar el modelo: $e");
     }
@@ -65,14 +70,16 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
 
   Future<void> _toggleCamera() async {
     final speakOn = Provider.of<SpeechProvider>(context, listen: false).enabled;
+    final loc = AppLocalizations.of(context)!;
 
     if (_isCameraActive) {
       await _cameraController?.dispose();
       if (!_isDisposed) setState(() {
         _cameraController = null;
         _isCameraActive = false;
+        _translationResult = loc.waiting_prediction;
       });
-      if (speakOn && !_isDisposed) await ttsService.speak(TranslatorSpeechTexts.cameraToggleOff);
+      if (speakOn && !_isDisposed) await ttsService.speak(loc.camera_toggle_off);
     } else {
       try {
         final cameras = await availableCameras();
@@ -82,7 +89,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
         if (!_isDisposed) setState(() {
           _isCameraActive = true;
         });
-        if (speakOn && !_isDisposed) await ttsService.speak(TranslatorSpeechTexts.cameraToggleOn);
+        if (speakOn && !_isDisposed) await ttsService.speak(loc.camera_toggle_on);
       } catch (e) {
         print("Error al iniciar cámara: $e");
       }
@@ -91,6 +98,8 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
 
   Future<void> _getNativeLandmarks() async {
     final speakOn = Provider.of<SpeechProvider>(context, listen: false).enabled;
+    final loc = AppLocalizations.of(context)!;
+
     try {
       final List<dynamic> result = await platform.invokeMethod('getLandmarks');
       final landmarks = result.map((e) => (e as num).toDouble()).toList();
@@ -98,18 +107,44 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
         await _makePrediction(landmarks);
       } else {
         print("Landmarks inválidos");
-        if (speakOn && !_isDisposed) await ttsService.speak(TranslatorSpeechTexts.noHandDetected);
+        if (speakOn && !_isDisposed) await ttsService.speak(loc.no_hand_detected);
       }
     } on PlatformException catch (e) {
       print("Error al obtener landmarks nativos: ${e.message}");
     }
   }
 
+  String _mapIndexToLabel(int index) {
+    const labels = [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G",
+      "h",
+      "I",
+      "M",
+      "GATO",  // palabra completa
+      "J",
+      "K",
+      "L"
+    ];
+
+    if (index >= 0 && index < labels.length) {
+      return labels[index];
+    }
+    return "?";
+  }
+
   Future<void> _makePrediction(List<double> input) async {
     final speakOn = Provider.of<SpeechProvider>(context, listen: false).enabled;
+    final loc = AppLocalizations.of(context)!;
+
     try {
       var inputTensor = Float32List.fromList(input);
-      var output = List.filled(8, 0.0).reshape([1, 8]);
+      var output = List.filled(14, 0.0).reshape([1, 14]);
 
       _interpreter.run(inputTensor, output);
 
@@ -117,18 +152,17 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
       double maxValue = resultList.reduce((a, b) => a > b ? a : b);
       int predictedIndex = resultList.indexOf(maxValue);
 
-      String letter = String.fromCharCode(65 + predictedIndex);
-      String predictedLabel = "Letra $letter";
+      String predictedLabel = _mapIndexToLabel(predictedIndex);
 
       if (!_isDisposed) {
         setState(() {
-          _translationResult = "Letra detectada: $predictedLabel";
+          _translationResult = predictedLabel;
         });
       }
 
       if (speakOn && !_isDisposed) {
         await ttsService.stop();
-        if (!_isDisposed) await ttsService.speak(TranslatorSpeechTexts.detectedLetter(letter));
+        if (!_isDisposed) await ttsService.speak(predictedLabel);
       }
     } catch (e) {
       print("Error al hacer la predicción: $e");
@@ -154,10 +188,11 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
           onPressed();
           if (speakOn && !_isDisposed) {
             await ttsService.stop();
+            final loc = AppLocalizations.of(context)!;
             if (icon == Icons.refresh) {
-              await ttsService.speak(TranslatorSpeechTexts.resetMessage);
+              await ttsService.speak(loc.reset_message);
             } else if (icon == Icons.pause) {
-              await ttsService.speak(TranslatorSpeechTexts.pauseExplanation);
+              await ttsService.speak(loc.pause_explanation);
             }
           }
         },
@@ -168,9 +203,10 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: const CustomAppBar(title: "TRANSLATE"),
+      appBar: CustomAppBar(title: loc.translator_screen_title),
       body: OrientationBuilder(
         builder: (context, orientation) {
           final isPortrait = orientation == Orientation.portrait;
@@ -179,7 +215,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: isPortrait
-                  ? Column(children: _buildContent(context, themeProvider))
+                  ? Column(children: _buildContent(context, themeProvider, loc))
                   : Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -187,7 +223,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                           flex: 1,
                           child: AspectRatio(
                             aspectRatio: 3 / 4,
-                            child: _buildCameraPreview(context),
+                            child: _buildCameraPreview(context, loc),
                           ),
                         ),
                         const SizedBox(width: 16),
@@ -195,7 +231,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                           flex: 1,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: _buildContent(context, themeProvider, excludeCamera: true),
+                            children: _buildContent(context, themeProvider, loc, excludeCamera: true),
                           ),
                         )
                       ],
@@ -207,26 +243,26 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
     );
   }
 
-  List<Widget> _buildContent(BuildContext context, ThemeProvider themeProvider,
+  List<Widget> _buildContent(BuildContext context, ThemeProvider themeProvider, AppLocalizations loc,
       {bool excludeCamera = false}) {
     return [
       if (!excludeCamera) ...[
-        const Text(
-          "Let your hands speak",
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        Text(
+          loc.let_your_hands_speak,
+          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 16),
         AspectRatio(
           aspectRatio: 1,
-          child: _buildCameraPreview(context),
+          child: _buildCameraPreview(context, loc),
         ),
         const SizedBox(height: 16),
       ],
-      const Align(
+      Align(
         alignment: Alignment.centerLeft,
         child: Text(
-          "Translation:",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          loc.translation,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
       ),
       const SizedBox(height: 10),
@@ -234,9 +270,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
         width: double.infinity,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: themeProvider.isDarkMode
-              ? AppTheme.darkSecondary
-              : AppTheme.lightSecondary,
+          color: themeProvider.isDarkMode ? AppTheme.darkSecondary : AppTheme.lightSecondary,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Text(
@@ -248,15 +282,13 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
     ];
   }
 
-  Widget _buildCameraPreview(BuildContext context) {
+  Widget _buildCameraPreview(BuildContext context, AppLocalizations loc) {
     return Stack(
       children: [
         Container(
           decoration: BoxDecoration(color: Colors.grey[300]),
           child: Center(
-            child: _isCameraActive &&
-                    _cameraController != null &&
-                    _cameraController!.value.isInitialized
+            child: _isCameraActive && _cameraController != null && _cameraController!.value.isInitialized
                 ? FittedBox(
                     fit: BoxFit.cover,
                     child: SizedBox(
@@ -265,7 +297,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                       child: CameraPreview(_cameraController!),
                     ),
                   )
-                : const Text("Cámara no activa"),
+                : Text(loc.camera_not_active),
           ),
         ),
         Positioned(
@@ -282,7 +314,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
           right: 10,
           child: _circleButton(Icons.refresh, Colors.teal, () {
             if (!_isDisposed) setState(() {
-              _translationResult = "Waiting for prediction...";
+              _translationResult = AppLocalizations.of(context)!.waiting_prediction;
             });
           }),
         ),

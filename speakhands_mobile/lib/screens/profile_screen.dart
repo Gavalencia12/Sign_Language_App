@@ -11,7 +11,8 @@ import 'package:speakhands_mobile/widgets/custom_app_bar.dart';
 import 'package:speakhands_mobile/data/speech_texts.dart';
 import 'package:speakhands_mobile/providers/speech_provider.dart';
 import 'package:speakhands_mobile/service/text_to_speech_service.dart';
-
+import 'package:speakhands_mobile/widgets/bottom_nav_bar.dart';
+import 'package:speakhands_mobile/l10n/app_localizations.dart';
 
 class ProfileScreen extends StatefulWidget {
 
@@ -174,7 +175,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       const SizedBox(height: 5),
                                       Row(
                                         children: [
-                                          Text("Age: ",style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold),),
+                                          Text(AppLocalizations.of(context)!.age,style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold),),
                                           Text(
                                             usuario?.edad ?? 'Age',
                                             style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold),
@@ -183,26 +184,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ),
                                       const SizedBox(height: 25),
                                       Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text("Nivel 12", style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold)),
-                                          const SizedBox(width: 10),
-                                          Text("LSM", style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold)),
-                                          const SizedBox(width: 5),
-                                          Image.asset(
-                                            'assets/images/mexico.png',
-                                            height: 16,
-                                            width: 24,
-                                            fit: BoxFit.cover,
-                                          ),
+                                          Text(
+                                            "Nivel 12", 
+                                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                                          ),   
+                                          LanguageSwitcher(),
                                         ],
-                                      ),
+                                      )
                                     ],
                                   ),
                                 ),
                           ],
                         ),
                         ListTile(
-                          title: Text("Email", style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold)),
+                          title: Text(AppLocalizations.of(context)!.email, style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold)),
                           subtitle: Text(
                             usuario?.email ?? 'Email',
                             style: TextStyle(color: textColor, fontSize: 16, fontWeight: FontWeight.bold),
@@ -210,17 +207,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         const Divider(),
                         ListTile(
-                          title: Text("Phone", style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold)),
+                          title: Text(AppLocalizations.of(context)!.phone, style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold)),
                           subtitle: Text(
-                            usuario?.telefono ?? 'Without phone',
+                            usuario?.telefono ?? AppLocalizations.of(context)!.without_phone,
                             style: TextStyle(color: textColor, fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                         ),
                         const Divider(),
                         ListTile(
-                          title: Text("Birth Date", style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold)),
+                          title: Text(AppLocalizations.of(context)!.birth_date, style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold)),
                           subtitle: Text(
-                            usuario?.fechaNacimiento ?? 'Without Birth Date',
+                            usuario?.fechaNacimiento ?? AppLocalizations.of(context)!.without_birth_date,
                             style: TextStyle(color: textColor, fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                           trailing: Icon(Icons.calendar_today, color: textColor),
@@ -228,7 +225,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const Divider(),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Text("MY STATISTICS:",
+                          child: Text(AppLocalizations.of(context)!.my_statistics,
                               style: TextStyle(
                                   color: textColor,
                                   fontWeight: FontWeight.bold,
@@ -245,7 +242,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           child: Row(
                             children: [
-                              Text("Challenge of the Day",
+                              Text(AppLocalizations.of(context)!.challenge_of_the_day,
                                   style: TextStyle(
                                     color: textColor,
                                     fontWeight: FontWeight.bold,
@@ -265,24 +262,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           child: Row(
                             children: [
-                              Text("Your Progress:",
+                              Text(AppLocalizations.of(context)!.your_progress,
                                   style: TextStyle(
                                     color: textColor,
                                     fontWeight: FontWeight.bold,
                                   )),
                               const Spacer(),
-                              Text("Nivel 12", style: TextStyle(color: textColor)),
+                              Text("${AppLocalizations.of(context)!.level} 12", style: TextStyle(color: textColor)),
                             ],
                           ),
                         ),
                         ListTile(
-                          title: Text("Disability:", style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold)),
-                          subtitle: Text(usuario?.discapacidad ?? 'Without Disabality', style: TextStyle(color: textColor, fontSize: 15)),
+                          title: Text(AppLocalizations.of(context)!.disability, style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold)),
+                          subtitle: Text(usuario?.discapacidad ?? AppLocalizations.of(context)!.without_disability, style: TextStyle(color: textColor, fontSize: 15)),
                         ),
                         const Divider(),
                         ListTile(
-                          title: Text("About You:", style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold)),
-                          subtitle: Text(usuario?.about ?? 'Without information', style: TextStyle(color: textColor, fontSize: 15)),                        
+                          title: Text(AppLocalizations.of(context)!.about_you, style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold)),
+                          subtitle: Text(usuario?.about ?? AppLocalizations.of(context)!.without_information, style: TextStyle(color: textColor, fontSize: 15)),                        
                         ),
                       ],
                     ),
@@ -304,7 +301,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween, // Aligns content to the edges
                   children: [
                     Text(
-                      "Edit your profile",
+                      AppLocalizations.of(context)!.edit_your_profile,
                       style: TextStyle(
                         color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A),
                         fontSize: 20,
@@ -327,7 +324,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: Row(
                               children: [
                                 Text(
-                                  "Settings",
+                                  AppLocalizations.of(context)!.settings,
                                   style: TextStyle(
                                     color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A),
                                     fontSize: 15,

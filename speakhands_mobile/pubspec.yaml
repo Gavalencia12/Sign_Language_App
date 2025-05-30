@@ -1,6 +1,6 @@
 name: speakhands_mobile
 description: Aplicación móvil de traducción y aprendizaje de lengua de señas con Flutter y IA.
-publish_to: 'none' # No se publica en pub.dev
+publish_to: 'none'
 
 version: 1.0.0+1
 
@@ -11,34 +11,43 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  tflite_flutter: ^0.11.0 # Para usar el modelo .tflite
+  tflite_flutter: ^0.10.4 # Para usar el modelo .tflite
   camera: ^0.10.5+5       # Para usar cámara del dispositivo
   path_provider: ^2.0.15  # Para guardar o acceder a archivos si necesitas
   firebase_core: ^2.15.1  # Versión de firebase_core compatible con firebase_database 10.x
   firebase_database: ^10.5.7
-  firebase_storage: ^11.3.1 # Para subir/bajar archivos de Firebase Storage
-  cloud_firestore: ^4.17.5 # Añade esta línea para usar Firestore
-  provider: ^6.1.4        # Para manejo de estado simple (opcional pero recomendado)
+  firebase_storage: ^11.3.1
+  cloud_firestore: ^4.17.5
+  provider: ^6.1.4
   firebase_auth: ^4.17.0
   google_sign_in: ^6.2.1
   flutter_facebook_auth: ^6.0.3
   image_picker: ^0.8.7+4
   flutter_tts: ^3.6.3
   shared_preferences: ^2.2.2
-  
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.2
+  flutter_gen: ^5.10.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
 flutter:
-
   uses-material-design: true
-
+  generate: true
   assets:
+    - assets/images/iconos/
     - assets/images/
     - assets/model/sign_language_model.tflite
     - assets/model/hand_landmarker.task
 
+# 👇 El bloque l10n VA FUERA del bloque flutter
+l10n:
+  arb-dir: lib/l10n
+  template-arb-file: intl_en.arb
+  output-localization-file: app_localizations.dart
 
     # Si tienes sonidos, íconos o más, aquí los agregas
 

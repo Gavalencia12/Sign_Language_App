@@ -6,6 +6,9 @@ import 'package:speakhands_mobile/theme/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart'; // Firebase Authentication
 import 'package:firebase_database/firebase_database.dart';
 import  'package:speakhands_mobile/models/user_model.dart';
+import 'package:speakhands_mobile/l10n/app_localizations.dart';
+import 'package:speakhands_mobile/widgets/bottom_nav_bar.dart';
+import 'package:speakhands_mobile/providers/locale_provider.dart';
 
 class SettingsScreen extends StatefulWidget {
 
@@ -84,7 +87,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   child: Row(
                     children:[
                       Text(
-                        "Account",
+                        AppLocalizations.of(context)!.account_section,
                         style: TextStyle(
                           color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A),
                           fontSize: 15,
@@ -102,7 +105,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     children: [
                       ListTile(
                         leading: Icon(Icons.account_circle, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text("Personal Data", style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
+                        title: Text(AppLocalizations.of(context)!.personal_data, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
                           // Action to "Personal Data"
                         },
@@ -110,7 +113,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Divider(color: themeProvider.isDarkMode ? Colors.white : Colors.black), // Línea divisoria
                       ListTile(
                         leading: Icon(Icons.mail, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text("Account", style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
+                        title: Text(AppLocalizations.of(context)!.account, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
                           // Action to "Account"
                         },
@@ -118,7 +121,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Divider(color: themeProvider.isDarkMode ? Colors.white : Colors.black), // Línea divisoria
                       ListTile(
                         leading: Icon(Icons.security, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text("Privacy Policy", style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
+                        title: Text(AppLocalizations.of(context)!.privacy_policy, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
                           // Action to "Privacy Policy"
                         },
@@ -132,7 +135,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   child: Row(
                     children:[
                       Text(
-                        "Accessibility",
+                        AppLocalizations.of(context)!.accessibility_section,
                         style: TextStyle(
                           color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A),
                           fontSize: 15,
@@ -150,15 +153,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     children: [
                       ListTile(
                         leading: Icon(Icons.g_translate, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text("Language", style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
-                        onTap: () {
-                          // Action to "language"
-                        },
+                        title: Text(AppLocalizations.of(context)!.language, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
+                        onTap: () => LanguageSwitcher.showLanguageDialog(context),
+                        trailing: Builder(
+                          builder: (context) {
+                            final localeProvider = Provider.of<LocaleProvider>(context);
+                            return Image.asset(
+                              localeProvider.locale.languageCode == 'es' ? 'assets/images/mexico.png' : 'assets/images/usa.png',
+                              height: 24,
+                              width: 36,
+                              fit: BoxFit.cover,
+                            );
+                          },
+                        ),
                       ),
+
                       Divider(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
                       ListTile(
                         leading: Icon(Icons.color_lens, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text("Color", style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
+                        title: Text(AppLocalizations.of(context)!.color, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
                           themeProvider.toggleTheme(!themeProvider.isDarkMode);
                         },
@@ -166,7 +179,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Divider(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
                       ListTile(
                         leading: Icon(Icons.accessibility_new, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text("Accessibility", style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
+                        title: Text(AppLocalizations.of(context)!.accessibility, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
                           // Action to "accessibility"
                         },
@@ -180,7 +193,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   child: Row(
                     children:[
                       Text(
-                        "Help && Information",
+                        AppLocalizations.of(context)!.help_information_section,
                         style: TextStyle(
                           color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A),
                           fontSize: 15,
@@ -198,7 +211,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     children: [
                       ListTile(
                         leading: Icon(Icons.library_books, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text("Terms and Conditions", style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
+                        title: Text(AppLocalizations.of(context)!.terms_and_conditions, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
                           // Action to "terms and conditions"
                         },
@@ -206,7 +219,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Divider(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
                       ListTile(
                         leading: Icon(Icons.help, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text("Help", style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
+                        title: Text(AppLocalizations.of(context)!.help, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
                           // Action to "help"
                         },
@@ -214,7 +227,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Divider(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
                       ListTile(
                         leading: Icon(Icons.assignment, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text("Qualife", style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
+                        title: Text(AppLocalizations.of(context)!.qualife, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
                           // Action to "qualife"
                         },
@@ -228,7 +241,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   child: Row(
                     children:[
                       Text(
-                        "The Login",
+                        AppLocalizations.of(context)!.login_section,
                         style: TextStyle(
                           color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A),
                           fontSize: 15,
@@ -246,7 +259,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     children: [
                       ListTile(
                         leading: Icon(Icons.switch_account, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text(" Change Account", style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
+                        title: Text(AppLocalizations.of(context)!.change_account, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
                           // Action to "change account"
                         },
@@ -254,7 +267,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Divider(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
                       ListTile(
                         leading: Icon(Icons.logout, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text("Log Out", style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
+                        title: Text(AppLocalizations.of(context)!.log_out, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
                           _signOut(context); // Log out action   
                         },
@@ -280,7 +293,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   children: [
                     Row(
                       children: [
-                        Text("Hello, ",style: TextStyle(color: textColor, fontSize: 20, fontWeight: FontWeight.bold),),
+                        Text(AppLocalizations.of(context)!.hello, style: TextStyle(color: textColor, fontSize: 20, fontWeight: FontWeight.bold),),
                         Text(
                           usuario?.nombre ?? 'User',
                           style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold),

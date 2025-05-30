@@ -43,7 +43,7 @@ class AuthService {
     }
   }
 
-  // Login con Facebook + registro en DB + eventos gfhjgfre
+  // Login con Facebook + registro en DB + eventos
   Future<Map<String, dynamic>?> signInWithFacebook() async {
     try {
       final LoginResult result = await FacebookAuth.instance.login();
@@ -52,8 +52,10 @@ class AuthService {
         return null;
       }
 
-      final OAuthCredential credential = FacebookAuthProvider.credential(result.accessToken!.token);
-      final UserCredential userCredential = await _auth.signInWithCredential(credential);
+      final OAuthCredential credential =
+          FacebookAuthProvider.credential(result.accessToken!.token);
+      final UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
       final User? user = userCredential.user;
 
       final bool isNew = userCredential.additionalUserInfo?.isNewUser ?? false;
@@ -77,6 +79,7 @@ class AuthService {
       return null;
     }
   }
+
 
   // Send verification code (email)
   Future<void> sendVerificationCode(String email) async {

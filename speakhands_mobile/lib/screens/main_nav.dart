@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:speakhands_mobile/service/auth_service.dart';
-import 'package:speakhands_mobile/theme/theme.dart';
-import 'package:speakhands_mobile/screens/translator_screen.dart';
 import 'package:speakhands_mobile/screens/home_screen.dart';
 import 'package:speakhands_mobile/screens/learn_screen.dart';
 import 'package:speakhands_mobile/screens/profile_screen.dart';
+import 'package:speakhands_mobile/screens/translator_screen.dart';
+import 'package:speakhands_mobile/service/auth_service.dart';
+import 'package:speakhands_mobile/theme/theme.dart';
 
 class MainNavigation extends StatefulWidget {
-  const MainNavigation({super.key});
+  // Definimos una key estática para controlar el estado desde fuera
+  static final GlobalKey<_MainNavigationState> globalKey = GlobalKey<_MainNavigationState>();
+
+  MainNavigation({Key? key}) : super(key: globalKey);
 
   @override
   State<MainNavigation> createState() => _MainNavigationState();
@@ -15,15 +18,21 @@ class MainNavigation extends StatefulWidget {
 
 class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 1;
-
   final AuthService _authService = AuthService();
 
-  final screens = [
+  final List<Widget> screens = [
     HomeScreen(),
     const TranslatorScreen(),
     const LearnScreen(),
     ProfileScreen(),
   ];
+
+  // Método para cambiar la pestaña activamente
+  void changeTab(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
 
   void _onTabTapped(int index) {
     if (index == 1) {
@@ -60,18 +69,18 @@ class _MainNavigationState extends State<MainNavigation> {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: List.generate(4, (index) {
+          children: List.generate(screens.length, (index) {
             bool isSelected = _currentIndex == index;
 
             return GestureDetector(
               onTap: () => _onTabTapped(index),
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
-                width: isSelected ? 150 : 56, // Make the selected button wider
+                width: isSelected ? 150 : 56, // Más ancho para la pestaña seleccionada
                 height: 56,
                 decoration: BoxDecoration(
                   color: isSelected ? Colors.white : Colors.transparent,
-                  borderRadius: BorderRadius.circular(30), // Round the button's corners
+                  borderRadius: BorderRadius.circular(30),
                 ),
                 child: Center(
                   child: Row(
@@ -82,7 +91,7 @@ class _MainNavigationState extends State<MainNavigation> {
                         size: 30,
                         color: isSelected ? backgroundColor : iconColor,
                       ),
-                      if (isSelected) 
+                      if (isSelected)
                         Padding(
                           padding: const EdgeInsets.only(left: 8.0),
                           child: Text(
