@@ -43,7 +43,7 @@ class AuthService {
     }
   }
 
-  // Login con Facebook + registro en DB + eventos
+  // Login con Facebook + registro en DB + eventos gfhjgfre
   Future<Map<String, dynamic>?> signInWithFacebook() async {
     try {
       final LoginResult result = await FacebookAuth.instance.login();
@@ -52,10 +52,8 @@ class AuthService {
         return null;
       }
 
-      final OAuthCredential credential =
-          FacebookAuthProvider.credential(result.accessToken!.token);
-      final UserCredential userCredential =
-          await _auth.signInWithCredential(credential);
+      final OAuthCredential credential = FacebookAuthProvider.credential(result.accessToken!.token);
+      final UserCredential userCredential = await _auth.signInWithCredential(credential);
       final User? user = userCredential.user;
 
       final bool isNew = userCredential.additionalUserInfo?.isNewUser ?? false;
@@ -80,7 +78,6 @@ class AuthService {
     }
   }
 
-
   // Send verification code (email)
   Future<void> sendVerificationCode(String email) async {
     final String code = (10000 + Random().nextInt(90000)).toString();
@@ -89,7 +86,6 @@ class AuthService {
     try {
       await _database.child('verifications/$safeEmail').set({'code': code});
       print('Código enviado a $email: $code');
-      
     } catch (e) {
       print("Error al enviar código: $e");
       rethrow;
@@ -152,7 +148,20 @@ class AuthService {
     }
   }
 
-  // Current user
+  // Login with email and password
+  Future<UserCredential?> logIn(String email, String password) async {
+    try {
+      return await _auth.signInWithEmailAndPassword(email: email, password: password);
+    } catch (e) {
+      print("Error during login: $e");
+      rethrow;
+    }
+  }
+
+  // Get current auth state
+  Stream<User?> get authStateChanges => _auth.authStateChanges();
+
+  // Get current user
   User? get currentUser => _auth.currentUser;
 
   // Log Out
