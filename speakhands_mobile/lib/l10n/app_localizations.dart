@@ -569,16 +569,16 @@ abstract class AppLocalizations {
   /// **'Hello, '**
   String get hello;
 
-  /// No description provided for @home_welcome.
+  /// No description provided for @home_welcome_with_name.
   ///
   /// In en, this message translates to:
-  /// **'Hello {nombre}. Welcome to the home screen.'**
-  String home_welcome(Object nombre);
+  /// **'Hello {nombre}. Welcome on the Home Screen.'**
+  String home_welcome_with_name(Object nombre);
 
   /// No description provided for @profile_welcome.
   ///
   /// In en, this message translates to:
-  /// **'You\'re in your profile.'**
+  /// **'You\'re in your profile. Here you can see your details and settings.'**
   String get profile_welcome;
 
   /// No description provided for @translate_info.
@@ -592,6 +592,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This is the section to learn sign language.'**
   String get learn_info;
+
+  /// No description provided for @profile_edit_intro.
+  ///
+  /// In en, this message translates to:
+  /// **'You are in the screen to edit your profile. Here you can change your personal information.'**
+  String get profile_edit_intro;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

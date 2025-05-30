@@ -1,7 +1,8 @@
+import 'dart:async'; // Import necesario para Timer
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:camera/camera.dart';
-import 'dart:typed_data';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import 'package:speakhands_mobile/providers/theme_provider.dart';
@@ -27,6 +28,14 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
   bool _isDisposed = false;
 
   String _translationResult = "";
+  String? _lastSpokenLabel;
+
+  Timer? _periodicTimer;
+
+  // Estados para controlar la detección y el habla
+  bool _canDetect = true;  // Controla si puede procesar landmarks
+  Timer? _delayTimer;      // Timer para los 3 segundos antes de hablar
+  Timer? _cooldownTimer;   // Timer para los 3 segundos de espera post-audio
 
   static const platform = MethodChannel('com.speakhands/landmarks');
 
@@ -74,12 +83,16 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
 
     if (_isCameraActive) {
       await _cameraController?.dispose();
+      _periodicTimer?.cancel();
+      _delayTimer?.cancel();
+      _cooldownTimer?.cancel();
       if (!_isDisposed) setState(() {
         _cameraController = null;
         _isCameraActive = false;
         _translationResult = loc.waiting_prediction;
       });
       if (speakOn && !_isDisposed) await ttsService.speak(loc.camera_toggle_off);
+      _canDetect = true;  // Reset estado
     } else {
       try {
         final cameras = await availableCameras();
@@ -90,6 +103,14 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
           _isCameraActive = true;
         });
         if (speakOn && !_isDisposed) await ttsService.speak(loc.camera_toggle_on);
+
+        _periodicTimer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
+          if (!_isDisposed && _isCameraActive && _canDetect) {
+            _getNativeLandmarks();
+          } else {
+            timer.cancel();
+          }
+        });
       } catch (e) {
         print("Error al iniciar cámara: $e");
       }
@@ -97,17 +118,30 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
   }
 
   Future<void> _getNativeLandmarks() async {
-    final speakOn = Provider.of<SpeechProvider>(context, listen: false).enabled;
-    final loc = AppLocalizations.of(context)!;
-
     try {
       final List<dynamic> result = await platform.invokeMethod('getLandmarks');
       final landmarks = result.map((e) => (e as num).toDouble()).toList();
+
       if (landmarks.length == 63) {
-        await _makePrediction(landmarks);
+        // Si está permitido detectar
+        if (_canDetect) {
+          _canDetect = false;  // Bloquea detección
+          // Espera 3 segundos antes de procesar (simula "ver puntos por 3s")
+          _delayTimer = Timer(const Duration(seconds: 3), () async {
+            await _makePrediction(landmarks);
+            // Luego del habla, espera 3 segundos para permitir nueva detección
+            _cooldownTimer = Timer(const Duration(seconds: 3), () {
+              _canDetect = true;
+            });
+          });
+        }
       } else {
-        print("Landmarks inválidos");
-        if (speakOn && !_isDisposed) await ttsService.speak(loc.no_hand_detected);
+        if (!_isDisposed) {
+          setState(() {
+            _translationResult = ""; // No mostrar texto si no hay manos
+          });
+        }
+        // Aquí puedes agregar lógica si quieres aviso por ausencia mano
       }
     } on PlatformException catch (e) {
       print("Error al obtener landmarks nativos: ${e.message}");
@@ -123,10 +157,10 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
       "E",
       "F",
       "G",
-      "h",
+      "H",
       "I",
       "M",
-      "GATO",  // palabra completa
+      "GATO", // palabra completa
       "J",
       "K",
       "L"
@@ -140,11 +174,10 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
 
   Future<void> _makePrediction(List<double> input) async {
     final speakOn = Provider.of<SpeechProvider>(context, listen: false).enabled;
-    final loc = AppLocalizations.of(context)!;
 
     try {
       var inputTensor = Float32List.fromList(input);
-      var output = List.filled(14, 0.0).reshape([1, 14]);
+      var output = List.filled(11, 0.0).reshape([1, 11]);
 
       _interpreter.run(inputTensor, output);
 
@@ -153,16 +186,21 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
       int predictedIndex = resultList.indexOf(maxValue);
 
       String predictedLabel = _mapIndexToLabel(predictedIndex);
+      int confidencePercent = (maxValue * 100).round();
+
+      String displayText = "Letra detectada: $predictedLabel ($confidencePercent%)";
 
       if (!_isDisposed) {
         setState(() {
-          _translationResult = predictedLabel;
+          _translationResult = displayText;
         });
       }
 
-      if (speakOn && !_isDisposed) {
+      // Hablar siempre que haya detección válida (confianza > 50)
+      if (speakOn && !_isDisposed && confidencePercent > 50) {
+        _lastSpokenLabel = predictedLabel;
         await ttsService.stop();
-        if (!_isDisposed) await ttsService.speak(predictedLabel);
+        if (!_isDisposed) await ttsService.speak(displayText);
       }
     } catch (e) {
       print("Error al hacer la predicción: $e");
@@ -172,6 +210,9 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
   @override
   void dispose() {
     _isDisposed = true;
+    _periodicTimer?.cancel();
+    _delayTimer?.cancel();
+    _cooldownTimer?.cancel();
     _cameraController?.dispose();
     ttsService.stop();
     super.dispose();

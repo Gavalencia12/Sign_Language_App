@@ -248,16 +248,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get hello => 'Hola, ';
 
   @override
-  String home_welcome(Object nombre) {
+  String home_welcome_with_name(Object nombre) {
     return 'Hola $nombre. Bienvenido a la pantalla principal.';
   }
 
   @override
-  String get profile_welcome => 'Estás en tu perfil.';
+  String get profile_welcome => 'Estás en tu perfil. Aquí puedes ver tus datos y configuración.';
 
   @override
   String get translate_info => 'Aquí puedes traducir tus señas.';
 
   @override
   String get learn_info => 'Esta es la sección para aprender lengua de señas.';
+
+  @override
+  String get profile_edit_intro => 'Estás en la pantalla para editar tu perfil. Aquí puedes cambiar tu información personal.';
 }

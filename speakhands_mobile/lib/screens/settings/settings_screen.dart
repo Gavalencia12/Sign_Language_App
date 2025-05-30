@@ -45,7 +45,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void _signOut(BuildContext context) async {
     await _authService.signOut();
     // Clear all previous screens and navigate to Home
-    Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false); 
+    Navigator.pushNamedAndRemoveUntil(context, '/', (Route<dynamic> route) => false); 
   }
 
   @override

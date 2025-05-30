@@ -94,8 +94,16 @@
   "log_out": "Cerrar sesión",
   "hello": "Hola, ",
 
-  "home_welcome": "Hola {nombre}. Bienvenido a la pantalla principal.",
-  "profile_welcome": "Estás en tu perfil.",
+  "home_welcome_with_name": "Hola {nombre}. Bienvenido a la pantalla principal.",
+  "@home_welcome_with_name": {
+    "placeholders": {
+      "nombre": {}
+    }
+  },
+
+  "profile_welcome": "Estás en tu perfil. Aquí puedes ver tus datos y configuración.",
   "translate_info": "Aquí puedes traducir tus señas.",
-  "learn_info": "Esta es la sección para aprender lengua de señas."
+  "learn_info": "Esta es la sección para aprender lengua de señas.",
+
+  "profile_edit_intro": "Estás en la pantalla para editar tu perfil. Aquí puedes cambiar tu información personal."
 }

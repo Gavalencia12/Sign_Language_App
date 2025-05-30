@@ -8,17 +8,15 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:speakhands_mobile/models/progress_model.dart';
 import 'package:speakhands_mobile/widgets/progress.dart';
 import 'package:speakhands_mobile/widgets/custom_app_bar.dart';
-import 'package:speakhands_mobile/data/speech_texts.dart';
 import 'package:speakhands_mobile/providers/speech_provider.dart';
 import 'package:speakhands_mobile/service/text_to_speech_service.dart';
 import 'package:speakhands_mobile/widgets/welcome.dart';
 import 'package:speakhands_mobile/widgets/path_progress.dart';
 import 'package:speakhands_mobile/l10n/app_localizations.dart';
 
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-  
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -35,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     cargarDatosUsuario();
-    ttsService.stop(); 
+    ttsService.stop();
   }
 
   Future<void> cargarDatosUsuario() async {
@@ -46,12 +44,14 @@ class _HomeScreenState extends State<HomeScreen> {
         setState(() {
           usuario = Usuario.fromMap(snapshot.value as Map<dynamic, dynamic>);
         });
-        cargarProgresoUsuario(user.uid);
+        await cargarProgresoUsuario(user.uid);
+
         final speakOn = Provider.of<SpeechProvider>(context, listen: false).enabled;
         if (speakOn) {
-          await ttsService.speak(SpeechTexts.homeWelcome(usuario?.nombre ?? "usuario"));
+          final locale = Localizations.localeOf(context);
+          final texto = AppLocalizations.of(context)!.home_welcome_with_name(usuario?.nombre ?? "usuario");
+          await ttsService.speak(texto, languageCode: locale.languageCode);
         }
-
       }
     }
   }
@@ -76,11 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> iniciarProgreso(String uid, String idSeccion) async {
-    final snapshot = await _dbRef
-        .child("progresos")
-        .orderByChild("idusuario")
-        .equalTo(uid)
-        .get();
+    final snapshot = await _dbRef.child("progresos").orderByChild("idusuario").equalTo(uid).get();
 
     bool existe = false;
 
@@ -109,6 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     await cargarProgresoUsuario(uid);
   }
+
   int obtenerSeccionActual() {
     if (progresos.isEmpty) return 0;
     // Supongamos que tomas la última sección
@@ -143,7 +140,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 userPhotoUrl: usuario?.foto,
                 isDarkMode: themeProvider.isDarkMode,
               ),
-
               Text(
                 AppLocalizations.of(context)!.my_progress,
                 style: TextStyle(
@@ -153,19 +149,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               const SizedBox(height: 5),
-              ProgresoWidget(progresos: progresos, iniciarProgreso: iniciarProgreso,idSeccionActual: currentSectionId,),
-              
+              ProgresoWidget(progresos: progresos, iniciarProgreso: iniciarProgreso, idSeccionActual: currentSectionId),
               const SizedBox(height: 20),
               PathProgress(
                 totalSections: 6,
-                currentSection: obtenerSeccionActual(), // Retorna la sección actual, por ejemplo 2
+                currentSection: obtenerSeccionActual(),
               ),
-
               ChallengeProgressWidget(
                 lessonTitle: AppLocalizations.of(context)!.alphabet_title,
                 progressPercent: 0,
                 challengeNumber: 26,
-                progressSteps: [false, false, false], // ejemplo con dos checks y un cross
+                progressSteps: [false, false, false],
               ),
             ],
           ),

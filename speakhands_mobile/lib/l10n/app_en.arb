@@ -93,8 +93,15 @@
   "log_out": "Log Out",
   "hello": "Hello, ",
 
-  "home_welcome": "Hello {nombre}. Welcome to the home screen.",
-  "profile_welcome": "You're in your profile.",
+  "home_welcome_with_name": "Hello {nombre}. Welcome on the Home Screen.",
+  "@home_welcome_with_name": {
+    "placeholders": {
+      "nombre": {}
+    }
+  },
+  "profile_welcome": "You're in your profile. Here you can see your details and settings.",
   "translate_info": "Here you can translate your signs.",
-  "learn_info": "This is the section to learn sign language."
+  "learn_info": "This is the section to learn sign language.",
+
+  "profile_edit_intro": "You are in the screen to edit your profile. Here you can change your personal information."
 }

@@ -7,6 +7,8 @@ import 'package:speakhands_mobile/widgets/levels.dart';
 import 'package:speakhands_mobile/providers/speech_provider.dart';
 import 'package:speakhands_mobile/service/text_to_speech_service.dart';
 import 'package:speakhands_mobile/data/speech_texts.dart';
+import 'package:speakhands_mobile/l10n/app_localizations.dart';
+
 
 class LearnScreen extends StatefulWidget {
   const LearnScreen({super.key});
@@ -71,7 +73,9 @@ class _LearnScreenState extends State<LearnScreen> {
     final speakOn = Provider.of<SpeechProvider>(context, listen: false).enabled;
     if (speakOn) {
       await ttsService.stop();
-      await ttsService.speak(LearnSpeechTexts.intro);
+      final locale = Localizations.localeOf(context);
+      final texto = AppLocalizations.of(context)!.learn_info;
+      await ttsService.speak(texto, languageCode: locale.languageCode);
     }
   }
 

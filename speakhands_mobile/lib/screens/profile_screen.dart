@@ -52,7 +52,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final speakOn = Provider.of<SpeechProvider>(context, listen: false).enabled;
     if (speakOn) {
       await ttsService.stop();
-      await ttsService.speak(ProfileSpeechTexts.intro);
+      final locale = Localizations.localeOf(context);
+      final texto = AppLocalizations.of(context)!.profile_welcome;
+      await ttsService.speak(texto, languageCode: locale.languageCode);
     }
   }
   
