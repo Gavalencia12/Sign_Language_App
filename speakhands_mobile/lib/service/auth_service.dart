@@ -43,7 +43,7 @@ class AuthService {
     }
   }
 
-  // Login con Facebook + registro en DB + eventos
+  // Login con Facebook + registro en DB + eventos gfhjgfre
   Future<Map<String, dynamic>?> signInWithFacebook() async {
     try {
       final LoginResult result = await FacebookAuth.instance.login();

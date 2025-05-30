@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:speakhands_mobile/providers/theme_provider.dart';
-import 'package:speakhands_mobile/theme/theme.dart';
 import 'package:speakhands_mobile/widgets/custom_app_bar.dart';
 import 'package:speakhands_mobile/providers/speech_provider.dart';
 import 'package:speakhands_mobile/service/text_to_speech_service.dart';
