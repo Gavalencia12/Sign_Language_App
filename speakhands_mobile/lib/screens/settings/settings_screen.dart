@@ -103,23 +103,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   child: Column(
                     children: [
-                      ListTile(
-                        leading: Icon(Icons.account_circle, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text(AppLocalizations.of(context)!.personal_data, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
-                        onTap: () {
-                          // Action to "Personal Data"
-                        },
-                      ),
-                      Divider(color: themeProvider.isDarkMode ? Colors.white : Colors.black), // Línea divisoria
-                      ListTile(
-                        leading: Icon(Icons.mail, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text(AppLocalizations.of(context)!.account, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
-                        onTap: () {
-                          // Action to "Account"
-                        },
-                      ),
-                      Divider(color: themeProvider.isDarkMode ? Colors.white : Colors.black), // Línea divisoria
-                      ListTile(
+                    ListTile(
                         leading: Icon(Icons.security, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
                         title: Text(AppLocalizations.of(context)!.privacy_policy, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
@@ -230,46 +214,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         title: Text(AppLocalizations.of(context)!.qualife, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
                           // Action to "qualife"
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-                  color: themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground,
-                  child: Row(
-                    children:[
-                      Text(
-                        AppLocalizations.of(context)!.login_section,
-                        style: TextStyle(
-                          color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A),
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                  color: themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      ListTile(
-                        leading: Icon(Icons.switch_account, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text(AppLocalizations.of(context)!.change_account, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
-                        onTap: () {
-                          // Action to "change account"
-                        },
-                      ),
-                      Divider(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
-                      ListTile(
-                        leading: Icon(Icons.logout, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text(AppLocalizations.of(context)!.log_out, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
-                        onTap: () {
-                          _signOut(context); // Log out action   
                         },
                       ),
                     ],
