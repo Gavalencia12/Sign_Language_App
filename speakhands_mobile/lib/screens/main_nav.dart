@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:speakhands_mobile/screens/home_screen.dart';
 import 'package:speakhands_mobile/screens/learn_screen.dart';
-import 'package:speakhands_mobile/screens/profile_screen.dart';
+import 'package:speakhands_mobile/screens/settings/settings_screen.dart';
 import 'package:speakhands_mobile/screens/translator_screen.dart';
 import 'package:speakhands_mobile/service/auth_service.dart';
 import 'package:speakhands_mobile/theme/theme.dart';
@@ -21,10 +20,9 @@ class _MainNavigationState extends State<MainNavigation> {
   final AuthService _authService = AuthService();
 
   final List<Widget> screens = [
-    HomeScreen(),
-    const TranslatorScreen(),
     const LearnScreen(),
-    ProfileScreen(),
+    const TranslatorScreen(),
+    SettingsScreen(),
   ];
 
   // Método para cambiar la pestaña activamente
@@ -35,17 +33,9 @@ class _MainNavigationState extends State<MainNavigation> {
   }
 
   void _onTabTapped(int index) {
-    if (index == 1) {
-      setState(() {
-        _currentIndex = index;
-      });
-    } else {
-      if (_authService.currentUser != null) {
-        setState(() => _currentIndex = index);
-      } else {
-        Navigator.pushReplacementNamed(context, '/login');
-      }
-    }
+    setState(() {
+      _currentIndex = index;
+    });
   }
 
   @override
@@ -116,13 +106,11 @@ class _MainNavigationState extends State<MainNavigation> {
   IconData _getIconForIndex(int index) {
     switch (index) {
       case 0:
-        return Icons.house;
+        return Icons.waving_hand;
       case 1:
         return Icons.connect_without_contact;
       case 2:
-        return Icons.waving_hand;
-      case 3:
-        return Icons.account_circle;
+        return Icons.settings;
       default:
         return Icons.circle;
     }
@@ -131,15 +119,13 @@ class _MainNavigationState extends State<MainNavigation> {
   String _getTextForIndex(int index) {
     switch (index) {
       case 0:
-        return 'Home';
+        return 'Interprete';
       case 1:
         return 'Translate';
       case 2:
-        return 'Learning';
-      case 3:
-        return 'Profile';
+        return 'Settings';
       default:
-        return 'Unknown';
+        return '';
     }
   }
 }
