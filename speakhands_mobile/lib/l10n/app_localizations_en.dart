@@ -9,6 +9,24 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get clear => 'Clear';
+
+  @override
+  String get dictate => 'Dictate';
+
+  @override
+  String get speakText => 'Speak text';
+
+  @override
+  String get stopAudio => 'Stop audio';
+
+  @override
+  String get interpreter_screen_title => 'Interpreter';
+
+  @override
+  String get let_your_sign_be_heard => 'Let your signs be heard';
+
+  @override
   String get select_language => 'Select Language';
 
   @override

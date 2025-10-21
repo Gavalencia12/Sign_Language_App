@@ -1,6 +1,14 @@
 {
   "@@locale": "es",
 
+  "clear": "Borrar",
+  "dictate": "Dictar",
+  "speakText": "Leer texto",
+  "stopAudio": "Detener audio",
+
+  "interpreter_screen_title": "Intérprete",
+  "let_your_sign_be_heard": "Que tus señas se escuchen",
+
   "select_language": "Seleccionar idioma",
 
   "section1": "Sección 1",

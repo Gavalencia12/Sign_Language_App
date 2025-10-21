@@ -1,6 +1,14 @@
 {
   "@@locale": "en",
 
+  "clear": "Clear",
+  "dictate": "Dictate",
+  "speakText": "Speak text",
+  "stopAudio": "Stop audio",
+
+  "interpreter_screen_title": "Interpreter",
+  "let_your_sign_be_heard": "Let your signs be heard",
+
   "select_language": "Select Language",
 
   "section1": "Section 1",
