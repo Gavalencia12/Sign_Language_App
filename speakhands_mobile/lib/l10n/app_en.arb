@@ -99,7 +99,7 @@
   "login_section": "The Login",
   "change_account": "Change Account",
   "log_out": "Log Out",
-  "hello": "Hello, ",
+  "hello": "Hello",
 
   "home_welcome_with_name": "Hello {nombre}. Welcome on the Home Screen.",
   "@home_welcome_with_name": {

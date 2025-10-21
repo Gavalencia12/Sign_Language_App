@@ -263,7 +263,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get log_out => 'Cerrar sesión';
 
   @override
-  String get hello => 'Hola, ';
+  String get hello => 'Hola';
 
   @override
   String home_welcome_with_name(Object nombre) {

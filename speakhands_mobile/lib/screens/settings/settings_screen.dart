@@ -238,10 +238,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Row(
                       children: [
                         Text(AppLocalizations.of(context)!.hello, style: TextStyle(color: textColor, fontSize: 20, fontWeight: FontWeight.bold),),
-                        Text(
-                          usuario?.nombre ?? 'User',
-                          style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
+                      
                       ],
                     ),
                   ],
