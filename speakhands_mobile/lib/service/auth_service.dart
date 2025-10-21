@@ -127,7 +127,7 @@ class AuthService {
     }
   }
 
-  // Get login methods for email
+  /* // Get login methods for email
   Future<List<String>> fetchSignInMethods(String email) async {
     try {
       return await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
@@ -135,7 +135,7 @@ class AuthService {
       print("Error checking email: $e");
       rethrow;
     }
-  }
+  } */
 
   // Save initial user data (used for Google Sign In)
   Future<void> _saveUserData(User user) async {

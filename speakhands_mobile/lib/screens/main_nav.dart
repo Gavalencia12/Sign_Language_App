@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:speakhands_mobile/screens/learn_screen.dart';
+import 'package:speakhands_mobile/screens/interpreter_screen.dart';
 import 'package:speakhands_mobile/screens/settings/settings_screen.dart';
 import 'package:speakhands_mobile/screens/translator_screen.dart';
 import 'package:speakhands_mobile/service/auth_service.dart';
@@ -20,7 +20,7 @@ class _MainNavigationState extends State<MainNavigation> {
   final AuthService _authService = AuthService();
 
   final List<Widget> screens = [
-    const LearnScreen(),
+    const InterpreterScreen(),
     const TranslatorScreen(),
     SettingsScreen(),
   ];

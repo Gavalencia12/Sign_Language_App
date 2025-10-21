@@ -14,21 +14,23 @@ dependencies:
   tflite_flutter: ^0.11.0
   camera: ^0.10.5+5
   path_provider: ^2.0.15
-  firebase_core: ^2.15.1
-  firebase_database: ^10.5.7
-  firebase_storage: ^11.3.1
-  cloud_firestore: ^4.17.5
+  firebase_core: ^4.2.0
+  firebase_database: ^12.0.3
+  firebase_storage: ^13.0.3
+  cloud_firestore: ^6.0.3
   provider: ^6.1.4
-  firebase_auth: ^4.17.0
+  firebase_auth: ^6.1.1
   google_sign_in: ^6.2.1
   flutter_facebook_auth: ^6.0.3
   image_picker: ^0.8.7+4
-  flutter_tts: ^3.6.3
+  flutter_tts: ^3.8.3 # TTS (texto -> voz)
   shared_preferences: ^2.2.2
+  speech_to_text: ^7.3.0 # STT (micrófono -> texto)
   flutter_localizations:
     sdk: flutter
   intl: ^0.20.2
   flutter_gen: ^5.10.0
+  permission_handler: ^12.0.1 # opcional, para pedir permisos explícitamente
 
 dev_dependencies:
   flutter_test:

@@ -95,6 +95,42 @@ abstract class AppLocalizations {
     Locale('es')
   ];
 
+  /// No description provided for @clear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clear;
+
+  /// No description provided for @dictate.
+  ///
+  /// In en, this message translates to:
+  /// **'Dictate'**
+  String get dictate;
+
+  /// No description provided for @speakText.
+  ///
+  /// In en, this message translates to:
+  /// **'Speak text'**
+  String get speakText;
+
+  /// No description provided for @stopAudio.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop audio'**
+  String get stopAudio;
+
+  /// No description provided for @interpreter_screen_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Interpreter'**
+  String get interpreter_screen_title;
+
+  /// No description provided for @let_your_sign_be_heard.
+  ///
+  /// In en, this message translates to:
+  /// **'Let your signs be heard'**
+  String get let_your_sign_be_heard;
+
   /// No description provided for @select_language.
   ///
   /// In en, this message translates to:
