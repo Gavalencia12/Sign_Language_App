@@ -1,0 +1,211 @@
+{
+  "version": "1.0",
+  "language": "es-MX",
+  "domain": "salud_citas_medicas",
+  "meta": {
+    "source": "LSM app (campo salud/citas)",
+    "license": "CC-BY (dataset base); verifica tus propios videos/íconos"
+  },
+  "ui_defaults": {
+    "media_base_paths": {
+      "video": "assets/lexicon/videos/",
+      "image": "assets/lexicon/images/"
+    },
+    "caption": {
+      "show": true,
+      "text_source": "es",
+      "position": "bottom_center",
+      "background": "rgba(0,0,0,0)",
+      "text_color": "#FFFFFF",
+      "font_size_sp": 16,
+      "font_weight": "600",
+      "border_radius": 8,
+      "padding_h": 12,
+      "padding_v": 6
+    },
+    "image_rule": {
+      "enabled": true,
+      "image_ext": ".png",
+      "letters": "A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z"
+    },
+    "video_naming": {
+      "body_part_term": "{key}.mp4",
+      "body_part_pain": "dolor_{key}.mp4"
+    }
+  },
+
+  "terms": [
+    { "key": "hola", "es": "hola", "en": "hello", "emoji": "👋", "gloss_lsm": "HOLA", "category": "saludo", "media": { "type": "video", "path": "assets/lexicon/videos/hola.mp4" }, "caption": { "text": "hola" } },
+    { "key": "buenos_dias", "es": "buenos días", "en": "good morning", "emoji": "🌞👋", "gloss_lsm": "SALUDO-MAÑANA", "category": "saludo", "media": { "type": "video", "path": "assets/lexicon/videos/buenos_dias.mp4" }, "caption": { "text": "buenos días" } },
+    { "key": "buenas_tardes", "es": "buenas tardes", "en": "good afternoon", "emoji": "🌤️👋", "gloss_lsm": "SALUDO-TARDE", "category": "saludo", "media": { "type": "video", "path": "assets/lexicon/videos/buenas_tardes.mp4" }, "caption": { "text": "buenas tardes" } },
+    { "key": "buenas_noches", "es": "buenas noches", "en": "good night", "emoji": "🌙👋", "gloss_lsm": "SALUDO-NOCHE", "category": "saludo", "media": { "type": "video", "path": "assets/lexicon/videos/buenas_noches.mp4" }, "caption": { "text": "buenas noches" } },
+    { "key": "como_estas", "es": "como estas", "en": "how are you", "emoji": "🙂❓", "gloss_lsm": "COMO-ESTAS", "category": "saludo", "media": { "type": "video", "path": "assets/lexicon/videos/como_estas.mp4" }, "caption": { "text": "como estas" } },
+    { "key": "si", "es": "sí", "en": "yes", "emoji": "👍", "gloss_lsm": "SI", "category": "respuesta", "media": { "type": "video", "path": "assets/lexicon/videos/si.mp4" }, "caption": { "text": "sí" } },
+    { "key": "no", "es": "no", "en": "no", "emoji": "🙅", "gloss_lsm": "NO", "category": "respuesta", "media": { "type": "video", "path": "assets/lexicon/videos/no.mp4" }, "caption": { "text": "no" } },
+    { "key": "por_favor", "es": "por favor", "en": "please", "emoji": "🤲🫶", "gloss_lsm": "POR-FAVOR", "category": "cortesía", "media": { "type": "video", "path": "assets/lexicon/videos/por_favor.mp4" }, "caption": { "text": "por favor" } },
+    { "key": "gracias", "es": "gracias", "en": "thank you", "emoji": "🙂➡️🤚", "gloss_lsm": "GRACIAS", "category": "cortesía", "media": { "type": "video", "path": "assets/lexicon/videos/gracias.mp4" }, "caption": { "text": "gracias" } },
+    { "key": "nombre", "es": "nombre", "en": "name", "emoji": "🏷️", "gloss_lsm": "NOMBRE", "category": "registro", "media": { "type": "video", "path": "assets/lexicon/videos/nombre.mp4" }, "caption": { "text": "nombre" } },
+    { "key": "apellido", "es": "apellido", "en": "last name", "emoji": "🧾", "gloss_lsm": "APELLIDO", "category": "registro", "media": { "type": "video", "path": "assets/lexicon/videos/apellido.mp4" }, "caption": { "text": "apellido" } },
+    { "key": "fecha_nacimiento", "es": "fecha de nacimiento", "en": "date of birth", "emoji": "📅👶", "gloss_lsm": "FECHA-NACER", "category": "registro", "media": { "type": "video", "path": "assets/lexicon/videos/fecha_nacimiento.mp4" }, "caption": { "text": "fecha de nacimiento" } },
+    { "key": "seguro_medico", "es": "seguro médico", "en": "health insurance", "emoji": "🪪🏥", "gloss_lsm": "SEGURO-MEDICO", "category": "registro", "media": { "type": "video", "path": "assets/lexicon/videos/seguro_medico.mp4" }, "caption": { "text": "seguro médico" } },
+    { "key": "curp", "es": "CURP", "en": "CURP", "emoji": "🆔", "gloss_lsm": "CURP", "category": "registro", "media": { "type": "video", "path": "assets/lexicon/videos/curp.mp4" }, "caption": { "text": "CURP" } },
+    { "key": "cita", "es": "cita", "en": "appointment", "emoji": "📅✅", "gloss_lsm": "CITA", "category": "agenda", "media": { "type": "video", "path": "assets/lexicon/videos/cita.mp4" }, "caption": { "text": "cita" } },
+    { "key": "fecha", "es": "fecha", "en": "date", "emoji": "📅", "gloss_lsm": "FECHA", "category": "agenda", "media": { "type": "video", "path": "assets/lexicon/videos/fecha.mp4" }, "caption": { "text": "fecha" } },
+    { "key": "hora", "es": "hora", "en": "time", "emoji": "⏰", "gloss_lsm": "HORA", "category": "agenda", "media": { "type": "video", "path": "assets/lexicon/videos/hora.mp4" }, "caption": { "text": "hora" } },
+    { "key": "espera", "es": "espera", "en": "wait", "emoji": "⏳", "gloss_lsm": "ESPERAR", "category": "flujo", "media": { "type": "video", "path": "assets/lexicon/videos/espera.mp4" }, "caption": { "text": "espera" } },
+    { "key": "pase", "es": "pase", "en": "come in", "emoji": "➡️🚪", "gloss_lsm": "PASAR", "category": "flujo", "media": { "type": "video", "path": "assets/lexicon/videos/pase.mp4" }, "caption": { "text": "pase" } },
+    { "key": "consultorio", "es": "consultorio", "en": "doctor's office", "emoji": "🚪🏥", "gloss_lsm": "CONSULTORIO", "category": "lugar", "media": { "type": "video", "path": "assets/lexicon/videos/consultorio.mp4" }, "caption": { "text": "consultorio" } },
+    { "key": "sala_espera", "es": "sala de espera", "en": "waiting room", "emoji": "🪑⏳", "gloss_lsm": "SALA-ESPERA", "category": "lugar", "media": { "type": "video", "path": "assets/lexicon/videos/sala_espera.mp4" }, "caption": { "text": "sala de espera" } },
+    { "key": "doctor", "es": "doctor/doctora", "en": "doctor", "emoji": "👨‍⚕️/👩‍⚕️", "gloss_lsm": "DOCTOR", "category": "personal", "media": { "type": "video", "path": "assets/lexicon/videos/doctor.mp4" }, "caption": { "text": "doctor/doctora" } },
+    { "key": "enfermera", "es": "enfermero/a", "en": "nurse", "emoji": "👩‍⚕️", "gloss_lsm": "ENFERMERA", "category": "personal", "media": { "type": "video", "path": "assets/lexicon/videos/enfermera.mp4" }, "caption": { "text": "enfermero/a" } },
+    { "key": "interprete", "es": "intérprete", "en": "interpreter", "emoji": "🗣️🤟", "gloss_lsm": "INTERPRETE", "category": "personal", "media": { "type": "video", "path": "assets/lexicon/videos/interprete.mp4" }, "caption": { "text": "intérprete" } },
+    { "key": "especialista", "es": "especialista", "en": "specialist", "emoji": "🎯👨‍⚕️", "gloss_lsm": "ESPECIALISTA", "category": "personal", "media": { "type": "video", "path": "assets/lexicon/videos/especialista.mp4" }, "caption": { "text": "especialista" } },
+    { "key": "consulta", "es": "consulta", "en": "consultation", "emoji": "🩺", "gloss_lsm": "CONSULTA", "category": "proceso", "media": { "type": "video", "path": "assets/lexicon/videos/consulta.mp4" }, "caption": { "text": "consulta" } },
+    { "key": "triage", "es": "triaje", "en": "triage", "emoji": "🚦🏥", "gloss_lsm": "CLASIFICAR-URGENCIA", "category": "proceso", "media": { "type": "video", "path": "assets/lexicon/videos/triage.mp4" }, "caption": { "text": "triaje" } },
+    { "key": "firma_consentimiento", "es": "firma de consentimiento", "en": "consent form", "emoji": "✍️📄", "gloss_lsm": "CONSENTIMIENTO-FIRMAR", "category": "proceso", "media": { "type": "video", "path": "assets/lexicon/videos/firma_consentimiento.mp4" }, "caption": { "text": "firma de consentimiento" } },
+    { "key": "receta", "es": "receta", "en": "prescription", "emoji": "📄💊", "gloss_lsm": "RECETA", "category": "tratamiento", "media": { "type": "video", "path": "assets/lexicon/videos/receta.mp4" }, "caption": { "text": "receta" } },
+    { "key": "medicamento", "es": "medicamento", "en": "medication", "emoji": "💊", "gloss_lsm": "MEDICINA", "category": "tratamiento", "media": { "type": "video", "path": "assets/lexicon/videos/medicamento.mp4" }, "caption": { "text": "medicamento" } },
+    { "key": "dosis", "es": "dosis", "en": "dosage", "emoji": "📏💊", "gloss_lsm": "DOSIS", "category": "tratamiento", "media": { "type": "video", "path": "assets/lexicon/videos/dosis.mp4" }, "caption": { "text": "dosis" } },
+    { "key": "inyeccion", "es": "inyección", "en": "injection", "emoji": "💉", "gloss_lsm": "INYECTAR", "category": "procedimiento", "media": { "type": "video", "path": "assets/lexicon/videos/inyeccion.mp4" }, "caption": { "text": "inyección" } },
+    { "key": "analisis", "es": "análisis", "en": "lab test", "emoji": "🧪", "gloss_lsm": "ANALISIS", "category": "procedimiento", "media": { "type": "video", "path": "assets/lexicon/videos/analisis.mp4" }, "caption": { "text": "análisis" } },
+    { "key": "sangre", "es": "sangre", "en": "blood", "emoji": "🩸", "gloss_lsm": "SANGRE", "category": "procedimiento", "media": { "type": "video", "path": "assets/lexicon/videos/sangre.mp4" }, "caption": { "text": "sangre" } },
+    { "key": "rayos_x", "es": "rayos X", "en": "x-ray", "emoji": "🦴📷", "gloss_lsm": "RAYOS-X", "category": "procedimiento", "media": { "type": "video", "path": "assets/lexicon/videos/rayos_x.mp4" }, "caption": { "text": "rayos X" } },
+    { "key": "ultrasonido", "es": "ultrasonido", "en": "ultrasound", "emoji": "📡👶", "gloss_lsm": "ULTRASONIDO", "category": "procedimiento", "media": { "type": "video", "path": "assets/lexicon/videos/ultrasonido.mp4" }, "caption": { "text": "ultrasonido" } },
+    { "key": "ayuno", "es": "ayuno", "en": "fasting", "emoji": "🚫🍽️", "gloss_lsm": "AYUNO", "category": "instruccion", "media": { "type": "video", "path": "assets/lexicon/videos/ayuno.mp4" }, "caption": { "text": "ayuno" } },
+    { "key": "dolor", "es": "dolor", "en": "pain", "emoji": "🤕", "gloss_lsm": "DOLOR", "category": "sintoma", "media": { "type": "video", "path": "assets/lexicon/videos/dolor.mp4" }, "caption": { "text": "dolor" } },
+    { "key": "fiebre", "es": "fiebre", "en": "fever", "emoji": "🌡️🔥", "gloss_lsm": "FIEBRE", "category": "sintoma", "media": { "type": "video", "path": "assets/lexicon/videos/fiebre.mp4" }, "caption": { "text": "fiebre" } },
+    { "key": "tos", "es": "tos", "en": "cough", "emoji": "🤧", "gloss_lsm": "TOSER", "category": "sintoma", "media": { "type": "video", "path": "assets/lexicon/videos/tos.mp4" }, "caption": { "text": "tos" } },
+    { "key": "gripe", "es": "gripa", "en": "flu", "emoji": "🤒", "gloss_lsm": "GRIPA", "category": "sintoma", "media": { "type": "video", "path": "assets/lexicon/videos/gripe.mp4" }, "caption": { "text": "gripa" } },
+    { "key": "nausea", "es": "náusea", "en": "nausea", "emoji": "🤢", "gloss_lsm": "NAUSEA", "category": "sintoma", "media": { "type": "video", "path": "assets/lexicon/videos/nausea.mp4" }, "caption": { "text": "náusea" } },
+    { "key": "vomito", "es": "vómito", "en": "vomiting", "emoji": "🤮", "gloss_lsm": "VOMITAR", "category": "sintoma", "media": { "type": "video", "path": "assets/lexicon/videos/vomito.mp4" }, "caption": { "text": "vómito" } },
+    { "key": "diarrea", "es": "diarrea", "en": "diarrhea", "emoji": "🚽", "gloss_lsm": "DIARREA", "category": "sintoma", "media": { "type": "video", "path": "assets/lexicon/videos/diarrea.mp4" }, "caption": { "text": "diarrea" } },
+    { "key": "mareo", "es": "mareo", "en": "dizziness", "emoji": "🌀", "gloss_lsm": "MAREO", "category": "sintoma", "media": { "type": "video", "path": "assets/lexicon/videos/mareo.mp4" }, "caption": { "text": "mareo" } },
+
+    { "key": "cabeza",   "es": "cabeza",   "en": "head",   "emoji": "🧠", "gloss_lsm": "CABEZA",   "category": "body_part", "media": { "type": "video", "path": "assets/lexicon/videos/cabeza.mp4" },   "caption": { "text": "cabeza" } },
+    { "key": "ojo",      "es": "ojo",      "en": "eye",    "emoji": "👁️", "gloss_lsm": "OJO",      "category": "body_part", "media": { "type": "video", "path": "assets/lexicon/videos/ojo.mp4" },      "caption": { "text": "ojo" } },
+    { "key": "oido",     "es": "oido",     "en": "ear",    "emoji": "👂", "gloss_lsm": "OIDO",     "category": "body_part", "media": { "type": "video", "path": "assets/lexicon/videos/oido.mp4" },     "caption": { "text": "oído" } },
+    { "key": "nariz",    "es": "nariz",    "en": "nose",   "emoji": "👃", "gloss_lsm": "NARIZ",    "category": "body_part", "media": { "type": "video", "path": "assets/lexicon/videos/nariz.mp4" },    "caption": { "text": "nariz" } },
+    { "key": "garganta", "es": "garganta", "en": "throat", "emoji": "🗣️", "gloss_lsm": "GARGANTA", "category": "body_part", "media": { "type": "video", "path": "assets/lexicon/videos/garganta.mp4" }, "caption": { "text": "garganta" } },
+    { "key": "boca",     "es": "boca",     "en": "mouth",  "emoji": "🫦", "gloss_lsm": "BOCA",     "category": "body_part", "media": { "type": "video", "path": "assets/lexicon/videos/boca.mp4" },     "caption": { "text": "boca" } },
+    { "key": "cuello",   "es": "cuello",   "en": "neck",   "emoji": "🧍", "gloss_lsm": "CUELLO",   "category": "body_part", "media": { "type": "video", "path": "assets/lexicon/videos/cuello.mp4" },   "caption": { "text": "cuello" } },
+    { "key": "pecho",    "es": "pecho",    "en": "chest",  "emoji": "🫁", "gloss_lsm": "PECHO",    "category": "body_part", "media": { "type": "video", "path": "assets/lexicon/videos/pecho.mp4" },    "caption": { "text": "pecho" } },
+    { "key": "espalda",  "es": "espalda",  "en": "back",   "emoji": "🦴", "gloss_lsm": "ESPALDA",  "category": "body_part", "media": { "type": "video", "path": "assets/lexicon/videos/espalda.mp4" },  "caption": { "text": "espalda" } },
+    { "key": "estomago", "es": "estomago", "en": "stomach","emoji": "🧍", "gloss_lsm": "ESTOMAGO", "category": "body_part", "media": { "type": "video", "path": "assets/lexicon/videos/estomago.mp4" }, "caption": { "text": "estómago" } },
+    { "key": "brazo",    "es": "brazo",    "en": "arm",    "emoji": "💪", "gloss_lsm": "BRAZO",    "category": "body_part", "media": { "type": "video", "path": "assets/lexicon/videos/brazo.mp4" },    "caption": { "text": "brazo" } },
+    { "key": "mano",     "es": "mano",     "en": "hand",   "emoji": "🖐️", "gloss_lsm": "MANO",     "category": "body_part", "media": { "type": "video", "path": "assets/lexicon/videos/mano.mp4" },     "caption": { "text": "mano" } },
+    { "key": "pierna",   "es": "pierna",   "en": "leg",    "emoji": "🦵", "gloss_lsm": "PIERNA",   "category": "body_part", "media": { "type": "video", "path": "assets/lexicon/videos/pierna.mp4" },   "caption": { "text": "pierna" } },
+    { "key": "pie",      "es": "pie",      "en": "foot",   "emoji": "🦶", "gloss_lsm": "PIE",      "category": "body_part", "media": { "type": "video", "path": "assets/lexicon/videos/pie.mp4" },      "caption": { "text": "pie" } },
+    { "key": "diente",   "es": "diente",   "en": "tooth",  "emoji": "🦷", "gloss_lsm": "DIENTE",   "category": "body_part", "media": { "type": "video", "path": "assets/lexicon/videos/diente.mp4" },   "caption": { "text": "diente" } },
+
+    
+    { "key": "dolor_cabeza",   "es": "me duele la cabeza",   "en": "my head hurts",      "emoji": "🤕🧠", "gloss_lsm": "DOLOR CABEZA",   "category": "symptom", "media": { "type": "video", "path": "assets/lexicon/videos/dolor_cabeza.mp4" },   "caption": { "text": "me duele la cabeza" } },
+    { "key": "dolor_ojo",      "es": "me duele el ojo",      "en": "my eye hurts",       "emoji": "🤕👁️", "gloss_lsm": "DOLOR OJO",      "category": "symptom", "media": { "type": "video", "path": "assets/lexicon/videos/dolor_ojo.mp4" },      "caption": { "text": "me duele el ojo" } },
+    { "key": "dolor_oido",     "es": "me duele el oido",     "en": "my ear hurts",       "emoji": "🤕👂", "gloss_lsm": "DOLOR OIDO",     "category": "symptom", "media": { "type": "video", "path": "assets/lexicon/videos/dolor_oido.mp4" },     "caption": { "text": "me duele el oído" } },
+    { "key": "dolor_nariz",    "es": "me duele la nariz",    "en": "my nose hurts",      "emoji": "🤕👃", "gloss_lsm": "DOLOR NARIZ",    "category": "symptom", "media": { "type": "video", "path": "assets/lexicon/videos/dolor_nariz.mp4" },    "caption": { "text": "me duele la nariz" } },
+    { "key": "dolor_garganta", "es": "me duele la garganta", "en": "my throat hurts",    "emoji": "🤕🗣️", "gloss_lsm": "DOLOR GARGANTA", "category": "symptom", "media": { "type": "video", "path": "assets/lexicon/videos/dolor_garganta.mp4" }, "caption": { "text": "me duele la garganta" } },
+    { "key": "dolor_boca",     "es": "me duele la boca",     "en": "my mouth hurts",     "emoji": "🤕🫦", "gloss_lsm": "DOLOR BOCA",     "category": "symptom", "media": { "type": "video", "path": "assets/lexicon/videos/dolor_boca.mp4" },     "caption": { "text": "me duele la boca" } },
+    { "key": "dolor_cuello",   "es": "me duele el cuello",   "en": "my neck hurts",      "emoji": "🤕🧍", "gloss_lsm": "DOLOR CUELLO",   "category": "symptom", "media": { "type": "video", "path": "assets/lexicon/videos/dolor_cuello.mp4" },   "caption": { "text": "me duele el cuello" } },
+    { "key": "dolor_pecho",    "es": "me duele el pecho",    "en": "my chest hurts",     "emoji": "🤕🫁", "gloss_lsm": "DOLOR PECHO",    "category": "symptom", "media": { "type": "video", "path": "assets/lexicon/videos/dolor_pecho.mp4" },    "caption": { "text": "me duele el pecho" } },
+    { "key": "dolor_espalda",  "es": "me duele la espalda",  "en": "my back hurts",      "emoji": "🤕🦴", "gloss_lsm": "DOLOR ESPALDA",  "category": "symptom", "media": { "type": "video", "path": "assets/lexicon/videos/dolor_espalda.mp4" },  "caption": { "text": "me duele la espalda" } },
+    { "key": "dolor_estomago", "es": "me duele el estomago", "en": "my stomach hurts",   "emoji": "🤕🧍", "gloss_lsm": "DOLOR ESTOMAGO", "category": "symptom", "media": { "type": "video", "path": "assets/lexicon/videos/dolor_estomago.mp4" }, "caption": { "text": "me duele el estómago" } },
+    { "key": "dolor_brazo",    "es": "me duele el brazo",    "en": "my arm hurts",       "emoji": "🤕💪", "gloss_lsm": "DOLOR BRAZO",    "category": "symptom", "media": { "type": "video", "path": "assets/lexicon/videos/dolor_brazo.mp4" },    "caption": { "text": "me duele el brazo" } },
+    { "key": "dolor_mano",     "es": "me duele la mano",     "en": "my hand hurts",      "emoji": "🤕🖐️", "gloss_lsm": "DOLOR MANO",     "category": "symptom", "media": { "type": "video", "path": "assets/lexicon/videos/dolor_mano.mp4" },     "caption": { "text": "me duele la mano" } },
+    { "key": "dolor_pierna",   "es": "me duele la pierna",   "en": "my leg hurts",       "emoji": "🤕🦵", "gloss_lsm": "DOLOR PIERNA",   "category": "symptom", "media": { "type": "video", "path": "assets/lexicon/videos/dolor_pierna.mp4" },   "caption": { "text": "me duele la pierna" } },
+    { "key": "dolor_pie",      "es": "me duele el pie",      "en": "my foot hurts",      "emoji": "🤕🦶", "gloss_lsm": "DOLOR PIE",      "category": "symptom", "media": { "type": "video", "path": "assets/lexicon/videos/dolor_pie.mp4" },      "caption": { "text": "me duele el pie" } },
+    { "key": "dolor_diente",   "es": "me duele el diente",   "en": "my tooth hurts",     "emoji": "🤕🦷", "gloss_lsm": "DOLOR DIENTE",   "category": "symptom", "media": { "type": "video", "path": "assets/lexicon/videos/dolor_diente.mp4" },   "caption": { "text": "me duele el diente" } }
+  ],
+
+  "templates": [
+    {
+      "key": "dolor_en_parte",
+      "es": "me duele {parte}",
+      "en": "I have pain in my {parte}",
+      "emoji": "🤕 + {parte_emoji}",
+      "gloss_lsm": "DOLOR {parte}",
+      "slots": { "parte": "body_part" }
+    },
+    {
+      "key": "escala_dolor",
+      "es": "dolor {numero}/10",
+      "en": "pain {numero}/10",
+      "emoji": "🤕 {numero}️⃣",
+      "gloss_lsm": "DOLOR NIVEL {numero}",
+      "slots": { "numero": "pain_scale" }
+    },
+    {
+      "key": "tienes_cita",
+      "es": "¿tienes cita?",
+      "en": "do you have an appointment?",
+      "emoji": "🫵📅❓",
+      "gloss_lsm": "TU CITA ¿SI?",
+      "slots": {}
+    },
+    {
+      "key": "alergico_a",
+      "es": "soy alérgico a {sustancia}",
+      "en": "I'm allergic to {sustancia}",
+      "emoji": "🤧🚫 {sustancia}",
+      "gloss_lsm": "YO ALERGIA {sustancia}",
+      "slots": { "sustancia": "allergen" }
+    },
+    {
+      "key": "programar_cita",
+      "es": "quiero programar cita el {fecha} a las {hora}",
+      "en": "I want to schedule an appointment on {fecha} at {hora}",
+      "emoji": "📅⏰✅",
+      "gloss_lsm": "QUIERO CITA FECHA {fecha} HORA {hora}",
+      "slots": { "fecha": "date", "hora": "time" }
+    },
+    {
+      "key": "toma_medicamento",
+      "es": "tomo {medicamento} {frecuencia}",
+      "en": "I take {medicamento} {frecuencia}",
+      "emoji": "💊🔁",
+      "gloss_lsm": "YO MEDICINA {medicamento} {frecuencia}",
+      "slots": { "medicamento": "medicine", "frecuencia": "dose_freq" }
+    }
+  ],
+
+  "slot_types": {
+    "body_part": [
+      { "key": "cabeza", "en": "head", "emoji": "🧠" },
+      { "key": "ojo", "en": "eye", "emoji": "👁️" },
+      { "key": "oido", "en": "ear", "emoji": "👂" },
+      { "key": "nariz", "en": "nose", "emoji": "👃" },
+      { "key": "garganta", "en": "throat", "emoji": "🗣️" },
+      { "key": "boca", "en": "mouth", "emoji": "🫦" },
+      { "key": "cuello", "en": "neck", "emoji": "🧍" },
+      { "key": "pecho", "en": "chest", "emoji": "🫁" },
+      { "key": "espalda", "en": "back", "emoji": "🦴" },
+      { "key": "estomago", "en": "stomach", "emoji": "🧍" },
+      { "key": "brazo", "en": "arm", "emoji": "💪" },
+      { "key": "mano", "en": "hand", "emoji": "🖐️" },
+      { "key": "pierna", "en": "leg", "emoji": "🦵" },
+      { "key": "pie", "en": "foot", "emoji": "🦶" },
+      { "key": "diente", "en": "tooth", "emoji": "🦷" }
+    ],
+    "pain_scale": [
+      { "key": "0" }, { "key": "1" }, { "key": "2" }, { "key": "3" }, { "key": "4" },
+      { "key": "5" }, { "key": "6" }, { "key": "7" }, { "key": "8" }, { "key": "9" }, { "key": "10" }
+    ],
+    "allergen": [
+      { "key": "penicilina" }, { "key": "ibuprofeno" }, { "key": "mariscos" }, { "key": "cacahuate" }, { "key": "lactosa" }
+    ],
+    "date": [{ "format": "YYYY-MM-DD" }],
+    "time": [{ "format": "HH:mm" }],
+    "medicine": [
+      { "key": "paracetamol" }, { "key": "ibuprofeno" }, { "key": "amoxicilina" }
+    ],
+    "dose_freq": [
+      { "key": "cada_8_horas", "es": "cada 8 horas", "en": "every 8 hours" },
+      { "key": "cada_12_horas", "es": "cada 12 horas", "en": "every 12 hours" },
+      { "key": "diario", "es": "diario", "en": "daily" },
+      { "key": "segun_necesidad", "es": "según necesidad", "en": "as needed" }
+    ]
+  },
+
+  "numeros": {
+    "0": "0️⃣", "1": "1️⃣", "2": "2️⃣", "3": "3️⃣", "4": "4️⃣",
+    "5": "5️⃣", "6": "6️⃣", "7": "7️⃣", "8": "8️⃣", "9": "9️⃣", "10": "🔟"
+  }
+}

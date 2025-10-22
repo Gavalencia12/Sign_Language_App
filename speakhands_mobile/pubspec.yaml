@@ -31,6 +31,7 @@ dependencies:
   intl: ^0.20.2
   flutter_gen: ^5.10.0
   permission_handler: ^12.0.1 # opcional, para pedir permisos explícitamente
+  video_player: ^2.9.2 # para reproducir videos de señas
 
 dev_dependencies:
   flutter_test:
@@ -45,6 +46,10 @@ flutter:
     - assets/model/sign_language_model.tflite
     - assets/fonts/
     - assets/model/hand_landmarker.task
+    - assets/lexicon/interpreter_function.json
+    - assets/lexicon/videos/
+    - assets/lexicon/images/
+
 
 # 👇 El bloque l10n VA FUERA del bloque flutter
 l10n:
