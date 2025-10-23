@@ -1,0 +1,4 @@
+Aquí debes colocar todos los archivos de video en formato .mp4 que usa la app. 
+Los nombres deben coincidir con los definidos en el JSON: términos directos como cabeza.mp4, ojo.mp4, etc., 
+y síntomas con dolor como dolor_cabeza.mp4, dolor_pierna.mp4, etc. Si cambias alguna ruta o nombre, 
+actualízalo en interpreter_function.json dentro del campo media.path del término correspondiente.

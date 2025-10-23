@@ -1,0 +1,4 @@
+Aquí se guardan las imágenes usadas por el alfabeto y otros recursos visuales en formato .png. 
+Para las letras, coloca archivos con el nombre en mayúsculas, por ejemplo: A.png, B.png, … Z.png. 
+Cualquier imagen adicional que se use en la app debe tener su ruta declarada en interpreter_function.json 
+(en media.path) para que el sistema la encuentre correctamente.

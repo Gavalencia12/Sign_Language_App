@@ -100,7 +100,7 @@
   "login_section": "El acceso",
   "change_account": "Cambiar cuenta",
   "log_out": "Cerrar sesión",
-  "hello": "Hola, ",
+  "hello": "Hola",
 
   "home_welcome_with_name": "Hola {nombre}. Bienvenido a la pantalla principal.",
   "@home_welcome_with_name": {
