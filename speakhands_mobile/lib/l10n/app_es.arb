@@ -114,4 +114,30 @@
   "learn_info": "Esta es la sección para aprender lengua de señas.",
 
   "profile_edit_intro": "Estás en la pantalla para editar tu perfil. Aquí puedes cambiar tu información personal."
+
+  
+  "privacy_policy_title": "Política de Privacidad",
+  "effective_date": "25 de Mayo de 2025",
+  "section_1_title": "1. Información que recopilamos",
+  "section_1_content": "Para traducir señas, la aplicación necesita acceso a la cámara de tu dispositivo. SpeakHands no almacena ni transmite imágenes, videos o datos personales capturados por la cámara sin tu consentimiento explícito. Datos no identificables sobre el uso de la aplicación (errores, rendimiento, estadísticas de uso).",
+  
+  "section_2_title": "2. Uso de la información",
+  "section_2_content": "La información se utiliza únicamente para:\n- Reconocer gestos y traducirlos.\n- Mejorar el rendimiento de la app.\n- Corregir errores o fallos.",
+
+  "section_3_title": "3. Compartición de información",
+  "section_3_content": "SpeakHands no comparte ni vende datos personales a terceros. No se suben imágenes o datos del usuario a servidores externos.",
+
+  "section_4_title": "4. Permisos",
+  "section_4_content": "La aplicación solicita permisos únicamente para usar la cámara, necesarios para el funcionamiento básico. Puedes revocar estos permisos en cualquier momento desde la configuración de tu dispositivo.",
+
+  "section_5_title": "5. Menores de Edad",
+  "section_5_content": "La aplicación no está diseñada para ser utilizada por menores de 13 años sin el consentimiento de un adulto responsable.",
+
+  "section_6_title": "6. Seguridad",
+  "section_6_content": "Utilizamos medidas técnicas y organizativas para proteger tu información contra accesos no autorizados, alteraciones o pérdidas.",
+
+  "section_7_title": "7. Derechos del usuario",
+  "section_7_content": "Puedes:\n- Solicitar la eliminación de tus datos en cualquier momento.\n- Acceder a esta política desde la aplicación.\n- Contactarnos para dudas o reclamos a [languageappsign@gmail.com](mailto:languageappsign@gmail.com)."
+
+
 }

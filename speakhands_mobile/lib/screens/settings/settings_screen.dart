@@ -9,6 +9,9 @@ import  'package:speakhands_mobile/models/user_model.dart';
 import 'package:speakhands_mobile/l10n/app_localizations.dart';
 import 'package:speakhands_mobile/widgets/bottom_nav_bar.dart';
 import 'package:speakhands_mobile/providers/locale_provider.dart';
+import 'TermsAndConditionsScreen.dart';
+import 'PrivacyPolicyScreen.dart';
+import 'HelpScreen.dart';
 
 class SettingsScreen extends StatefulWidget {
 
@@ -107,6 +110,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         leading: Icon(Icons.security, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
                         title: Text(AppLocalizations.of(context)!.privacy_policy, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => PrivacyPolicyScreen()), // Navigation to PrivacyPolicyScreen
+                          );
                           // Action to "Privacy Policy"
                         },
                       ),
@@ -197,6 +204,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         leading: Icon(Icons.library_books, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
                         title: Text(AppLocalizations.of(context)!.terms_and_conditions, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => TermsAndConditionsScreen()), // Navigation to TermsAndConditionsScreen
+                          );
                           // Action to "terms and conditions"
                         },
                       ),
@@ -205,6 +216,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         leading: Icon(Icons.help, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
                         title: Text(AppLocalizations.of(context)!.help, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
                         onTap: () {
+                           Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => HelpScreen()), // Navigation to HelpScreen
+                          );
                           // Action to "help"
                         },
                       ),
