@@ -1,0 +1,34 @@
+{
+  "title": "Política de Privacidad",
+  "effective_date": "25 de Mayo de 2025",
+  "content": [
+    {
+      "section_title": "1. Información que recopilamos",
+      "section_content": "Para traducir señas, la aplicación necesita acceso a la cámara de tu dispositivo. SpeakHands no almacena ni transmite imágenes, videos o datos personales capturados por la cámara sin tu consentimiento explícito. Datos no identificables sobre el uso de la aplicación (errores, rendimiento, estadísticas de uso)."
+    },
+    {
+      "section_title": "2. Uso de la información",
+      "section_content": "La información se utiliza únicamente para:\n- Reconocer gestos y traducirlos.\n- Mejorar el rendimiento de la app.\n- Corregir errores o fallos."
+    },
+    {
+      "section_title": "3. Compartición de información",
+      "section_content": "SpeakHands no comparte ni vende datos personales a terceros. No se suben imágenes o datos del usuario a servidores externos."
+    },
+    {
+      "section_title": "4. Permisos",
+      "section_content": "La aplicación solicita permisos únicamente para usar la cámara, necesarios para el funcionamiento básico. Puedes revocar estos permisos en cualquier momento desde la configuración de tu dispositivo."
+    },
+    {
+      "section_title": "5. Menores de Edad",
+      "section_content": "La aplicación no está diseñada para ser utilizada por menores de 13 años sin el consentimiento de un adulto responsable."
+    },
+    {
+      "section_title": "6. Seguridad",
+      "section_content": "Utilizamos medidas técnicas y organizativas para proteger tu información contra accesos no autorizados, alteraciones o pérdidas."
+    },
+    {
+      "section_title": "7. Derechos del usuario",
+      "section_content": "Puedes:\n-Solicitar la eliminación de tus datos en cualquier momento.\n-Acceder a esta política desde la aplicación.\n-Contactarnos para dudas o reclamos a: languageappsign@gmail.com"
+    }
+  ]
+}
