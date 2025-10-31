@@ -1,0 +1,1 @@
+// Funciones para contraste, voz, etc.

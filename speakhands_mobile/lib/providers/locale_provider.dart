@@ -5,8 +5,10 @@ class LocaleProvider extends ChangeNotifier {
   static const String prefKey = 'selectedLocale';
 
   Locale _locale = const Locale('es'); // idioma por defecto
+  bool _isLoaded = false;
 
   Locale get locale => _locale;
+  bool get isLoaded => _isLoaded;
 
   LocaleProvider() {
     _loadLocale();
@@ -16,14 +18,20 @@ class LocaleProvider extends ChangeNotifier {
   Future<void> _loadLocale() async {
     final prefs = await SharedPreferences.getInstance();
     final localeCode = prefs.getString(prefKey);
-    if (localeCode != null && L10n.all.any((l) => l.languageCode == localeCode)) {
+
+    if (localeCode != null &&
+        L10n.all.any((l) => l.languageCode == localeCode)) {
       _locale = Locale(localeCode);
-      notifyListeners();
     }
+
+    _isLoaded = true;
+    // 🔹 Importante: notificar después de cargar
+    notifyListeners();
   }
 
   // Cambiar idioma y guardar en SharedPreferences
   Future<void> setLocale(Locale locale) async {
+    // 🔹 Compara correctamente por languageCode
     if (!L10n.all.contains(locale)) return;
 
     _locale = locale;
@@ -33,6 +41,7 @@ class LocaleProvider extends ChangeNotifier {
     await prefs.setString(prefKey, locale.languageCode);
   }
 
+  /// Restablece el idioma por defecto
   Future<void> clearLocale() async {
     _locale = const Locale('es');
     notifyListeners();
@@ -43,10 +52,7 @@ class LocaleProvider extends ChangeNotifier {
 }
 
 class L10n {
-  static final all = [
-    const Locale('en'),
-    const Locale('es'),
-  ];
+  static final all = [const Locale('en'), const Locale('es')];
 
   static String getLanguageName(String code) {
     switch (code) {

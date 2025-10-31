@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:speakhands_mobile/screens/interpreter_screen.dart';
+import 'package:speakhands_mobile/screens/interpreter/interpreter_screen.dart';
 import 'package:speakhands_mobile/screens/settings/settings_screen.dart';
-import 'package:speakhands_mobile/screens/translator_screen.dart';
+import 'package:speakhands_mobile/screens/translator/translator_screen.dart';
 import 'package:speakhands_mobile/service/auth_service.dart';
 import 'package:speakhands_mobile/theme/theme.dart';
 
@@ -22,7 +22,7 @@ class _MainNavigationState extends State<MainNavigation> {
   final List<Widget> screens = [
     const InterpreterScreen(),
     const TranslatorScreen(),
-    SettingsScreen(),
+    const SettingsScreen(),
   ];
 
   // Método para cambiar la pestaña activamente

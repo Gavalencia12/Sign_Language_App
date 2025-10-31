@@ -5,7 +5,7 @@ import 'package:speakhands_mobile/providers/theme_provider.dart';
 import 'package:speakhands_mobile/theme/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart'; // Firebase Authentication
 import 'package:firebase_database/firebase_database.dart';
-import  'package:speakhands_mobile/models/user_model.dart';
+import 'package:speakhands_mobile/models/user_model.dart';
 import 'package:speakhands_mobile/l10n/app_localizations.dart';
 import 'package:speakhands_mobile/widgets/bottom_nav_bar.dart';
 import 'package:speakhands_mobile/providers/locale_provider.dart';
@@ -14,15 +14,14 @@ import 'PrivacyPolicyScreen.dart';
 import 'HelpScreen.dart';
 
 class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({super.key});
 
-  SettingsScreen({super.key});
-  
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  final AuthService _authService = AuthService();
+  /* final AuthService _authService = AuthService(); */
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final DatabaseReference _dbRef = FirebaseDatabase.instance.ref();
 
@@ -45,112 +44,188 @@ class _SettingsScreenState extends State<SettingsScreen> {
       }
     }
   }
-  void _signOut(BuildContext context) async {
+
+  /*   void _signOut(BuildContext context) async {
     await _authService.signOut();
     // Clear all previous screens and navigate to Home
-    Navigator.pushNamedAndRemoveUntil(context, '/', (Route<dynamic> route) => false); 
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      '/',
+      (Route<dynamic> route) => false,
+    );
+  } */
+
+  void _showLanguageDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        final localeProvider = Provider.of<LocaleProvider>(
+          context,
+          listen: false,
+        );
+        final currentCode = localeProvider.locale.languageCode;
+
+        return AlertDialog(
+          title: const Text("Selecciona un idioma"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              RadioListTile<String>(
+                title: const Text("Español"),
+                value: 'es',
+                groupValue: currentCode,
+                onChanged: (value) {
+                  localeProvider.setLocale(const Locale('es'));
+                  Navigator.pop(context);
+                },
+              ),
+              RadioListTile<String>(
+                title: const Text("English"),
+                value: 'en',
+                groupValue: currentCode,
+                onChanged: (value) {
+                  localeProvider.setLocale(const Locale('en'));
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
-    final backgroundColor = themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground;
-    final textColor = themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A); 
+    final theme = Theme.of(context);
+final backgroundColor = theme.colorScheme.background;
+final textColor = theme.colorScheme.onBackground;
+final cardColor = theme.cardColor;
 
     return Scaffold(
+      backgroundColor: backgroundColor, // 👈 ahora el fondo se define
       appBar: AppBar(
+        backgroundColor: backgroundColor,
+        elevation: 0,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("SETTINGS", style: TextStyle(color: textColor, fontWeight: FontWeight.bold)),
+            Text(
+              "SETTINGS",
+              style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
+            ),
             Row(
-              mainAxisSize: MainAxisSize.min, // The space between the two SpeakHands texts
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text("Speak", style: TextStyle(color: textColor, fontWeight: FontWeight.bold)),
-                Text("Hands", style: TextStyle(color: Colors.teal, fontWeight: FontWeight.bold)),
+                Text(
+                  "Speak",
+                  style: TextStyle(
+                    color: textColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  "Hands",
+                  style: TextStyle(
+                    color: Colors.teal,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ],
             ),
           ],
         ),
-        backgroundColor: backgroundColor,
-        automaticallyImplyLeading: false, // Disables the automatic behavior of the back button
+        automaticallyImplyLeading: false,
       ),
       body: Stack(
         children: [
-          // The body with scrollable content
+          // Scroll principal
           SingleChildScrollView(
             child: Column(
               children: [
-                const SizedBox(height: 60), // Space so that the content is not covered by the box
-                // First Card
+                const SizedBox(height: 70),
+
+                // 🔹 Sección 1 — Cuenta
                 Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-                  color: themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground,
-                  child: Row(
-                    children:[
-                      Text(
-                        AppLocalizations.of(context)!.account_section,
-                        style: TextStyle(
-                          color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A),
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+                  alignment: Alignment.centerLeft,
+                  margin: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Text(
+                    AppLocalizations.of(context)!.account_section,
+                    style: TextStyle(
+                      color: textColor,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                  color: themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                    ListTile(
-                        leading: Icon(Icons.security, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text(AppLocalizations.of(context)!.privacy_policy, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => PrivacyPolicyScreen()), // Navigation to PrivacyPolicyScreen
-                          );
-                          // Action to "Privacy Policy"
-                        },
-                      ),
-                    ],
+                  elevation: 2,
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 10,
                   ),
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-                  color: themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground,
-                  child: Row(
-                    children:[
-                      Text(
-                        AppLocalizations.of(context)!.accessibility_section,
-                        style: TextStyle(
-                          color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A),
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
+                  color: cardColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: ListTile(
+                    leading: Icon(Icons.security, color: textColor),
+                    title: Text(
+                      AppLocalizations.of(context)!.privacy_policy,
+                      style: TextStyle(color: textColor),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PrivacyPolicyScreen(),
                         ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
                 ),
-                // Second Card
+
+                // 🔹 Sección 2 — Accesibilidad
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Text(
+                    AppLocalizations.of(context)!.accessibility_section,
+                    style: TextStyle(
+                      color: textColor,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
                 Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),color: themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  elevation: 2,
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 10,
+                  ),
+                  color: cardColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   child: Column(
                     children: [
                       ListTile(
-                        leading: Icon(Icons.g_translate, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text(AppLocalizations.of(context)!.language, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
-                        onTap: () => LanguageSwitcher.showLanguageDialog(context),
-                        trailing: Builder(
-                          builder: (context) {
-                            final localeProvider = Provider.of<LocaleProvider>(context);
+                        leading: Icon(Icons.g_translate, color: textColor),
+                        title: Text(
+                          AppLocalizations.of(context)!.language,
+                          style: TextStyle(color: textColor),
+                        ),
+                        onTap: () => _showLanguageDialog(context),
+
+                        trailing: Consumer<LocaleProvider>(
+                          builder: (context, localeProvider, _) {
                             return Image.asset(
-                              localeProvider.locale.languageCode == 'es' ? 'assets/images/mexico.png' : 'assets/images/usa.png',
+                              localeProvider.locale.languageCode == 'es'
+                                  ? 'assets/images/mexico.png'
+                                  : 'assets/images/usa.png',
                               height: 24,
                               width: 36,
                               fit: BoxFit.cover,
@@ -158,111 +233,232 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           },
                         ),
                       ),
-
-                      Divider(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
+                      Divider(color: textColor.withOpacity(0.3)),
                       ListTile(
-                        leading: Icon(Icons.color_lens, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text(AppLocalizations.of(context)!.color, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
-                        onTap: () {
-                          themeProvider.toggleTheme(!themeProvider.isDarkMode);
-                        },
+                        leading: Icon(Icons.color_lens, color: textColor),
+                        title: Text(
+                          AppLocalizations.of(context)!.color,
+                          style: TextStyle(color: textColor),
+                        ),
+                        onTap:
+                            () => themeProvider.toggleTheme(
+                              !themeProvider.isDarkMode,
+                            ),
                       ),
-                      Divider(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
+                      Divider(color: textColor.withOpacity(0.3)),
                       ListTile(
-                        leading: Icon(Icons.accessibility_new, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text(AppLocalizations.of(context)!.accessibility, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
-                        onTap: () {
-                          // Action to "accessibility"
+                        leading: Icon(
+                          Icons.accessibility_new,
+                          color: textColor,
+                        ),
+                        title: Text(
+                          AppLocalizations.of(context)!.accessibility,
+                          style: TextStyle(color: textColor),
+                        ),
+                        onTap: () {},
+                      ),
+                      Divider(color: textColor.withOpacity(0.3)),
+                      Consumer<ThemeProvider>(
+                        builder: (context, themeProvider, _) {
+                          String subtitleText;
+                          switch (themeProvider.themeMode) {
+                            case ThemeMode.light:
+                              subtitleText = 'Tema actual: Claro';
+                              break;
+                            case ThemeMode.dark:
+                              subtitleText = 'Tema actual: Oscuro';
+                              break;
+                            default:
+                              subtitleText = 'Tema actual: Sistema';
+                          }
+
+                          return ListTile(
+                            leading: const Icon(Icons.brightness_6_rounded),
+                            title: const Text('Apariencia'),
+                            subtitle: Text(subtitleText),
+                            onTap: () => ThemeSelectorModal.show(context),
+                          );
                         },
                       ),
                     ],
                   ),
                 ),
+
+                // 🔹 Sección 3 — Ayuda e Información
                 Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-                  color: themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground,
-                  child: Row(
-                    children:[
-                      Text(
-                        AppLocalizations.of(context)!.help_information_section,
-                        style: TextStyle(
-                          color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A),
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+                  alignment: Alignment.centerLeft,
+                  margin: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Text(
+                    AppLocalizations.of(context)!.help_information_section,
+                    style: TextStyle(
+                      color: textColor,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                  color: themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  elevation: 2,
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 10,
+                  ),
+                  color: cardColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   child: Column(
                     children: [
                       ListTile(
-                        leading: Icon(Icons.library_books, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text(AppLocalizations.of(context)!.terms_and_conditions, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
+                        leading: Icon(Icons.library_books, color: textColor),
+                        title: Text(
+                          AppLocalizations.of(context)!.terms_and_conditions,
+                          style: TextStyle(color: textColor),
+                        ),
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => TermsAndConditionsScreen()), // Navigation to TermsAndConditionsScreen
+                            MaterialPageRoute(
+                              builder: (context) => TermsAndConditionsScreen(),
+                            ),
                           );
-                          // Action to "terms and conditions"
                         },
                       ),
-                      Divider(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
+                      Divider(color: textColor.withOpacity(0.3)),
                       ListTile(
-                        leading: Icon(Icons.help, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text(AppLocalizations.of(context)!.help, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
+                        leading: Icon(Icons.help, color: textColor),
+                        title: Text(
+                          AppLocalizations.of(context)!.help,
+                          style: TextStyle(color: textColor),
+                        ),
                         onTap: () {
-                           Navigator.push(
+                          Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => HelpScreen()), // Navigation to HelpScreen
+                            MaterialPageRoute(
+                              builder: (context) => HelpScreen(),
+                            ),
                           );
-                          // Action to "help"
                         },
                       ),
-                      Divider(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
+                      Divider(color: textColor.withOpacity(0.3)),
                       ListTile(
-                        leading: Icon(Icons.assignment, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text(AppLocalizations.of(context)!.qualife, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
-                        onTap: () {
-                          // Action to "qualife"
-                        },
+                        leading: Icon(Icons.assignment, color: textColor),
+                        title: Text(
+                          AppLocalizations.of(context)!.qualife,
+                          style: TextStyle(color: textColor),
+                        ),
+                        onTap: () {},
                       ),
                     ],
                   ),
                 ),
+                const SizedBox(height: 40),
               ],
             ),
           ),
 
-          // The painting that stays fixed
+          // 🔹 Cabecera fija mejorada
           Positioned(
-            top: 0, // Adjust the position so that it is below the AppBar
+            top: 0,
             left: 0,
             right: 0,
-            child: Material(
-              color: themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground,
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Text(AppLocalizations.of(context)!.hello, style: TextStyle(color: textColor, fontSize: 20, fontWeight: FontWeight.bold),),
-                      
-                      ],
-                    ),
-                  ],
+            child: Container(
+              height: 50,
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              decoration: BoxDecoration(
+                color:
+                    themeProvider.isDarkMode
+                        ? Colors.black.withOpacity(0.6)
+                        : Colors.white.withOpacity(0.9),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 6,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Text(
+                AppLocalizations.of(context)!.hello,
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class ThemeSelectorModal {
+  static void show(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(26)),
+      ),
+      builder: (context) {
+        final themeMode = themeProvider.themeMode;
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 40,
+                height: 5,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.outline.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Seleccionar tema',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 10),
+              RadioListTile<ThemeMode>(
+                title: const Text('Claro'),
+                value: ThemeMode.light,
+                groupValue: themeMode,
+                onChanged: (mode) {
+                  themeProvider.setThemeMode(mode!);
+                  Navigator.pop(context);
+                },
+              ),
+              RadioListTile<ThemeMode>(
+                title: const Text('Oscuro'),
+                value: ThemeMode.dark,
+                groupValue: themeMode,
+                onChanged: (mode) {
+                  themeProvider.setThemeMode(mode!);
+                  Navigator.pop(context);
+                },
+              ),
+              RadioListTile<ThemeMode>(
+                title: const Text('Predeterminado del sistema'),
+                value: ThemeMode.system,
+                groupValue: themeMode,
+                onChanged: (mode) {
+                  themeProvider.setThemeMode(mode!);
+                  Navigator.pop(context);
+                },
+              ),
+              const SizedBox(height: 10),
+            ],
+          ),
+        );
+      },
     );
   }
 }

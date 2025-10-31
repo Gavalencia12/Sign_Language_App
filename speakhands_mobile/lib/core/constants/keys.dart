@@ -1,0 +1,1 @@
+// Claves globales (p.ej. SharedPreferences, API keys)
