@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:speakhands_mobile/theme/app_colors.dart';
 import 'package:speakhands_mobile/theme/theme.dart';
 
 class TextFields extends StatefulWidget {
@@ -35,7 +36,7 @@ class _TextFieldsState extends State<TextFields> {
         ),
         focusedBorder: OutlineInputBorder( //erespd
         borderRadius: BorderRadius.circular(15),
-        borderSide: BorderSide(color: AppTheme.lightPrimary, width: 2),
+        borderSide: BorderSide(color: AppColors.lightPrimary, width: 2),
     ),
       suffixIcon: widget.showVisibilityToggle
             ? IconButton(

@@ -3,6 +3,7 @@ import 'package:speakhands_mobile/screens/interpreter/interpreter_screen.dart';
 import 'package:speakhands_mobile/screens/settings/settings_screen.dart';
 import 'package:speakhands_mobile/screens/translator/translator_screen.dart';
 import 'package:speakhands_mobile/service/auth_service.dart';
+import 'package:speakhands_mobile/theme/app_colors.dart';
 import 'package:speakhands_mobile/theme/theme.dart';
 
 class MainNavigation extends StatefulWidget {
@@ -41,8 +42,8 @@ class _MainNavigationState extends State<MainNavigation> {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final backgroundColor = isDarkMode ? AppTheme.darkAccent : AppTheme.lightPrimary;
-    final iconColor = isDarkMode ? AppTheme.lightBackground : AppTheme.lightBackground;
+    final backgroundColor = isDarkMode ? AppColors.darkAccent : AppColors.lightPrimary;
+    final iconColor = isDarkMode ? AppColors.lightBackground : AppColors.lightBackground;
 
     return Scaffold(
       body: screens[_currentIndex],

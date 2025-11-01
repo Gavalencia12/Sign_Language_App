@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
+import 'package:speakhands_mobile/theme/app_colors.dart';
 import 'package:video_player/video_player.dart';
 import 'package:speakhands_mobile/widgets/custom_app_bar.dart';
 import 'package:speakhands_mobile/providers/speech_provider.dart';
@@ -331,14 +332,9 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
   ) {
     final theme = Theme.of(context);
 
-    // Text color according to current theme
-    final Color baseTextColor =
-        theme.textTheme.bodyLarge?.color ??
-        (theme.brightness == Brightness.dark ? Colors.white : Colors.black87);
-
     // Background according to theme
     final isDark = themeProvider.isDarkMode;
-    final bg = isDark ? AppTheme.darkSecondary : AppTheme.lightSecondary;
+    final bg = isDark ? AppColors.darkSecondary : AppColors.lightSecondary;
 
     return Container(
       decoration: BoxDecoration(

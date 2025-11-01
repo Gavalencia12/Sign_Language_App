@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:speakhands_mobile/providers/theme_provider.dart';
+import 'package:speakhands_mobile/theme/app_colors.dart';
 import 'package:speakhands_mobile/theme/theme.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -12,8 +13,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final backgroundColor = themeProvider.isDarkMode
-        ? AppTheme.darkBackground
-        : AppTheme.lightBackground;
+        ? AppColors.darkBackground
+        : AppColors.lightBackground;
 
     final textColor = themeProvider.isDarkMode
         ? Colors.white

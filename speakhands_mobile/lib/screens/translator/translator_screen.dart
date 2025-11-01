@@ -1,6 +1,7 @@
 import 'dart:async'; // Import necesario para Timer
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:speakhands_mobile/theme/app_colors.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:camera/camera.dart';
 import 'package:provider/provider.dart';
@@ -311,7 +312,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
         width: double.infinity,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: themeProvider.isDarkMode ? AppTheme.darkSecondary : AppTheme.lightSecondary,
+          color: themeProvider.isDarkMode ? AppColors.darkSecondary : AppColors.lightSecondary,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Text(
