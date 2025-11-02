@@ -5,8 +5,8 @@ class AppColors {
   static const lightPrimary = Color(0xFF44CBCC);
   static const lightSecondary = Color(0xFFAEC6CF);
   static const lightAccent = Color(0xFFA0E7E5);
-  static const lightBackground = Color(0xFFEFF3FF);
-  static const lightForebackground = Color.fromARGB(255, 246, 247, 255);
+  static const lightBackground = Color(0xFFE3E7FF);
+  static const lightForebackground = Color(0xFFEDF0FF);
 
   // Colores para el tema oscuro
   static const darkPrimary = Color(0xFF5C8DAD);

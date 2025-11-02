@@ -3,10 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:speakhands_mobile/providers/theme_provider.dart';
 import 'package:speakhands_mobile/l10n/app_localizations.dart';
 import 'package:speakhands_mobile/widgets/custom_app_bar.dart';
-import 'TermsAndConditionsScreen.dart';
-import 'PrivacyPolicyScreen.dart';
-import 'HelpScreen.dart';
-import 'package:speakhands_mobile/theme/app_colors.dart';
+import 'pages/terms_and_conditions_screen.dart';
+import 'pages/privacy_policy_screen.dart';
+import 'pages/help_screen.dart';
 
 // 🔹 Imports de los widgets locales
 import 'widgets/section_title.dart';
@@ -117,7 +116,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       onTap:
                           () => Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (_) => HelpScreen()),
+                            MaterialPageRoute(builder: (_) => const HelpScreen()),
                           ),
                     ),
                   ],
