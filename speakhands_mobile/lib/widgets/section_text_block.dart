@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../../../theme/text_styles.dart';
+import '../theme/text_styles.dart';
 
-class PrivacySection extends StatelessWidget {
+class SectionTextBlock extends StatelessWidget {
   final String title;
   final String content;
 
-  const PrivacySection({
+  const SectionTextBlock({
     super.key,
     required this.title,
     required this.content,
