@@ -113,10 +113,10 @@
   "translate_info": "Aquí puedes traducir tus señas.",
   "learn_info": "Esta es la sección para aprender lengua de señas.",
 
-  "profile_edit_intro": "Estás en la pantalla para editar tu perfil. Aquí puedes cambiar tu información personal."
+  "profile_edit_intro": "Estás en la pantalla para editar tu perfil. Aquí puedes cambiar tu información personal.",
 
-  
   "privacy_policy_title": "Política de Privacidad",
+  "error_loading_data": "Error al cargar los datos. Inténtalo nuevamente.",
   "effective_date": "25 de Mayo de 2025",
   "section_1_title": "1. Información que recopilamos",
   "section_1_content": "Para traducir señas, la aplicación necesita acceso a la cámara de tu dispositivo. SpeakHands no almacena ni transmite imágenes, videos o datos personales capturados por la cámara sin tu consentimiento explícito. Datos no identificables sobre el uso de la aplicación (errores, rendimiento, estadísticas de uso).",
@@ -138,6 +138,5 @@
 
   "section_7_title": "7. Derechos del usuario",
   "section_7_content": "Puedes:\n- Solicitar la eliminación de tus datos en cualquier momento.\n- Acceder a esta política desde la aplicación.\n- Contactarnos para dudas o reclamos a [languageappsign@gmail.com](mailto:languageappsign@gmail.com)."
-
 
 }

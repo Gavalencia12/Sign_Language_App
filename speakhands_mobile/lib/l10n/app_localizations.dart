@@ -602,7 +602,7 @@ abstract class AppLocalizations {
   /// No description provided for @hello.
   ///
   /// In en, this message translates to:
-  /// **'Hello, '**
+  /// **'Hello'**
   String get hello;
 
   /// No description provided for @home_welcome_with_name.
@@ -634,6 +634,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You are in the screen to edit your profile. Here you can change your personal information.'**
   String get profile_edit_intro;
+
+  /// No description provided for @privacy_policy_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacy_policy_title;
+
+  /// No description provided for @error_loading_data.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading data. Please try again.'**
+  String get error_loading_data;
+
+  /// No description provided for @effective_date.
+  ///
+  /// In en, this message translates to:
+  /// **'May 25, 2025'**
+  String get effective_date;
+
+  /// No description provided for @section_1_title.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Information We Collect'**
+  String get section_1_title;
+
+  /// No description provided for @section_1_content.
+  ///
+  /// In en, this message translates to:
+  /// **'To translate signs, the app needs access to your device\'s camera. SpeakHands does not store or transmit images, videos, or personal data captured by the camera without your explicit consent. Non-identifiable data about app usage (errors, performance, usage statistics).'**
+  String get section_1_content;
+
+  /// No description provided for @section_2_title.
+  ///
+  /// In en, this message translates to:
+  /// **'2. Use of Information'**
+  String get section_2_title;
+
+  /// No description provided for @section_2_content.
+  ///
+  /// In en, this message translates to:
+  /// **'The information is used solely to:\n- Recognize gestures and translate them.\n- Improve app performance.\n- Fix bugs or errors.'**
+  String get section_2_content;
+
+  /// No description provided for @section_3_title.
+  ///
+  /// In en, this message translates to:
+  /// **'3. Sharing of Information'**
+  String get section_3_title;
+
+  /// No description provided for @section_3_content.
+  ///
+  /// In en, this message translates to:
+  /// **'SpeakHands does not share or sell personal data to third parties. No images or user data are uploaded to external servers.'**
+  String get section_3_content;
+
+  /// No description provided for @section_4_title.
+  ///
+  /// In en, this message translates to:
+  /// **'4. Permissions'**
+  String get section_4_title;
+
+  /// No description provided for @section_4_content.
+  ///
+  /// In en, this message translates to:
+  /// **'The app requests permissions only to use the camera, necessary for basic functionality. You can revoke these permissions at any time from your device settings.'**
+  String get section_4_content;
+
+  /// No description provided for @section_5_title.
+  ///
+  /// In en, this message translates to:
+  /// **'5. Minors'**
+  String get section_5_title;
+
+  /// No description provided for @section_5_content.
+  ///
+  /// In en, this message translates to:
+  /// **'The app is not intended for use by minors under the age of 13 without the consent of a responsible adult.'**
+  String get section_5_content;
+
+  /// No description provided for @section_6_title.
+  ///
+  /// In en, this message translates to:
+  /// **'6. Security'**
+  String get section_6_title;
+
+  /// No description provided for @section_6_content.
+  ///
+  /// In en, this message translates to:
+  /// **'We use technical and organizational measures to protect your information from unauthorized access, alteration, or loss.'**
+  String get section_6_content;
+
+  /// No description provided for @section_7_title.
+  ///
+  /// In en, this message translates to:
+  /// **'7. User Rights'**
+  String get section_7_title;
+
+  /// No description provided for @section_7_content.
+  ///
+  /// In en, this message translates to:
+  /// **'You can:\n- Request the deletion of your data at any time.\n- Access this policy from the app.\n- Contact us for questions or complaints at [languageappsign@gmail.com](mailto:languageappsign@gmail.com).'**
+  String get section_7_content;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
