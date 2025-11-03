@@ -1,57 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:speakhands_mobile/providers/theme_provider.dart';
-import 'package:speakhands_mobile/theme/theme.dart';
-import 'package:speakhands_mobile/screens/splash_screen.dart';
-import 'package:speakhands_mobile/screens/main_nav.dart';
-import 'package:speakhands_mobile/providers/speech_provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:speakhands_mobile/providers/locale_provider.dart'; 
-import 'package:speakhands_mobile/l10n/app_localizations.dart'; 
+import 'package:provider/provider.dart';
+import 'package:speakhands_mobile/l10n/app_localizations.dart';
+import 'package:speakhands_mobile/providers/theme_provider.dart';
+import 'package:speakhands_mobile/providers/locale_provider.dart';
+import 'package:speakhands_mobile/routes/app_router.dart';
+import 'package:speakhands_mobile/theme/theme.dart';
 
-
-class SpeakHandsApp extends StatelessWidget {
-  const SpeakHandsApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        ChangeNotifierProvider(create: (_) => SpeechProvider()), // <- voice provider
-        ChangeNotifierProvider(create: (_) => LocaleProvider()),
-      ],
-      child: const _AppContent(),
-    );
-  }
-}
-class _AppContent extends StatelessWidget {
-  const _AppContent();
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    final localeProvider = Provider.of<LocaleProvider>(context); // <--- AÑADE ESTO
+    final localeProvider = Provider.of<LocaleProvider>(context);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'SpeakHands',
+      title: 'Speak Hands',
+
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: themeProvider.themeMode,
-      locale: localeProvider.locale, // <--- IDIOMA ACTUAL
-      supportedLocales: L10n.all,    // <--- LISTA DE LOCALES
-      localizationsDelegates: const [ // <--- DELEGADOS DE FLUTTER
+
+      locale: localeProvider.locale,
+      localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      initialRoute: '/',
-      routes: {
-        '/': (_) => const SplashScreen(),
-        '/home': (context) => MainNavigation(key: MainNavigation.globalKey),
-      },
+      supportedLocales: const [Locale('es'), Locale('en')],
+
+      initialRoute: AppRouter.initialRoute,
+      routes: AppRouter.routes,
+      onUnknownRoute: AppRouter.onUnknownRoute,
     );
   }
 }

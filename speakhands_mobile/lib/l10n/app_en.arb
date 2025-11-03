@@ -111,10 +111,10 @@
   "translate_info": "Here you can translate your signs.",
   "learn_info": "This is the section to learn sign language.",
 
-  "profile_edit_intro": "You are in the screen to edit your profile. Here you can change your personal information."
-
+  "profile_edit_intro": "You are in the screen to edit your profile. Here you can change your personal information.",
 
   "privacy_policy_title": "Privacy Policy",
+  "error_loading_data": "Error loading data. Please try again.",
   "effective_date": "May 25, 2025",
   "section_1_title": "1. Information We Collect",
   "section_1_content": "To translate signs, the app needs access to your device's camera. SpeakHands does not store or transmit images, videos, or personal data captured by the camera without your explicit consent. Non-identifiable data about app usage (errors, performance, usage statistics).",
@@ -136,6 +136,4 @@
 
   "section_7_title": "7. User Rights",
   "section_7_content": "You can:\n- Request the deletion of your data at any time.\n- Access this policy from the app.\n- Contact us for questions or complaints at [languageappsign@gmail.com](mailto:languageappsign@gmail.com)."
-
-
 }

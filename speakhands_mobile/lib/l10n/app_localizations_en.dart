@@ -281,4 +281,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profile_edit_intro => 'You are in the screen to edit your profile. Here you can change your personal information.';
+
+  @override
+  String get privacy_policy_title => 'Privacy Policy';
+
+  @override
+  String get error_loading_data => 'Error loading data. Please try again.';
+
+  @override
+  String get effective_date => 'May 25, 2025';
+
+  @override
+  String get section_1_title => '1. Information We Collect';
+
+  @override
+  String get section_1_content => 'To translate signs, the app needs access to your device\'s camera. SpeakHands does not store or transmit images, videos, or personal data captured by the camera without your explicit consent. Non-identifiable data about app usage (errors, performance, usage statistics).';
+
+  @override
+  String get section_2_title => '2. Use of Information';
+
+  @override
+  String get section_2_content => 'The information is used solely to:\n- Recognize gestures and translate them.\n- Improve app performance.\n- Fix bugs or errors.';
+
+  @override
+  String get section_3_title => '3. Sharing of Information';
+
+  @override
+  String get section_3_content => 'SpeakHands does not share or sell personal data to third parties. No images or user data are uploaded to external servers.';
+
+  @override
+  String get section_4_title => '4. Permissions';
+
+  @override
+  String get section_4_content => 'The app requests permissions only to use the camera, necessary for basic functionality. You can revoke these permissions at any time from your device settings.';
+
+  @override
+  String get section_5_title => '5. Minors';
+
+  @override
+  String get section_5_content => 'The app is not intended for use by minors under the age of 13 without the consent of a responsible adult.';
+
+  @override
+  String get section_6_title => '6. Security';
+
+  @override
+  String get section_6_content => 'We use technical and organizational measures to protect your information from unauthorized access, alteration, or loss.';
+
+  @override
+  String get section_7_title => '7. User Rights';
+
+  @override
+  String get section_7_content => 'You can:\n- Request the deletion of your data at any time.\n- Access this policy from the app.\n- Contact us for questions or complaints at [languageappsign@gmail.com](mailto:languageappsign@gmail.com).';
 }

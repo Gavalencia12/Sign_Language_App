@@ -1,264 +1,170 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Dialog;
 import 'package:provider/provider.dart';
-import 'package:speakhands_mobile/service/auth_service.dart';
 import 'package:speakhands_mobile/providers/theme_provider.dart';
-import 'package:speakhands_mobile/theme/theme.dart';
-import 'package:firebase_auth/firebase_auth.dart'; // Firebase Authentication
-import 'package:firebase_database/firebase_database.dart';
-import  'package:speakhands_mobile/models/user_model.dart';
 import 'package:speakhands_mobile/l10n/app_localizations.dart';
-import 'package:speakhands_mobile/widgets/bottom_nav_bar.dart';
-import 'package:speakhands_mobile/providers/locale_provider.dart';
-import 'TermsAndConditionsScreen.dart';
-import 'PrivacyPolicyScreen.dart';
-import 'HelpScreen.dart';
+import 'package:speakhands_mobile/widgets/custom_app_bar.dart';
 
+// Import local pages
+import 'pages/terms_and_conditions_screen.dart';
+import 'pages/privacy_policy_screen.dart';
+import 'pages/help_screen.dart';
+
+// Local widgets
+import 'widgets/section_title.dart';
+import 'widgets/settings_card.dart';
+
+// Global dialogs
+import 'package:speakhands_mobile/widgets/dialogs/dialog.dart';
+import 'package:speakhands_mobile/widgets/dialogs/modal.dart';
+
+// Global theme colors
+import 'package:speakhands_mobile/theme/app_colors.dart';
+
+// The **SettingsScreen** is where users can customize the app’s appearance,
+// language, accessibility, and access legal information such as privacy policy,
+// terms and conditions, or help resources.
+
+// It leverages global providers (`ThemeProvider`, `LocaleProvider`) and
+// app-wide theme colors from [AppColors].
 class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({super.key});
 
-  SettingsScreen({super.key});
-  
   @override
-  _SettingsScreenState createState() => _SettingsScreenState();
+  State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  final AuthService _authService = AuthService();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final DatabaseReference _dbRef = FirebaseDatabase.instance.ref();
-
-  Usuario? usuario;
-
-  @override
-  void initState() {
-    super.initState();
-    cargarDatosUsuario();
-  }
-
-  Future<void> cargarDatosUsuario() async {
-    final user = _auth.currentUser;
-    if (user != null) {
-      final snapshot = await _dbRef.child("usuarios").child(user.uid).get();
-      if (snapshot.exists) {
-        setState(() {
-          usuario = Usuario.fromMap(snapshot.value as Map<dynamic, dynamic>);
-        });
-      }
-    }
-  }
-  void _signOut(BuildContext context) async {
-    await _authService.signOut();
-    // Clear all previous screens and navigate to Home
-    Navigator.pushNamedAndRemoveUntil(context, '/', (Route<dynamic> route) => false); 
-  }
-
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
-    final backgroundColor = themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground;
-    final textColor = themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A); 
+    // Define adaptive theme colors
+    final Color backgroundColor = AppColors.background(context);
+    final Color textColor = AppColors.text(context);
+    final Color iconColor = AppColors.text(context).withOpacity(0.85);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween, 
-          children: [
-            Text("SETTINGS", style: TextStyle(color: textColor, fontWeight: FontWeight.bold)),
-            Row(
-              mainAxisSize: MainAxisSize.min, // The space between the two SpeakHands texts
-              children: [
-                Text("Speak", style: TextStyle(color: textColor, fontWeight: FontWeight.bold)),
-                Text("Hands", style: TextStyle(color: Colors.teal, fontWeight: FontWeight.bold)),
-              ],
-            ),
-          ],
-        ),
-        backgroundColor: backgroundColor,
-        automaticallyImplyLeading: false, // Disables the automatic behavior of the back button
-      ),
+      backgroundColor: backgroundColor,
+      appBar: CustomAppBar(title: "Settings"),
       body: Stack(
         children: [
-          // The body with scrollable content
           SingleChildScrollView(
             child: Column(
               children: [
-                const SizedBox(height: 60), // Space so that the content is not covered by the box
-                // First Card
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-                  color: themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground,
-                  child: Row(
-                    children:[
-                      Text(
-                        AppLocalizations.of(context)!.account_section,
-                        style: TextStyle(
-                          color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A),
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                  color: themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                    ListTile(
-                        leading: Icon(Icons.security, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text(AppLocalizations.of(context)!.privacy_policy, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => PrivacyPolicyScreen()), // Navigation to PrivacyPolicyScreen
-                          );
-                          // Action to "Privacy Policy"
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-                  color: themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground,
-                  child: Row(
-                    children:[
-                      Text(
-                        AppLocalizations.of(context)!.accessibility_section,
-                        style: TextStyle(
-                          color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A),
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                // Second Card
-                Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),color: themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      ListTile(
-                        leading: Icon(Icons.g_translate, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text(AppLocalizations.of(context)!.language, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
-                        onTap: () => LanguageSwitcher.showLanguageDialog(context),
-                        trailing: Builder(
-                          builder: (context) {
-                            final localeProvider = Provider.of<LocaleProvider>(context);
-                            return Image.asset(
-                              localeProvider.locale.languageCode == 'es' ? 'assets/images/mexico.png' : 'assets/images/usa.png',
-                              height: 24,
-                              width: 36,
-                              fit: BoxFit.cover,
-                            );
-                          },
-                        ),
-                      ),
+                const SizedBox(height: 12),
 
-                      Divider(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
-                      ListTile(
-                        leading: Icon(Icons.color_lens, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text(AppLocalizations.of(context)!.color, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
-                        onTap: () {
-                          themeProvider.toggleTheme(!themeProvider.isDarkMode);
-                        },
-                      ),
-                      Divider(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
-                      ListTile(
-                        leading: Icon(Icons.accessibility_new, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text(AppLocalizations.of(context)!.accessibility, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
-                        onTap: () {
-                          // Action to "accessibility"
-                        },
-                      ),
-                    ],
-                  ),
+                // Section 1 — Accessibility
+                SectionTitle(
+                  title: AppLocalizations.of(context)!.accessibility_section,
                 ),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-                  color: themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground,
-                  child: Row(
-                    children:[
-                      Text(
-                        AppLocalizations.of(context)!.help_information_section,
-                        style: TextStyle(
-                          color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A),
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                  color: themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      ListTile(
-                        leading: Icon(Icons.library_books, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text(AppLocalizations.of(context)!.terms_and_conditions, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => TermsAndConditionsScreen()), // Navigation to TermsAndConditionsScreen
-                          );
-                          // Action to "terms and conditions"
-                        },
-                      ),
-                      Divider(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
-                      ListTile(
-                        leading: Icon(Icons.help, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text(AppLocalizations.of(context)!.help, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
-                        onTap: () {
-                           Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => HelpScreen()), // Navigation to HelpScreen
-                          );
-                          // Action to "help"
-                        },
-                      ),
-                      Divider(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
-                      ListTile(
-                        leading: Icon(Icons.assignment, color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A)),
-                        title: Text(AppLocalizations.of(context)!.qualife, style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : const Color(0xFF2F3A4A))),
-                        onTap: () {
-                          // Action to "qualife"
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // The painting that stays fixed
-          Positioned(
-            top: 0, // Adjust the position so that it is below the AppBar
-            left: 0,
-            right: 0,
-            child: Material(
-              color: themeProvider.isDarkMode ? AppTheme.darkBackground : AppTheme.lightBackground,
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                SettingsCard(
                   children: [
-                    Row(
-                      children: [
-                        Text(AppLocalizations.of(context)!.hello, style: TextStyle(color: textColor, fontSize: 20, fontWeight: FontWeight.bold),),
-                      
-                      ],
+                    // Language selection
+                    ListTile(
+                      leading: Icon(Icons.translate, color: iconColor),
+                      title: Text(
+                        AppLocalizations.of(context)!.language,
+                        style: TextStyle(
+                          color: textColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      onTap: () => Dialog.show(context),
+                    ),
+
+                    // Theme mode selection (Light / Dark / System)
+                    ListTile(
+                      leading: Icon(
+                        Icons.brightness_6_rounded,
+                        color: iconColor,
+                      ),
+                      title: Text(
+                        'Apariencia',
+                        style: TextStyle(color: textColor),
+                      ),
+                      subtitle: Text(
+                        themeProvider.themeModeOption == ThemeModeOption.dark
+                            ? 'Tema actual: Oscuro'
+                            : themeProvider.themeModeOption ==
+                                ThemeModeOption.light
+                            ? 'Tema actual: Claro'
+                            : 'Tema actual: Sistema',
+                        style: TextStyle(color: textColor.withOpacity(0.7)),
+                      ),
+                      onTap: () => Modal.show(context),
+                    ),
+
+                    // Accessibility settings (placeholder for future options)
+                    ListTile(
+                      leading: Icon(Icons.accessibility, color: iconColor),
+                      title: Text(
+                        "Accesibilidad",
+                        style: TextStyle(color: textColor),
+                      ),
+                      /* onTap: () => */
                     ),
                   ],
                 ),
-              ),
+
+                const SizedBox(height: 15),
+
+                // Section 2 — Help and Information
+                SectionTitle(
+                  title: AppLocalizations.of(context)!.help_information_section,
+                ),
+                SettingsCard(
+                  children: [
+                    // Privacy Policy
+                    ListTile(
+                      leading: Icon(Icons.security, color: iconColor),
+                      title: Text(
+                        AppLocalizations.of(context)!.privacy_policy,
+                        style: TextStyle(color: textColor),
+                      ),
+                      onTap:
+                          () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => PrivacyPolicyScreen(),
+                            ),
+                          ),
+                    ),
+
+                    // Terms and Conditions
+                    ListTile(
+                      leading: Icon(Icons.library_books, color: iconColor),
+                      title: Text(
+                        AppLocalizations.of(context)!.terms_and_conditions,
+                        style: TextStyle(color: textColor),
+                      ),
+                      onTap:
+                          () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => TermsAndConditionsScreen(),
+                            ),
+                          ),
+                    ),
+
+                    // Help Section
+                    ListTile(
+                      leading: Icon(Icons.help, color: iconColor),
+                      title: Text(
+                        AppLocalizations.of(context)!.help,
+                        style: TextStyle(color: textColor),
+                      ),
+                      onTap:
+                          () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const HelpScreen(),
+                            ),
+                          ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 40),
+              ],
             ),
           ),
         ],

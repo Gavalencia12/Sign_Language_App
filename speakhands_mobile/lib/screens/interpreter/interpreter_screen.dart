@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
+import 'package:speakhands_mobile/theme/app_colors.dart';
+import 'package:speakhands_mobile/theme/text_styles.dart';
 import 'package:video_player/video_player.dart';
 import 'package:speakhands_mobile/widgets/custom_app_bar.dart';
 import 'package:speakhands_mobile/providers/speech_provider.dart';
 import 'package:speakhands_mobile/service/speech_io_service.dart';
-import 'package:speakhands_mobile/theme/theme.dart';
 import 'package:speakhands_mobile/l10n/app_localizations.dart';
-import 'package:speakhands_mobile/providers/theme_provider.dart';
 
 /// ---------------------------------------------------------------------------
 /// Screen: INTERPRETER (voice ↔ text)
@@ -170,11 +170,11 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
     final loc = AppLocalizations.of(context)!;
     final speakOn = Provider.of<SpeechProvider>(context).enabled;
 
     return Scaffold(
+      backgroundColor: AppColors.background(context),
       appBar: CustomAppBar(title: loc.interpreter_screen_title),
 
       // Let the body resize when the keyboard shows
@@ -189,7 +189,7 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
 
             // Portrait: keyboard-aware body (box grows when the keyboard opens)
             if (isPortrait) {
-              return _keyboardAwareBody(themeProvider, loc, speakOn);
+              return _keyboardAwareBody(loc, speakOn);
             }
 
             // Landscape: two-column layout (left preview, right controls)
@@ -213,7 +213,6 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: _buildContent(
                           context,
-                          themeProvider,
                           loc,
                           speakOn,
                           excludeCamera: true,
@@ -233,11 +232,7 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
   /// Keyboard-aware body (portrait):
   /// - Adapts `textBoxHeight` depending on whether the keyboard is open.
   /// - **Ahora el preview SIEMPRE se ve**, aunque el teclado esté abierto.
-  Widget _keyboardAwareBody(
-    ThemeProvider themeProvider,
-    AppLocalizations loc,
-    bool speakOn,
-  ) {
+  Widget _keyboardAwareBody( AppLocalizations loc, bool speakOn) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final media = MediaQuery.of(context);
@@ -254,14 +249,13 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   loc.let_your_sign_be_heard,
-                  style: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: AppTextStyles.textTitle.copyWith(
+                        color: AppColors.text(context),
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
                 const SizedBox(height: 10),
 
@@ -272,7 +266,7 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
                     200.0,
                     constraints.maxHeight * 0.75,
                   ),
-                  child: _googleLikeBox(themeProvider, loc, speakOn),
+                  child: _googleLikeBox(loc, speakOn),
                 ),
 
                 const SizedBox(height: 16),
@@ -290,7 +284,6 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
   /// Reusable content in landscape (right column).
   List<Widget> _buildContent(
     BuildContext context,
-    ThemeProvider themeProvider,
     AppLocalizations loc,
     bool speakOn, {
     bool excludeCamera = false,
@@ -299,15 +292,17 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
       if (!excludeCamera) ...[
         Text(
           loc.let_your_sign_be_heard,
-          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                color: AppColors.text(context),
+                fontWeight: FontWeight.bold,
+              ),
         ),
-
         const SizedBox(height: 10),
 
         // Fixed height in landscape
         SizedBox(
           height: 220,
-          child: _googleLikeBox(themeProvider, loc, speakOn),
+          child: _googleLikeBox(loc, speakOn),
         ),
 
         const SizedBox(height: 16),
@@ -325,20 +320,12 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
   /// - “X” button to clear content.
   /// - Bottom bar: Mic/Stop with glow, TTS, counter y botón "Mostrar".
   Widget _googleLikeBox(
-    ThemeProvider themeProvider,
-    AppLocalizations loc,
-    bool speakOn,
+    AppLocalizations loc, bool speakOn
   ) {
     final theme = Theme.of(context);
-
-    // Text color according to current theme
-    final Color baseTextColor =
-        theme.textTheme.bodyLarge?.color ??
-        (theme.brightness == Brightness.dark ? Colors.white : Colors.black87);
-
-    // Background according to theme
-    final isDark = themeProvider.isDarkMode;
-    final bg = isDark ? AppTheme.darkSecondary : AppTheme.lightSecondary;
+    final bg = AppColors.surface(context);
+    final textColor = AppColors.text(context);
+    final border = AppColors.primary(context).withOpacity(0.1);
 
     return Container(
       decoration: BoxDecoration(
@@ -346,12 +333,12 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: AppColors.text(context).withOpacity(0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
         ],
-        border: Border.all(color: Colors.black12),
+        border: Border.all(color: border),
       ),
       clipBehavior: Clip.antiAlias,
       child: Stack(
@@ -361,7 +348,7 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
             top: 8,
             right: 8,
             child: IconButton(
-              icon: const Icon(Icons.close),
+              icon: Icon(Icons.close, color: textColor),
               tooltip: loc.clear,
               onPressed: _interpretedText.isEmpty
                   ? null
@@ -401,13 +388,14 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
                       hintText: loc.translation,
                       hintStyle: TextStyle(
                         fontSize: 18,
-                        color: Colors.black.withOpacity(0.55),
+                        color: textColor.withOpacity(0.55),
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
+                      color: textColor,
                     ),
                     onChanged: (value) {
                       // Enforce manual character limit
@@ -449,8 +437,8 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
               // Bottom bar: Mic/Stop (with glow), TTS, Mostrar, counter
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: const BoxDecoration(
-                  border: Border(top: BorderSide(color: Colors.black12)),
+                decoration: BoxDecoration(
+                  border: Border(top: BorderSide(color: border)),
                 ),
                 child: Row(
                   children: [
@@ -468,19 +456,18 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
                                   BoxShadow(
                                     blurRadius: 18,
                                     spreadRadius: 2,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .primary
+                                    color: AppColors.primary(context)
                                         .withOpacity(0.35),
                                   ),
                                 ],
                               ),
                               child: Material(
-                                color: Theme.of(context).colorScheme.primary,
+                                color: AppColors.primary(context),
                                 shape: const CircleBorder(),
                                 child: IconButton(
                                   tooltip: 'Detener grabación',
-                                  icon: const Icon(Icons.stop_rounded, color: Colors.white),
+                                  icon: Icon(Icons.stop_rounded,
+                                      color: AppColors.onPrimary(context)),
                                   onPressed: () async {
                                     await _stopStt();
                                     if (mounted) setState(() {}); // refresh icon
@@ -494,7 +481,7 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
                               shape: const CircleBorder(),
                               child: IconButton(
                                 tooltip: 'Dictar',
-                                icon: const Icon(Icons.mic),
+                                icon: Icon(Icons.mic, color: textColor),
                                 onPressed: !_ready
                                     ? null
                                     : () async {
@@ -509,7 +496,7 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
                     // TTS
                     IconButton(
                       tooltip: loc.speakText,
-                      icon: const Icon(Icons.volume_up),
+                      icon: Icon(Icons.volume_up, color: textColor),
                       onPressed: _interpretedText.isEmpty
                           ? null
                           : () async {
@@ -523,7 +510,7 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
                     // Mostrar: cierra teclado y resuelve ya
                     IconButton(
                       tooltip: 'Mostrar',
-                      icon: const Icon(Icons.visibility),
+                      icon: Icon(Icons.visibility, color: textColor),
                       onPressed: () {
                         FocusScope.of(context).unfocus();
                         _resolveAndShow(_interpretedText);
@@ -536,11 +523,7 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
                     Text(
                       '${_textCtrl.text.length} / ${InterpreterScreen._charLimit}',
                       style: TextStyle(
-                        color: (Theme.of(context).textTheme.bodyLarge?.color ??
-                                (Theme.of(context).brightness == Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black87))
-                            .withOpacity(0.55),
+                        color: AppColors.text(context).withOpacity(0.55),
                         fontSize: 12.5,
                         fontWeight: FontWeight.w600,
                       ),
@@ -559,7 +542,7 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
   Widget _buildCameraPreview(BuildContext context, AppLocalizations loc) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey[300],
+        color: AppColors.surface(context),
         borderRadius: BorderRadius.circular(12),
       ),
       clipBehavior: Clip.antiAlias,
@@ -605,14 +588,14 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: Colors.black,
+                    color: AppColors.primary(context),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
                     _captionText!,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: TextStyle(
+                      color: AppColors.onPrimary(context),
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
                     ),
