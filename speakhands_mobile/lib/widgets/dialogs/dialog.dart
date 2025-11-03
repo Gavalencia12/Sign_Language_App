@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:speakhands_mobile/providers/locale_provider.dart';
+import 'package:speakhands_mobile/theme/app_colors.dart';
 
 class Dialog {
   static void show(BuildContext context) {
@@ -10,13 +11,27 @@ class Dialog {
     showDialog(
       context: context,
       builder: (_) {
+        final isDark = Theme.of(context).brightness == Brightness.dark;
+
         return AlertDialog(
-          title: const Text("Selecciona un idioma"),
+          backgroundColor: AppColors.background(context),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Text("Selecciona un idioma",
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              color: AppColors.textStrong(context),
+            ),),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               RadioListTile<String>(
-                title: const Text("Español"),
+                activeColor: AppColors.primary(context),
+                title: Text("Español",
+                style: TextStyle(color: AppColors.text(context)),
+                ),
                 value: 'es',
                 groupValue: currentCode,
                 onChanged: (value) {
@@ -25,7 +40,10 @@ class Dialog {
                 },
               ),
               RadioListTile<String>(
-                title: const Text("English"),
+                activeColor: AppColors.primary(context),
+                title: Text("English",
+                style: TextStyle(color: AppColors.text(context)),
+                ),
                 value: 'en',
                 groupValue: currentCode,
                 onChanged: (value) {

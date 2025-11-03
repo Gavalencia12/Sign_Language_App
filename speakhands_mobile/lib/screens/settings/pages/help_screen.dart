@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:speakhands_mobile/theme/app_colors.dart';
 import 'package:speakhands_mobile/widgets/custom_text_field.dart';
 import '../models/faq_item.dart';
 import '../services/faq_service.dart';
@@ -46,12 +47,11 @@ class _HelpScreenState extends State<HelpScreen> {
   }
 
   Future<void> _openFaqModal() async {
-    final theme = Theme.of(context);
     await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
-      backgroundColor: theme.colorScheme.surface,
+      backgroundColor: AppColors.surface(context),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -69,8 +69,20 @@ class _HelpScreenState extends State<HelpScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Ayuda')),
+      backgroundColor: AppColors.surface(context),
+      appBar: AppBar(
+        title: Text(
+          'Ayuda',
+          style: TextStyle(color: AppColors.onSurface(context)),
+        ),
+        backgroundColor: AppColors.surface(context),
+        centerTitle: true,
+        iconTheme: IconThemeData(
+    color: AppColors.onSurface(context),
+  ),
+      ),
       body:
           _loading
               ? const Center(child: CircularProgressIndicator())
@@ -81,13 +93,14 @@ class _HelpScreenState extends State<HelpScreen> {
                   children: [
                     // buscador
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      padding: const EdgeInsets.symmetric(vertical: 5),
                       child: CustomTextField(
                         controller: _searchCtrl,
                         label: 'Buscar preguntas…',
                         icon: Icons.search,
                       ),
                     ),
+                    const SizedBox(height: 15),
 
                     // Titulo sección
                     SectionTitle(title: 'Preguntas frecuentes (FAQ)'),
@@ -107,12 +120,19 @@ class _HelpScreenState extends State<HelpScreen> {
                     // Ver más (abre modal con lista completa filtrada)
                     Center(
                       child: TextButton(
-                        onPressed: _openFaqModal,
-                        child: const Text('Ver más'),
+                      onPressed: _openFaqModal,
+                      style: TextButton.styleFrom(
+                        foregroundColor: AppColors.primary(context),
+                        textStyle: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
                       ),
+                      child: const Text('Ver más'),
+                    ),
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 54),
 
                     // Contacto (usa helpers internos para abrir mail/phone)
                     Center(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:speakhands_mobile/theme/app_colors.dart';
 
 class TranslatorControls extends StatelessWidget {
   final VoidCallback onRefresh;
@@ -10,13 +11,14 @@ class TranslatorControls extends StatelessWidget {
     required this.onPause,
   });
 
-  Widget _circleButton(IconData icon, Color color, VoidCallback onPressed) {
+  Widget _circleButton(BuildContext context, IconData icon, Color color, VoidCallback onPressed) {
     return Material(
       color: color,
       shape: const CircleBorder(),
       child: IconButton(
-        icon: Icon(icon, color: Colors.white),
+        icon: Icon(icon, color: AppColors.onPrimary(context)),
         onPressed: onPressed,
+        tooltip: icon == Icons.refresh ? "Refrescar" : "Pausar",
       ),
     );
   }
@@ -27,18 +29,18 @@ class TranslatorControls extends StatelessWidget {
       margin: const EdgeInsets.only(top: 8),
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
       decoration: BoxDecoration(
-        color:
-            Theme.of(context).brightness == Brightness.dark
-                ? Colors.white.withOpacity(0.05)
-                : Colors.black.withOpacity(0.05),
+        color: AppColors.surface(context),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: AppColors.text(context).withOpacity(0.08),
             blurRadius: 6,
             offset: const Offset(0, 3),
           ),
         ],
+        border: Border.all(
+          color: AppColors.primary(context).withOpacity(0.1),
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -46,22 +48,30 @@ class TranslatorControls extends StatelessWidget {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _circleButton(Icons.refresh, Colors.teal, onRefresh),
+              _circleButton(context, Icons.refresh, AppColors.primary(context), onRefresh),
               const SizedBox(height: 4),
-              const Text(
+              Text(
                 "Refrescar",
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.text(context),
+                ),
               ),
             ],
           ),
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _circleButton(Icons.pause, Colors.blue, onPause),
+              _circleButton(context, Icons.pause, AppColors.secondary(context), onPause),
               const SizedBox(height: 4),
-              const Text(
+              Text(
                 "Pausar",
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.text(context),
+                ),
               ),
             ],
           ),

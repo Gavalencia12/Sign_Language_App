@@ -1,22 +1,51 @@
-// widget será responsable de mostrar el botón para grabar o detener la grabación, y puede cambiar de estilo dependiendo del estado.
-
 import 'package:flutter/material.dart';
+import 'package:speakhands_mobile/theme/app_colors.dart';
 
 class RecorderButton extends StatelessWidget {
   final bool isRecording;
   final VoidCallback onPressed;
 
-  RecorderButton({required this.isRecording, required this.onPressed});
+  RecorderButton({super.key, required this.isRecording, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: Icon(
-        isRecording ? Icons.stop : Icons.mic,
-        size: 40.0,
-        color: Colors.red,
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final Color activeColor = AppColors.primary(context);
+    final Color stopColor = Colors.redAccent;
+    final Color iconColor = AppColors.onPrimary(context);
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeInOut,
+      decoration: BoxDecoration(
+        color: isRecording ? stopColor : activeColor,
+        shape: BoxShape.circle,
+        boxShadow: [
+          if (isRecording)
+            BoxShadow(
+              color: stopColor.withOpacity(0.6),
+              blurRadius: 20,
+              spreadRadius: 4,
+            )
+          else
+            BoxShadow(
+              color: isDark
+                  ? Colors.black.withOpacity(0.5)
+                  : Colors.black.withOpacity(0.15),
+              blurRadius: 6,
+              offset: const Offset(0, 3),
+            ),
+        ],
       ),
-      onPressed: onPressed,
+      child: IconButton(
+        iconSize: 36,
+        icon: Icon(
+          isRecording ? Icons.stop_rounded : Icons.mic_rounded,
+          color: iconColor,
+        ),
+        onPressed: onPressed,
+        tooltip: isRecording ? 'Detener grabación' : 'Iniciar grabación',
+      ),
     );
   }
 }

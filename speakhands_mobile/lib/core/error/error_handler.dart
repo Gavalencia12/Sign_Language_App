@@ -1,1 +1,0 @@
-// Función central de manejo de errores

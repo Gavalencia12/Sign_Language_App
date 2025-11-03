@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:speakhands_mobile/theme/theme.dart';
 import 'package:speakhands_mobile/routes/app_router.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -14,7 +13,6 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    // ⏳ Espera 2 segundos y luego cambia de pantalla
     Future.delayed(const Duration(seconds: 2), () {
       AppRouter.replaceWith(context, '/main');
     });

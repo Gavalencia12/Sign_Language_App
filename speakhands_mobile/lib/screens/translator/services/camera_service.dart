@@ -1,5 +1,3 @@
-// control de cámara, timers, landmarks
-
 import 'package:camera/camera.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';

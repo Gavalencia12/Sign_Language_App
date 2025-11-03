@@ -1,1 +1,0 @@
-// Este widget agrupará los controles de la barra inferior y facilitará el manejo del layout.

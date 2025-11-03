@@ -1,6 +1,6 @@
-// widgets/camera_preview.dart
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'package:speakhands_mobile/theme/app_colors.dart';
 
 class CameraPreviewWidget extends StatelessWidget {
   final String? imagePath;
@@ -8,17 +8,21 @@ class CameraPreviewWidget extends StatelessWidget {
   final String? captionText;
 
   const CameraPreviewWidget({
-    Key? key,
+    super.key,
     this.imagePath,
     this.videoPlayerController,
     this.captionText,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey[300],
+        color: isDark
+            ? AppColors.secondaryDark.withOpacity(0.5)
+            : AppColors.secondaryLight.withOpacity(0.5),
         borderRadius: BorderRadius.circular(12),
       ),
       clipBehavior: Clip.antiAlias,
@@ -62,16 +66,24 @@ class CameraPreviewWidget extends StatelessWidget {
               child: Center(
                 child: Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6
+                      ),
                   decoration: BoxDecoration(
-                    color: Colors.black,
+                    color: Colors.black.withOpacity(0.7),
                     borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.25),
+                        blurRadius: 6,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
                   ),
                   child: Text(
                     captionText!,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: TextStyle(
+                      color: AppColors.onPrimary(context),
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
                     ),

@@ -2,14 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:speakhands_mobile/l10n/app_localizations.dart';
 import 'package:speakhands_mobile/screens/settings/services/terms_service.dart';
 import '../../../widgets/section_text_block.dart';
+import 'package:speakhands_mobile/theme/app_colors.dart';
 
 class TermsAndConditionsScreen extends StatelessWidget {
   const TermsAndConditionsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.terms_and_conditions)),
+      backgroundColor: AppColors.surface(context),
+      appBar: AppBar(
+        title: Text(
+          loc.terms_and_conditions,
+          style: TextStyle(color: AppColors.onSurface(context)),
+        ),
+        backgroundColor: AppColors.surface(context),
+        centerTitle: true,
+        iconTheme: IconThemeData(
+    color: AppColors.onSurface(context),
+  ),
+      ),
       body: FutureBuilder<Map<String, dynamic>>(
         future: TermsService.loadTerms(context),
         builder: (context, snapshot) {
@@ -20,8 +34,9 @@ class TermsAndConditionsScreen extends StatelessWidget {
           if (snapshot.hasError || snapshot.data == null || snapshot.data!['content'] == null) {
             return Center(
               child: Text(
-                AppLocalizations.of(context)!.error_loading_data,
+                loc.error_loading_data,
                 textAlign: TextAlign.center,
+                style: TextStyle(color: AppColors.text(context)),
               ),
             );
           }

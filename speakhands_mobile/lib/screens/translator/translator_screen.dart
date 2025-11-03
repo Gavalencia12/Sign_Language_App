@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:speakhands_mobile/l10n/app_localizations.dart';
 import 'package:speakhands_mobile/providers/speech_provider.dart';
-import 'package:speakhands_mobile/providers/theme_provider.dart';
 import 'package:speakhands_mobile/service/text_to_speech_service.dart';
+import 'package:speakhands_mobile/theme/app_colors.dart';
+import 'package:speakhands_mobile/theme/text_styles.dart';
 import 'package:speakhands_mobile/widgets/custom_app_bar.dart';
 import 'services/camera_service.dart';
 import 'services/translation_service.dart';
@@ -139,10 +140,10 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<ThemeProvider>(context);
     final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
+      backgroundColor: AppColors.background(context),
       appBar: CustomAppBar(title: loc.translator_screen_title),
       body: SafeArea(
         child: Padding(
@@ -151,12 +152,14 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
             children: [
               Text(
                 loc.let_your_hands_speak,
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: AppTextStyles.textTitle.copyWith(
+                      color: AppColors.text(context),
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
               const SizedBox(height: 16),
+
+              // Camera preview area
               Expanded(
                 flex: 5,
                 child: Stack(
@@ -170,23 +173,26 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                       left: 12,
                       child: Container(
                         decoration: BoxDecoration(
+                          color: AppColors.surface(context),
+                          shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black26,
+                              color: AppColors.text(context).withOpacity(0.15),
                               blurRadius: 6,
                               offset: Offset(0, 3),
                             ),
                           ],
-                          borderRadius: BorderRadius.circular(50),
                         ),
                         child: FloatingActionButton.small(
                           backgroundColor:
-                              _isCameraActive ? Colors.redAccent : Colors.teal,
+                              _isCameraActive ? AppColors.error(context) : AppColors.primary(context),
                           heroTag: "camera_toggle_btn",
                           onPressed: _toggleCamera,
                           child: Icon(
-                            _isCameraActive ? Icons.stop : Icons.videocam,
-                            color: Colors.white,
+                            _isCameraActive
+                                ? Icons.stop_rounded
+                                : Icons.videocam_rounded,
+                            color: AppColors.onPrimary(context),
                           ),
                         ),
                       ),
@@ -196,19 +202,23 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
               ),
 
               const SizedBox(height: 16),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  loc.translation,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+
+              Text(
+                loc.translation,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: AppColors.text(context),
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
+
               const SizedBox(height: 8),
+
+              // Result box
               TranslationResultBox(text: _translationResult),
+
               const SizedBox(height: 16),
+
+              // Controls
               TranslatorControls(
                 onRefresh: () {
                   setState(() => _translationResult = loc.waiting_prediction);

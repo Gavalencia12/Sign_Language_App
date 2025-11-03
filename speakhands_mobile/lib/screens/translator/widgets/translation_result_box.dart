@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:speakhands_mobile/theme/app_colors.dart';
-import 'package:speakhands_mobile/providers/theme_provider.dart';
-import 'package:provider/provider.dart';
 
 class TranslationResultBox extends StatelessWidget {
   final String text;
@@ -13,20 +11,33 @@ class TranslationResultBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
+    // 🔹 Colores dinámicos según tema
+    final Color backgroundColor = AppColors.surface(context);
+    final Color textColor = AppColors.text(context);
+    final Color borderColor = AppColors.primary(context).withOpacity(0.2);
 
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: themeProvider.isDarkMode
-            ? AppColors.darkSecondary
-            : AppColors.lightSecondary,
+        color: backgroundColor,
         borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: borderColor, width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.text(context).withOpacity(0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
       child: Text(
         text,
-        style: const TextStyle(fontSize: 16),
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: textColor,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
         textAlign: TextAlign.center,
       ),
     );

@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:speakhands_mobile/screens/interpreter/interpreter_screen.dart';
 import 'package:speakhands_mobile/screens/settings/settings_screen.dart';
 import 'package:speakhands_mobile/screens/translator/translator_screen.dart';
-import 'package:speakhands_mobile/service/auth_service.dart';
+/* import 'package:speakhands_mobile/service/auth_service.dart'; */
 import 'package:speakhands_mobile/theme/app_colors.dart';
-import 'package:speakhands_mobile/theme/theme.dart';
 
 class MainNavigation extends StatefulWidget {
-  // Definimos una key estática para controlar el estado desde fuera
-  static final GlobalKey<_MainNavigationState> globalKey = GlobalKey<_MainNavigationState>();
+  static final GlobalKey<_MainNavigationState> globalKey =
+      GlobalKey<_MainNavigationState>();
 
   MainNavigation({Key? key}) : super(key: globalKey);
 
@@ -18,43 +17,43 @@ class MainNavigation extends StatefulWidget {
 
 class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 1;
-  final AuthService _authService = AuthService();
+/*   final AuthService _authService = AuthService(); */
 
-  final List<Widget> screens = [
-    const InterpreterScreen(),
-    const TranslatorScreen(),
-    const SettingsScreen(),
+  final List<Widget> screens = const [
+    InterpreterScreen(),
+    TranslatorScreen(),
+    SettingsScreen(),
   ];
 
-  // Método para cambiar la pestaña activamente
   void changeTab(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
+    setState(() => _currentIndex = index);
   }
 
   void _onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
+    setState(() => _currentIndex = index);
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final backgroundColor = isDarkMode ? AppColors.darkAccent : AppColors.lightPrimary;
-    final iconColor = isDarkMode ? AppColors.lightBackground : AppColors.lightBackground;
+    // 🔹 Colores dinámicos globales
+    final Color backgroundColor = AppColors.primary(context);
+    final Color surfaceColor = AppColors.surface(context);
+    final Color iconColor = AppColors.text(context).withOpacity(0.8);
 
     return Scaffold(
       body: screens[_currentIndex],
       bottomNavigationBar: Container(
-        height: 60,
-        margin: const EdgeInsets.symmetric(vertical: 2),
+        height: 64,
+        margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
         decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.all(Radius.circular(50)),
+          color: surfaceColor,
+          borderRadius: BorderRadius.circular(50),
           boxShadow: [
-            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 8),
+            BoxShadow(
+              color: AppColors.text(context).withOpacity(0.1),
+              blurRadius: 10,
+              offset: const Offset(0, 3),
+            ),
           ],
         ),
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -63,14 +62,19 @@ class _MainNavigationState extends State<MainNavigation> {
           children: List.generate(screens.length, (index) {
             bool isSelected = _currentIndex == index;
 
+            final Color itemBackground =
+                isSelected ? backgroundColor : Colors.transparent;
+            final Color itemIconColor =
+                isSelected ? AppColors.onPrimary(context) : iconColor;
+
             return GestureDetector(
               onTap: () => _onTabTapped(index),
               child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                width: isSelected ? 150 : 56, // Más ancho para la pestaña seleccionada
-                height: 56,
+                duration: const Duration(milliseconds: 250),
+                width: isSelected ? 130 : 56,
+                height: 48,
                 decoration: BoxDecoration(
-                  color: isSelected ? Colors.white : Colors.transparent,
+                  color: itemBackground,
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Center(
@@ -79,18 +83,18 @@ class _MainNavigationState extends State<MainNavigation> {
                     children: [
                       Icon(
                         _getIconForIndex(index),
-                        size: 30,
-                        color: isSelected ? backgroundColor : iconColor,
+                        size: 26,
+                        color: itemIconColor,
                       ),
                       if (isSelected)
                         Padding(
                           padding: const EdgeInsets.only(left: 8.0),
                           child: Text(
                             _getTextForIndex(index),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(color: backgroundColor, fontSize: 16),
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: AppColors.onPrimary(context),
+                                  fontWeight: FontWeight.w600,
+                                ),
                           ),
                         ),
                     ],
@@ -107,24 +111,24 @@ class _MainNavigationState extends State<MainNavigation> {
   IconData _getIconForIndex(int index) {
     switch (index) {
       case 0:
-        return Icons.waving_hand;
+        return Icons.waving_hand_rounded;
       case 1:
         return Icons.connect_without_contact;
       case 2:
-        return Icons.settings;
+        return Icons.settings_rounded;
       default:
         return Icons.circle;
     }
   }
-
+  
   String _getTextForIndex(int index) {
     switch (index) {
       case 0:
         return 'Interprete';
       case 1:
-        return 'Translate';
+        return 'Traductor';
       case 2:
-        return 'Settings';
+        return 'Ajustes';
       default:
         return '';
     }

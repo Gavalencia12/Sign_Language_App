@@ -1,1 +1,0 @@
-// Funciones helper (ej: formatear texto, tiempo, etc.)

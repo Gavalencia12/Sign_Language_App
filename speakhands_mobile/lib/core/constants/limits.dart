@@ -1,1 +1,0 @@
-// Ej: límites de caracteres, tamaños máximos

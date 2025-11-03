@@ -1,1 +1,0 @@
-// Métodos para String (limpiar, truncar, etc.)

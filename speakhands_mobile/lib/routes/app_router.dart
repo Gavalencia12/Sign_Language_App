@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:speakhands_mobile/screens/splash/splash_screen.dart';
 import 'package:speakhands_mobile/screens/main_nav/main_nav.dart';
 import 'package:speakhands_mobile/screens/settings/settings_screen.dart';
-// import 'package:speakhands_mobile/screens/settings/accessibility_screen.dart';
 import 'package:speakhands_mobile/screens/translator/translator_screen.dart';
 import 'package:speakhands_mobile/screens/interpreter/interpreter_screen.dart';
 

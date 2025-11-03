@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:speakhands_mobile/theme/app_colors.dart';
 
 class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
@@ -63,44 +64,51 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    // Colores según estado/tema
-    final baseBorder = theme.colorScheme.outlineVariant.withOpacity(0.45);
-    final activeBorder = theme.colorScheme.primary;
-    final borderColor = _focused ? activeBorder : baseBorder;
+    // 🎨 Colores globales según tema
+    final Color borderColor = _focused
+        ? AppColors.primary(context)
+        : (isDark
+            ? Colors.white.withOpacity(0.25)
+            : Colors.black.withOpacity(0.15));
 
-    final baseFill = theme.colorScheme.surface;
-    final activeFill = theme.colorScheme.surfaceContainerHighest; // Material 3
-    final fillColor = _focused || _hasText ? activeFill : baseFill;
+    final Color fillColor = _focused
+        ? AppColors.surface(context).withOpacity(isDark ? 0.35 : 0.8)
+        : AppColors.surface(context).withOpacity(isDark ? 0.2 : 0.6);
 
+    final Color iconColor = _focused
+        ? AppColors.primary(context)
+        : AppColors.textMuted(context);
+
+    // ✨ Sombras dinámicas
     final boxShadow = _focused
         ? [
             BoxShadow(
-              color: theme.colorScheme.primary.withOpacity(0.18),
-              blurRadius: 16,
+              color: AppColors.primary(context).withOpacity(0.25),
+              blurRadius: 18,
               spreadRadius: 1,
-              offset: const Offset(0, 6),
+              offset: const Offset(0, 5),
             ),
           ]
         : [
             BoxShadow(
-              color: theme.shadowColor.withOpacity(0.06),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
+              color: Colors.black.withOpacity(isDark ? 0.3 : 0.08),
+              blurRadius: 6,
+              offset: const Offset(0, 3),
             ),
           ];
 
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 160),
+      duration: const Duration(milliseconds: 180),
       curve: Curves.easeOut,
       decoration: BoxDecoration(
         color: fillColor,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: borderColor, width: _focused ? 1.6 : 1.0),
+        border: Border.all(color: borderColor, width: _focused ? 1.5 : 1.0),
         boxShadow: boxShadow,
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 4), // espacio para iconos
+      padding: const EdgeInsets.symmetric(horizontal: 6),
       child: TextField(
         controller: widget.controller,
         focusNode: _focusNode,
@@ -109,29 +117,30 @@ class _CustomTextFieldState extends State<CustomTextField> {
         onChanged: widget.onChanged,
         onSubmitted: widget.onSubmitted,
         keyboardType: widget.keyboardType,
+        style: TextStyle(
+          color: AppColors.text(context),
+          fontSize: 16,
+        ),
         decoration: InputDecoration(
-          // Deja que el contenedor maneje border/fill
           border: InputBorder.none,
-          focusedBorder: InputBorder.none,
-          enabledBorder: InputBorder.none,
           labelText: widget.label,
-          // label animará su posición con el foco automáticamente
+          labelStyle: TextStyle(
+            color: _focused
+                ? AppColors.primary(context)
+                : AppColors.textMuted(context),
+            fontWeight: FontWeight.w500,
+          ),
           prefixIcon: widget.icon != null
-              ? Icon(
-                  widget.icon,
-                  color: _focused
-                      ? theme.colorScheme.primary
-                      : theme.iconTheme.color?.withOpacity(0.8),
-                )
+              ? Icon(widget.icon, color: iconColor)
               : null,
           suffixIcon: (widget.showClearButton && _hasText)
               ? IconButton(
                   tooltip: 'Limpiar',
-                  icon: const Icon(Icons.close_rounded),
+                  icon: Icon(Icons.close_rounded,
+                      color: AppColors.textMuted(context)),
                   onPressed: () {
                     widget.controller.clear();
                     widget.onChanged?.call('');
-                    // Mantiene el foco y forzamos el estado visual
                     setState(() => _hasText = false);
                   },
                 )

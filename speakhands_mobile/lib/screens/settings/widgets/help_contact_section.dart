@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:speakhands_mobile/theme/app_colors.dart';
 
 class HelpContactSection extends StatelessWidget {
   const HelpContactSection({super.key});
@@ -16,27 +17,49 @@ class HelpContactSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final Color textColor = AppColors.text(context);
+    final Color linkColor = AppColors.primary(context);
+
     return Column(
-      mainAxisSize: MainAxisSize.min,        // <- evita expandirse
+      mainAxisSize: MainAxisSize.min,
   crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+
+        // 🔹 Título
         Text(
           '¿Necesitas más ayuda? ¡Contáctanos!',
           textAlign: TextAlign.center,
-          style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: textColor,
+                fontWeight: FontWeight.bold,
+              ),
         ),
         const SizedBox(height: 8),
+
+        // 🔹 Email
         GestureDetector(
           onTap: _launchEmail,
-          child: const Text('languageappsign@gmail.com',
-              style: TextStyle(color: Colors.blue, fontSize: 16)),
+          child: Text('languageappsign@gmail.com',
+              style: TextStyle(
+                color: linkColor,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+          ),
         ),
+
         const SizedBox(height: 8),
+
+        // 🔹 Teléfono
         GestureDetector(
           onTap: _launchPhone,
-          child: const Text('+52 (314) 218-4467',
-              style: TextStyle(color: Colors.blue, fontSize: 16)),
+          child: Text('+52 (314) 218-4467',
+            style: TextStyle(
+              color: linkColor,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         ),
       ],
     );

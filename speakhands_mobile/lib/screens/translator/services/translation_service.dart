@@ -1,4 +1,3 @@
-// carga modelo, predicción y etiquetas
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'dart:typed_data';
 

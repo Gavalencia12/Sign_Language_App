@@ -1,47 +1,46 @@
 import 'package:flutter/material.dart';
-import 'app_colors.dart'; //importación de colores
+import '../theme/app_colors.dart';
 
 class AppTheme {
-
-  // tema claro
+  // === TEMA CLARO ===
   static ThemeData lightTheme = ThemeData(
-    /* brightness: Brightness.light, */
-    primaryColor: AppColors.lightPrimary,
+    brightness: Brightness.light,
     colorScheme: ColorScheme.light(
-      primary: AppColors.lightPrimary,
-      secondary: AppColors.lightAccent, // Reemplazamos accentColor con secondary
-      surface: AppColors.lightBackground, // backgroundColor con background
+      primary: AppColors.primaryLight,
+      secondary: AppColors.secondaryLight,
+      background: AppColors.backgroundLight,
+      surface: AppColors.surfaceLight,
+      error: AppColors.errorLight,
     ),
-    scaffoldBackgroundColor: AppColors.lightBackground,
-    textTheme: TextTheme(
-      bodyLarge: TextStyle(color: AppColors.textPrimary),
-      bodyMedium: TextStyle(color: AppColors.textSecondary),
-    ),
+    scaffoldBackgroundColor: AppColors.backgroundLight,
     appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.lightPrimary,
-      foregroundColor: AppColors.lightForebackground,
+      backgroundColor: AppColors.primaryLight,
+      foregroundColor: Colors.white,
+      elevation: 0,
     ),
-    buttonTheme: ButtonThemeData(buttonColor: AppColors.lightPrimary),
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      backgroundColor: AppColors.primaryLight,
+    ),
   );
 
-  // Tema oscuro
+  // === TEMA OSCURO ===
   static ThemeData darkTheme = ThemeData(
-    /* brightness: Brightness.dark, */
-    primaryColor: AppColors.darkPrimary,
+    brightness: Brightness.dark,
     colorScheme: ColorScheme.dark(
-      primary: AppColors.darkPrimary,
-      secondary: AppColors.darkAccent, // Reemplazamos accentColor con secondary
-      surface: AppColors.darkBackground, // backgroundColor con background
+      primary: AppColors.primaryDark,
+      secondary: AppColors.secondaryDark,
+      background: AppColors.backgroundDark,
+      surface: AppColors.surfaceDark,
+      error: AppColors.errorDark,
     ),
-    scaffoldBackgroundColor: AppColors.darkBackground,
+    scaffoldBackgroundColor: AppColors.backgroundDark,
     appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.darkPrimary,
-      foregroundColor: AppColors.lightForebackground,
+      backgroundColor: AppColors.primaryDark,
+      foregroundColor: Colors.white,
+      elevation: 0,
     ),
-    textTheme: TextTheme(
-      bodyLarge: TextStyle(color: AppColors.textPrimary),
-      bodyMedium: TextStyle(color: AppColors.textSecondary),
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      backgroundColor: AppColors.primaryDark,
     ),
-    buttonTheme: ButtonThemeData(buttonColor: AppColors.darkAccent),
   );
 }
