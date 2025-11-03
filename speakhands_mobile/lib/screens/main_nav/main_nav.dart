@@ -2,13 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:speakhands_mobile/screens/interpreter/interpreter_screen.dart';
 import 'package:speakhands_mobile/screens/settings/settings_screen.dart';
 import 'package:speakhands_mobile/screens/translator/translator_screen.dart';
-/* import 'package:speakhands_mobile/service/auth_service.dart'; */
 import 'package:speakhands_mobile/theme/app_colors.dart';
 
+// The main navigation widget that manages the bottom navigation bar
+// and switches between the core app screens: **Interpreter**, **Translator**, and **Settings**.
+
+// This widget uses a custom, animated bottom navigation bar
+// to enhance the visual experience and provide smooth transitions
+// between screens.
 class MainNavigation extends StatefulWidget {
+  /// A global key used to access the navigation state from anywhere in the app.
   static final GlobalKey<_MainNavigationState> globalKey =
       GlobalKey<_MainNavigationState>();
 
+  // Creates a new instance of [MainNavigation].
+  // The [key] is set to the static [globalKey] for global access.
   MainNavigation({Key? key}) : super(key: globalKey);
 
   @override
@@ -16,32 +24,38 @@ class MainNavigation extends StatefulWidget {
 }
 
 class _MainNavigationState extends State<MainNavigation> {
+  // Holds the index of the currently selected tab.
   int _currentIndex = 1;
-/*   final AuthService _authService = AuthService(); */
 
+  // List of screens corresponding to each tab in the bottom navigation bar.
   final List<Widget> screens = const [
     InterpreterScreen(),
     TranslatorScreen(),
     SettingsScreen(),
   ];
 
+  // Changes the active tab programmatically using the provided [index].
   void changeTab(int index) {
     setState(() => _currentIndex = index);
   }
 
+  // Handles user taps on navigation items.
   void _onTabTapped(int index) {
     setState(() => _currentIndex = index);
   }
 
   @override
   Widget build(BuildContext context) {
-    // 🔹 Colores dinámicos globales
+    // Dynamic global colors based on current theme mode
     final Color backgroundColor = AppColors.primary(context);
     final Color surfaceColor = AppColors.surface(context);
     final Color iconColor = AppColors.text(context).withOpacity(0.8);
 
     return Scaffold(
+      // Displays the screen corresponding to the selected tab
       body: screens[_currentIndex],
+
+      // Custom bottom navigation bar with smooth animations and rounded design
       bottomNavigationBar: Container(
         height: 64,
         margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
@@ -91,10 +105,12 @@ class _MainNavigationState extends State<MainNavigation> {
                           padding: const EdgeInsets.only(left: 8.0),
                           child: Text(
                             _getTextForIndex(index),
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: AppColors.onPrimary(context),
-                                  fontWeight: FontWeight.w600,
-                                ),
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodyMedium?.copyWith(
+                              color: AppColors.onPrimary(context),
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                     ],
@@ -108,6 +124,7 @@ class _MainNavigationState extends State<MainNavigation> {
     );
   }
 
+  // Returns the corresponding icon for each tab index.
   IconData _getIconForIndex(int index) {
     switch (index) {
       case 0:
@@ -120,7 +137,8 @@ class _MainNavigationState extends State<MainNavigation> {
         return Icons.circle;
     }
   }
-  
+
+  // Returns the label text for each tab index.
   String _getTextForIndex(int index) {
     switch (index) {
       case 0:

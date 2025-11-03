@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 
-/// Paleta de colores global que se adapta automáticamente
-/// según el tema (claro u oscuro).
+// A centralized and adaptive color palette for the entire SpeakHands app.
+// This class provides a consistent visual identity across light and dark themes,
+// automatically adjusting colors based on the current [ThemeMode].
+
+// It separates the palette into:
+// - **Base colors:** static color definitions (brand identity).
+// - **Dynamic getters:** automatically select light/dark variants.
+// - **Text colors:** specific helpers for content contrast.
 class AppColors {
-  // ===== 🎨 PALETA BASE =====
-  // Aquí defines los colores principales de tu marca.
-  // (Puedes ajustar estos valores con tu propia paleta)
+  // ===== BASE PALETTE =====
+  // Brand colors used across both light and dark modes.
   static const Color primaryLight = Color(0xFF44CBCC);
   static const Color primaryDark = Color(0xFF5C8DAD);
 
@@ -21,24 +26,20 @@ class AppColors {
   static const Color errorLight = Color(0xFFDC3545);
   static const Color errorDark = Color(0xFFEF5350);
 
-  /* static const Color backgroundLight = Color(0xFFE3E7FF); */
-
-  /* static const Color backgroundLight = Color.fromARGB(255, 233, 236, 247); */
   static const Color backgroundLight = Color.fromARGB(255, 233, 235, 240);
   static const Color backgroundDark = Color(0xFF00010D);
 
   static const Color surfaceLight = Colors.white;
   static const Color surfaceDark = Color.fromARGB(255, 22, 22, 28);
-  /* static const Color surfaceDark = Color(0xFF121212); */
 
   static const Color textLight = Color(0xFF2F3A4A);
   static const Color textDark = Color(0xFFBDBDBD);
 
-//
   static const Color sectiontextLight = Color(0xFF2F3A4A);
   static const Color sectiontextDark = Color(0xFFBDBDBD);
 
-  // ===== 🌞 MÉTODOS DINÁMICOS =====
+  // ===== DYNAMIC COLOR GETTERS =====
+  // Automatically switch between light/dark variants depending on the theme.
   static Color primary(BuildContext context) =>
       _isDark(context) ? primaryDark : primaryLight;
 
@@ -63,42 +64,40 @@ class AppColors {
   static Color text(BuildContext context) =>
       _isDark(context) ? textDark : textLight;
 
-    // 🔹 NUEVO: Color para contenido sobre el color primario
+  // ===== CONTRAST COLORS =====
+  // Text/icon color displayed on top of a primary-colored surface.
   static Color onPrimary(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark
           ? Colors.white
           : Colors.white;
 
-  // 🔹 NUEVO (opcional): Color para contenido sobre el fondo
+  // Text/icon color displayed on top of a neutral surface.
   static Color onSurface(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark
           ? Colors.white
           : Colors.black;
 
-    // ===== NUEVOS MÉTODOS DE TEXTO =====
-
-  /// Color base para el texto principal (párrafos, labels)
+  // ===== TEXT HELPERS =====
+  // Normal text color (paragraphs, labels).
   static Color textNormal(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark
           ? Colors.white.withOpacity(0.9)
           : Colors.black87;
 
-  /// Color más fuerte para títulos o encabezados
+  // Stronger color for headings or emphasized text.
   static Color textStrong(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark
           ? Colors.white
           : Colors.black;
 
-  /// Color atenuado (por ejemplo, texto secundario o hint)
+  // Muted color for secondary text, hints, or placeholders.
   static Color textMuted(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark
           ? Colors.white70
           : Colors.black54;
-        
-  // ===== 🧠 HELPER =====
+
+  // ===== HELPER =====
+  // Determines if the app is currently using dark mode.
   static bool _isDark(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark;
 }
-
-
-

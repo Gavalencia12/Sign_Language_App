@@ -4,13 +4,26 @@ import 'package:speakhands_mobile/providers/locale_provider.dart';
 import 'package:speakhands_mobile/l10n/app_localizations.dart';
 import 'package:speakhands_mobile/theme/app_colors.dart';
 
+// A compact widget that displays the current app language (flag icon)
+// and allows users to change it dynamically through a modal dialog.
+// It interacts with [LocaleProvider] to update the application's locale
+// and persists the user’s choice automatically.
+
+// Features:
+// - Displays a flag icon for the active language.
+// - Opens a modern dialog to switch between *Spanish* and *English*.
+// - Fully supports light and dark themes.
+// - Uses app localization (`AppLocalizations`) for translated labels.
 class LanguageSwitcher extends StatelessWidget {
   const LanguageSwitcher({super.key});
 
+  // === SHOW DIALOG METHOD ===
+  /// Displays a modal dialog for selecting a language.
   static void showLanguageDialog(BuildContext context) {
     final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
     final loc = AppLocalizations.of(context)!;
 
+    // Adaptive color setup based on current theme
     final Color surfaceColor = AppColors.surface(context);
     final Color textColor = AppColors.text(context);
     final Color dividerColor = AppColors.text(context).withOpacity(0.1);
@@ -23,6 +36,8 @@ class LanguageSwitcher extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
+
+            // === Dialog Title ===
             title: Text(
               loc.select_language,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -30,6 +45,8 @@ class LanguageSwitcher extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
+
+            // === Language Options ===
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -57,6 +74,8 @@ class LanguageSwitcher extends StatelessWidget {
     );
   }
 
+  // === PRIVATE HELPER WIDGET ===
+  // Builds a single language option row for the dialog.
   static Widget _languageOption(
     BuildContext context,
     LocaleProvider localeProvider,
@@ -91,6 +110,7 @@ class LanguageSwitcher extends StatelessWidget {
     );
   }
 
+  // === MAIN WIDGET ===
   @override
   Widget build(BuildContext context) {
     final localeProvider = Provider.of<LocaleProvider>(context);

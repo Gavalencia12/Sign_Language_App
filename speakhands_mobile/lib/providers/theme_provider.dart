@@ -12,7 +12,6 @@ enum ThemeModeOption { light, dark, system }
 // This class extends [ChangeNotifier], allowing widgets that depend on it
 // to automatically rebuild when the theme changes.
 class ThemeProvider extends ChangeNotifier {
-
   // Key used to store the theme mode preference in [SharedPreferences].
   static const _themeKey = 'theme_mode';
 

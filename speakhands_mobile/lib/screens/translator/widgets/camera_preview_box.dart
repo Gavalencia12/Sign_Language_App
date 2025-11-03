@@ -3,8 +3,22 @@ import 'package:camera/camera.dart';
 import 'package:speakhands_mobile/l10n/app_localizations.dart';
 import 'package:speakhands_mobile/theme/app_colors.dart';
 
+// A widget that displays a live camera preview or a fallback message
+// when the camera is not active or initialized.
+
+// This widget is primarily used in the **interpreter** or **translator**
+// screens to render real-time camera input for gesture or hand sign
+// detection.
+
+// Responsibilities:
+// - Display an active camera feed using `CameraPreview`.
+// - Show a localized placeholder message when the camera is inactive.
+// - Apply consistent UI styling with app colors and rounded borders.
 class CameraPreviewBox extends StatelessWidget {
+  // Indicates whether the camera is currently active.
   final bool isCameraActive;
+
+  // The [CameraController] instance used to render the preview.
   final CameraController? controller;
 
   const CameraPreviewBox({
@@ -20,7 +34,6 @@ class CameraPreviewBox extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface(context),
-        /* color: Colors.grey[300], */
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -46,16 +59,16 @@ class CameraPreviewBox extends StatelessWidget {
                   ),
                 )
                 : Padding(
-                padding: const EdgeInsets.all(16),
-                child: Text(
-                  loc.camera_not_active,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppColors.text(context).withOpacity(0.7),
-                        fontWeight: FontWeight.w500,
-                      ),
-                  textAlign: TextAlign.center,
+                  padding: const EdgeInsets.all(16),
+                  child: Text(
+                    loc.camera_not_active,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: AppColors.text(context).withOpacity(0.7),
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
       ),
     );
   }

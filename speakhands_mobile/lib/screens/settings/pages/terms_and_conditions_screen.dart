@@ -4,15 +4,29 @@ import 'package:speakhands_mobile/screens/settings/services/terms_service.dart';
 import '../../../widgets/section_text_block.dart';
 import 'package:speakhands_mobile/theme/app_colors.dart';
 
+/// The **TermsAndConditionsScreen** displays the application's terms of service
+/// in a structured, readable format.
+
+/// This screen loads the terms content asynchronously using [TermsService]
+/// and presents each section using the [SectionTextBlock] widget.
+
+/// Features:
+/// - Displays terms divided into titled sections.
+/// - Handles loading, success, and error states gracefully.
+/// - Supports multiple languages through [AppLocalizations].
+/// - Adapts its colors dynamically to the current theme mode.
 class TermsAndConditionsScreen extends StatelessWidget {
   const TermsAndConditionsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Load localized strings
     final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: AppColors.surface(context),
+
+      // App bar with localized title and themed icons.
       appBar: AppBar(
         title: Text(
           loc.terms_and_conditions,
@@ -20,18 +34,23 @@ class TermsAndConditionsScreen extends StatelessWidget {
         ),
         backgroundColor: AppColors.surface(context),
         centerTitle: true,
-        iconTheme: IconThemeData(
-    color: AppColors.onSurface(context),
-  ),
+        iconTheme: IconThemeData(color: AppColors.onSurface(context)),
       ),
+
+      // Body content built dynamically with [FutureBuilder]
+      // to handle asynchronous loading from the [TermsService].
       body: FutureBuilder<Map<String, dynamic>>(
         future: TermsService.loadTerms(context),
         builder: (context, snapshot) {
+          // Loading state — display progress indicator
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          if (snapshot.hasError || snapshot.data == null || snapshot.data!['content'] == null) {
+          // Error or missing data handling
+          if (snapshot.hasError ||
+              snapshot.data == null ||
+              snapshot.data!['content'] == null) {
             return Center(
               child: Text(
                 loc.error_loading_data,
@@ -41,7 +60,10 @@ class TermsAndConditionsScreen extends StatelessWidget {
             );
           }
 
-          final sections = List<Map<String, dynamic>>.from(snapshot.data!['content']);
+          // Successfully loaded terms sections
+          final sections = List<Map<String, dynamic>>.from(
+            snapshot.data!['content'],
+          );
 
           return ListView.builder(
             padding: const EdgeInsets.all(16),

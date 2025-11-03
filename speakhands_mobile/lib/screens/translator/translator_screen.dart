@@ -13,6 +13,18 @@ import 'widgets/camera_preview_box.dart';
 import 'widgets/translation_result_box.dart';
 import 'widgets/translator_controls.dart';
 
+// The main screen responsible for real-time sign language translation.
+
+// This screen integrates camera input, a TensorFlow Lite model for prediction,
+// and optional text-to-speech feedback. It is the centerpiece of the
+// SpeakHands application, enabling users to “translate” hand gestures into text.
+
+// Features:
+// - Real-time camera feed handled by [CameraService].
+// - AI model inference handled by [TranslationService].
+// - Optional audio feedback through [TextToSpeechService].
+// - Interactive controls to pause, refresh, or toggle the camera.
+// - Dynamic localization via [AppLocalizations].
 class TranslatorScreen extends StatefulWidget {
   const TranslatorScreen({super.key});
 
@@ -21,10 +33,13 @@ class TranslatorScreen extends StatefulWidget {
 }
 
 class _TranslatorScreenState extends State<TranslatorScreen> {
+
+  // --- Services ---
   final CameraService _cameraService = CameraService();
   final TranslationService _translationService = TranslationService();
   final TextToSpeechService _ttsService = TextToSpeechService();
 
+  // --- UI and logic states ---
   bool _isDisposed = false;
   bool _isCameraActive = false;
   bool _canDetect = true;
@@ -32,12 +47,14 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
   Timer? _delayTimer;
   Timer? _cooldownTimer;
 
+  // --- Lifecycle ---
   @override
   void initState() {
     super.initState();
     _initializeServices();
   }
 
+  // Initializes the ML model and gives voice feedback once ready.
   Future<void> _initializeServices() async {
     await _translationService.loadModel();
     if (!_isDisposed) {
@@ -52,6 +69,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
     }
   }
 
+  // Provides an introductory message using Text-to-Speech when the screen starts.
   Future<void> _speakTranslatorIntro() async {
     final speakOn = Provider.of<SpeechProvider>(context, listen: false).enabled;
     final loc = AppLocalizations.of(context)!;
@@ -65,11 +83,15 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
     await _ttsService.speak(loc.subtitle_intro);
   }
 
+  // Toggles the camera state between active and inactive.
+  // When active, it periodically captures frames and processes them.
   Future<void> _toggleCamera() async {
     final speakOn = Provider.of<SpeechProvider>(context, listen: false).enabled;
     final loc = AppLocalizations.of(context)!;
 
     if (_isCameraActive) {
+
+      // Stop camera and timers
       await _cameraService.stopCamera();
       _delayTimer?.cancel();
       _cooldownTimer?.cancel();
@@ -82,6 +104,8 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
         await _ttsService.speak(loc.camera_toggle_off);
       _canDetect = true;
     } else {
+
+      // Start camera and begin frame detection loop
       await _cameraService.startCamera();
       if (!_isDisposed) setState(() => _isCameraActive = true);
       if (speakOn && !_isDisposed)
@@ -97,6 +121,10 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
     }
   }
 
+  // Processes a single camera frame by:
+  // 1. Extracting hand landmarks.
+  // 2. Running inference through the model.
+  // 3. Updating the UI and providing optional speech output.
   Future<void> _processFrame() async {
     final landmarks = await _cameraService.getLandmarks();
     if (landmarks == null || landmarks.length != 63) {
@@ -138,6 +166,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
     super.dispose();
   }
 
+  // --- UI ---
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
@@ -150,6 +179,8 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
+
+              // --- Header ---
               Text(
                 loc.let_your_hands_speak,
                 style: AppTextStyles.textTitle.copyWith(
@@ -159,7 +190,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
               ),
               const SizedBox(height: 16),
 
-              // Camera preview area
+              // --- Camera preview section ---
               Expanded(
                 flex: 5,
                 child: Stack(
@@ -203,6 +234,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
 
               const SizedBox(height: 16),
 
+              // --- Translation output section ---
               Text(
                 loc.translation,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -213,7 +245,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
 
               const SizedBox(height: 8),
 
-              // Result box
+              // --- Bottom controls ---
               TranslationResultBox(text: _translationResult),
 
               const SizedBox(height: 16),

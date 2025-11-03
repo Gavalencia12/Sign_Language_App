@@ -3,12 +3,21 @@ import 'package:speakhands_mobile/screens/settings/models/faq_item.dart';
 import 'faq_tile.dart';
 import 'package:speakhands_mobile/theme/app_colors.dart';
 
+// A modal bottom sheet that displays a scrollable list of all
+// Frequently Asked Questions (FAQs).
+// This modal is typically triggered from the “Help” screen’s
+// “See more” button, allowing users to browse the full list of
+// questions and answers in an interactive, scrollable interface.
+// The modal uses a [DraggableScrollableSheet] so the user can
+// expand or collapse it dynamically.
 class FaqModal extends StatelessWidget {
+  // The list of FAQ items to display inside the modal.
   final List<FaqItem> items;
   const FaqModal({super.key, required this.items});
 
   @override
   Widget build(BuildContext context) {
+    // Retrieve theme-based colors for consistent design
     final Color surfaceColor = AppColors.surface(context);
     final Color textColor = AppColors.text(context);
     final Color iconColor = AppColors.text(context).withOpacity(0.8);
@@ -36,7 +45,7 @@ class FaqModal extends StatelessWidget {
             children: [
               const SizedBox(height: 8),
 
-              // 🔹 Pequeño "handle" superior para arrastrar
+              // Small top handle to indicate the modal can be dragged
               Container(
                 width: 40,
                 height: 5,
@@ -48,7 +57,7 @@ class FaqModal extends StatelessWidget {
 
               const SizedBox(height: 8),
 
-              // 🔹 Título y botón de cierre
+              // Header section with title and close button
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
@@ -56,10 +65,12 @@ class FaqModal extends StatelessWidget {
                     Expanded(
                       child: Text(
                         'Preguntas frecuentes',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              color: textColor,
-                              fontWeight: FontWeight.w700,
-                            ),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.titleMedium?.copyWith(
+                          color: textColor,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                     IconButton(
@@ -73,7 +84,7 @@ class FaqModal extends StatelessWidget {
 
               const SizedBox(height: 4),
 
-              // 🔹 Contenido de preguntas frecuentes
+              // Scrollable FAQ content list
               Expanded(
                 child: Scrollbar(
                   thumbVisibility: true,

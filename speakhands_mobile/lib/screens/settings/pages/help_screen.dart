@@ -9,6 +9,14 @@ import '../widgets/help_contact_section.dart';
 import '../widgets/section_title.dart';
 import '../widgets/empty_state.dart';
 
+// The **HelpScreen** provides users with access to frequently asked questions (FAQ)
+// and a contact section for additional support.
+
+// Features:
+// - Displays a searchable list of FAQ items.
+// - Allows users to filter questions dynamically as they type.
+// - Includes a modal to view all results.
+// - Offers contact options for direct assistance.
 class HelpScreen extends StatefulWidget {
   const HelpScreen({super.key});
 
@@ -17,20 +25,29 @@ class HelpScreen extends StatefulWidget {
 }
 
 class _HelpScreenState extends State<HelpScreen> {
+  // Service that loads FAQ data from local or remote sources.
   final _service = FaqService();
+
+  // Controller for the search text field.
   final _searchCtrl = TextEditingController();
 
+  // List of all FAQ items loaded from the service.
   List<FaqItem> _faqs = [];
+
+  // Filtered list based on the current search input.
   List<FaqItem> _filtered = [];
+
+  // Indicates whether data is still being loaded.
   bool _loading = true;
 
   @override
   void initState() {
     super.initState();
-    _load();
+    _load(); // Load FAQs on startup
     _searchCtrl.addListener(_applyFilter);
   }
 
+  // Loads FAQ items asynchronously using the [FaqService].
   Future<void> _load() async {
     final items = await _service.loadFaqs();
     setState(() {
@@ -40,12 +57,14 @@ class _HelpScreenState extends State<HelpScreen> {
     });
   }
 
+  // Applies a real-time filter to FAQs based on the text entered by the user.
   void _applyFilter() {
     setState(() {
       _filtered = _service.filter(_faqs, _searchCtrl.text);
     });
   }
 
+  // Opens a modal bottom sheet that displays all filtered FAQs.
   Future<void> _openFaqModal() async {
     await showModalBottomSheet(
       context: context,
@@ -69,9 +88,10 @@ class _HelpScreenState extends State<HelpScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: AppColors.surface(context),
+
+      // Top navigation bar with a custom back arrow color.
       appBar: AppBar(
         title: Text(
           'Ayuda',
@@ -79,10 +99,10 @@ class _HelpScreenState extends State<HelpScreen> {
         ),
         backgroundColor: AppColors.surface(context),
         centerTitle: true,
-        iconTheme: IconThemeData(
-    color: AppColors.onSurface(context),
-  ),
+        iconTheme: IconThemeData(color: AppColors.onSurface(context)),
       ),
+
+      // Main content body — either a loading indicator or the FAQ list.
       body:
           _loading
               ? const Center(child: CircularProgressIndicator())
@@ -91,7 +111,7 @@ class _HelpScreenState extends State<HelpScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // buscador
+                    // Search bar
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 5),
                       child: CustomTextField(
@@ -102,12 +122,12 @@ class _HelpScreenState extends State<HelpScreen> {
                     ),
                     const SizedBox(height: 15),
 
-                    // Titulo sección
+                    // Section title
                     SectionTitle(title: 'Preguntas frecuentes (FAQ)'),
 
                     const SizedBox(height: 8),
 
-                    // Lista top 4 o estado vacío
+                    // List of top FAQs or empty state message
                     if (_filtered.isEmpty)
                       const EmptyState(
                         message: 'No encontramos resultados para tu búsqueda.',
@@ -117,24 +137,24 @@ class _HelpScreenState extends State<HelpScreen> {
 
                     const SizedBox(height: 16),
 
-                    // Ver más (abre modal con lista completa filtrada)
+                    // Button to view all FAQs (opens modal)
                     Center(
                       child: TextButton(
-                      onPressed: _openFaqModal,
-                      style: TextButton.styleFrom(
-                        foregroundColor: AppColors.primary(context),
-                        textStyle: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                        onPressed: _openFaqModal,
+                        style: TextButton.styleFrom(
+                          foregroundColor: AppColors.primary(context),
+                          textStyle: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
                         ),
+                        child: const Text('Ver más'),
                       ),
-                      child: const Text('Ver más'),
-                    ),
                     ),
 
                     const SizedBox(height: 54),
 
-                    // Contacto (usa helpers internos para abrir mail/phone)
+                    // Contact support section
                     Center(
                       child: ConstrainedBox(
                         constraints: const BoxConstraints(maxWidth: 520),

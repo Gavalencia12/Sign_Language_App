@@ -3,21 +3,29 @@ import 'package:provider/provider.dart';
 import 'package:speakhands_mobile/providers/theme_provider.dart';
 import 'package:speakhands_mobile/l10n/app_localizations.dart';
 import 'package:speakhands_mobile/widgets/custom_app_bar.dart';
+
+// Import local pages
 import 'pages/terms_and_conditions_screen.dart';
 import 'pages/privacy_policy_screen.dart';
 import 'pages/help_screen.dart';
 
-// 🔹 Imports de los widgets locales
+// Local widgets
 import 'widgets/section_title.dart';
 import 'widgets/settings_card.dart';
 
-// 🔹 Imports de los diálogos globales
+// Global dialogs
 import 'package:speakhands_mobile/widgets/dialogs/dialog.dart';
 import 'package:speakhands_mobile/widgets/dialogs/modal.dart';
 
-// 🔹 Importa tus colores globales
+// Global theme colors
 import 'package:speakhands_mobile/theme/app_colors.dart';
 
+// The **SettingsScreen** is where users can customize the app’s appearance,
+// language, accessibility, and access legal information such as privacy policy,
+// terms and conditions, or help resources.
+
+// It leverages global providers (`ThemeProvider`, `LocaleProvider`) and
+// app-wide theme colors from [AppColors].
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
@@ -30,9 +38,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
-    // 🔹 Uso de colores globales dinámicos
+    // Define adaptive theme colors
     final Color backgroundColor = AppColors.background(context);
-    final Color surfaceColor = AppColors.surface(context);
     final Color textColor = AppColors.text(context);
     final Color iconColor = AppColors.text(context).withOpacity(0.85);
 
@@ -45,21 +52,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Column(
               children: [
                 const SizedBox(height: 12),
-                // Sección 1 — Accesibilidad
+
+                // Section 1 — Accessibility
                 SectionTitle(
                   title: AppLocalizations.of(context)!.accessibility_section,
                 ),
                 SettingsCard(
                   children: [
+                    // Language selection
                     ListTile(
                       leading: Icon(Icons.translate, color: iconColor),
                       title: Text(
                         AppLocalizations.of(context)!.language,
-                        style: TextStyle(color: textColor,
-                        fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                          color: textColor,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       onTap: () => Dialog.show(context),
                     ),
+
+                    // Theme mode selection (Light / Dark / System)
                     ListTile(
                       leading: Icon(
                         Icons.brightness_6_rounded,
@@ -80,24 +93,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                       onTap: () => Modal.show(context),
                     ),
+
+                    // Accessibility settings (placeholder for future options)
                     ListTile(
                       leading: Icon(Icons.accessibility, color: iconColor),
                       title: Text(
                         "Accesibilidad",
                         style: TextStyle(color: textColor),
                       ),
-                      onTap: () => Dialog.show(context),
+                      /* onTap: () => */
                     ),
                   ],
                 ),
-                
+
                 const SizedBox(height: 15),
-                // Sección 2 — Ayuda e información
+
+                // Section 2 — Help and Information
                 SectionTitle(
                   title: AppLocalizations.of(context)!.help_information_section,
                 ),
                 SettingsCard(
                   children: [
+                    // Privacy Policy
                     ListTile(
                       leading: Icon(Icons.security, color: iconColor),
                       title: Text(
@@ -112,6 +129,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ),
                           ),
                     ),
+
+                    // Terms and Conditions
                     ListTile(
                       leading: Icon(Icons.library_books, color: iconColor),
                       title: Text(
@@ -126,6 +145,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ),
                           ),
                     ),
+
+                    // Help Section
                     ListTile(
                       leading: Icon(Icons.help, color: iconColor),
                       title: Text(

@@ -2,8 +2,24 @@ import 'package:flutter/material.dart';
 import '../theme/text_styles.dart';
 import 'package:speakhands_mobile/theme/app_colors.dart';
 
+// A reusable widget for displaying a titled section of text,
+// typically used in informational screens such as:
+// - Privacy Policy
+// - Terms and Conditions
+// - Help or FAQ sections
+// It ensures consistent typography and spacing across all textual content
+// in the application.
+
+// ### Features:
+// - Consistent typographic hierarchy (title + paragraph)
+// - Theme-aware text colors for dark/light mode
+// - Built on shared text styles from [AppTextStyles]
+// - Improved readability with justified alignment and line height
 class SectionTextBlock extends StatelessWidget {
+  // The title displayed above the paragraph.
   final String title;
+
+  // The paragraph or body content of the section.
   final String content;
 
   const SectionTextBlock({
@@ -21,7 +37,7 @@ class SectionTextBlock extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Título de la sección
+          // === Section Title ===
           Text(
             title,
             style: AppTextStyles.heading6.copyWith(
@@ -32,7 +48,7 @@ class SectionTextBlock extends StatelessWidget {
 
           const SizedBox(height: 4),
 
-          // Contenido de la sección
+          // === Section Content ===
           Text(
             content,
             style: AppTextStyles.bodyText.copyWith(

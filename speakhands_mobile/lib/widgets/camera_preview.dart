@@ -2,9 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:speakhands_mobile/theme/app_colors.dart';
 
+// A responsive widget designed to display either:
+// - an **image** (e.g., for sign alphabet examples),
+// - a **video** (for demonstrating gestures), or
+// - an optional **caption** overlay.
+
+// This widget adapts its background and text color dynamically
+// based on the current theme (light or dark).
+
+// Features:
+// - Displays full-width image or video with rounded corners.
+// - Adds a subtle background tint matching the theme.
+// - Handles asynchronous video initialization safely.
+// - Includes a bottom caption bar for contextual text.
 class CameraPreviewWidget extends StatelessWidget {
+  // Path to the image asset.
   final String? imagePath;
+
+  // Controller for playing a video.
   final VideoPlayerController? videoPlayerController;
+
+  // Text displayed in a caption overlay at the bottom.
   final String? captionText;
 
   const CameraPreviewWidget({
@@ -20,21 +38,20 @@ class CameraPreviewWidget extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: isDark
-            ? AppColors.secondaryDark.withOpacity(0.5)
-            : AppColors.secondaryLight.withOpacity(0.5),
+        color:
+            isDark
+                ? AppColors.secondaryDark.withOpacity(0.5)
+                : AppColors.secondaryLight.withOpacity(0.5),
         borderRadius: BorderRadius.circular(12),
       ),
       clipBehavior: Clip.antiAlias,
       child: Stack(
         children: [
-          // IMAGE (alphabet or term image) all box
+          // === IMAGE PREVIEW ===
           if (imagePath != null)
-            Positioned.fill(
-              child: Image.asset(imagePath!, fit: BoxFit.cover),
-            ),
+            Positioned.fill(child: Image.asset(imagePath!, fit: BoxFit.cover)),
 
-          // VIDEO all box
+          // === VIDEO PREVIEW ===
           if (videoPlayerController != null)
             FutureBuilder(
               future: videoPlayerController!.initialize(),
@@ -44,10 +61,9 @@ class CameraPreviewWidget extends StatelessWidget {
                 }
                 return Positioned.fill(
                   child: FittedBox(
-                    fit: BoxFit.cover, // <- clave para cubrir
-                    clipBehavior: Clip.hardEdge, // <- asegura el recorte
+                    fit: BoxFit.cover, // Ensures video fills the area
+                    clipBehavior: Clip.hardEdge, // Prevents overflow
                     child: SizedBox(
-                      // Usa el tamaño nativo del video para que FittedBox escale bien
                       width: videoPlayerController!.value.size.width,
                       height: videoPlayerController!.value.size.height,
                       child: VideoPlayer(videoPlayerController!),
@@ -57,7 +73,7 @@ class CameraPreviewWidget extends StatelessWidget {
               },
             ),
 
-          // CAPTION (bottom-centered stripe)
+          // === CAPTION OVERLAY ===
           if ((captionText ?? '').isNotEmpty)
             Positioned(
               left: 12,
@@ -65,9 +81,10 @@ class CameraPreviewWidget extends StatelessWidget {
               bottom: 12,
               child: Center(
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6
-                      ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.black.withOpacity(0.7),
                     borderRadius: BorderRadius.circular(8),
