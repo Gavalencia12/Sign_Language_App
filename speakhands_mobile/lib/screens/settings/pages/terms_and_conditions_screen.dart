@@ -39,7 +39,7 @@ class TermsAndConditionsScreen extends StatelessWidget {
 
       // Body content built dynamically with [FutureBuilder]
       // to handle asynchronous loading from the [TermsService].
-      body: FutureBuilder<Map<String, dynamic>>(
+      body: FutureBuilder<Map<String, String>>(
         future: TermsService.loadTerms(context),
         builder: (context, snapshot) {
           // Loading state — display progress indicator
@@ -47,10 +47,7 @@ class TermsAndConditionsScreen extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
 
-          // Error or missing data handling
-          if (snapshot.hasError ||
-              snapshot.data == null ||
-              snapshot.data!['content'] == null) {
+          if (snapshot.hasError || snapshot.data == null) {
             return Center(
               child: Text(
                 loc.error_loading_data,
@@ -60,10 +57,35 @@ class TermsAndConditionsScreen extends StatelessWidget {
             );
           }
 
-          // Successfully loaded terms sections
-          final sections = List<Map<String, dynamic>>.from(
-            snapshot.data!['content'],
-          );
+          final terms = snapshot.data!;
+
+          // Construir las secciones con las claves del mapa
+          final sections = [
+            {
+              'section_title': terms['terms_section_1_title'],
+              'section_content': terms['terms_section_1_content'],
+            },
+            {
+              'section_title': terms['terms_section_2_title'],
+              'section_content': terms['terms_section_2_content'],
+            },
+            {
+              'section_title': terms['terms_section_3_title'],
+              'section_content': terms['terms_section_3_content'],
+            },
+            {
+              'section_title': terms['terms_section_4_title'],
+              'section_content': terms['terms_section_4_content'],
+            },
+            {
+              'section_title': terms['terms_section_5_title'],
+              'section_content': terms['terms_section_5_content'],
+            },
+            {
+              'section_title': terms['terms_section_6_title'],
+              'section_content': terms['terms_section_6_content'],
+            },
+          ];
 
           return ListView.builder(
             padding: const EdgeInsets.all(16),
@@ -71,8 +93,8 @@ class TermsAndConditionsScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               final section = sections[index];
               return SectionTextBlock(
-                title: section['section_title'],
-                content: section['section_content'],
+                title: section['section_title'] ?? '',
+                content: section['section_content'] ?? '',
               );
             },
           );

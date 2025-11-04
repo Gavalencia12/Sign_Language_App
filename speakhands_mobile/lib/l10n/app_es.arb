@@ -137,6 +137,86 @@
   "section_6_content": "Utilizamos medidas técnicas y organizativas para proteger tu información contra accesos no autorizados, alteraciones o pérdidas.",
 
   "section_7_title": "7. Derechos del usuario",
-  "section_7_content": "Puedes:\n- Solicitar la eliminación de tus datos en cualquier momento.\n- Acceder a esta política desde la aplicación.\n- Contactarnos para dudas o reclamos a [languageappsign@gmail.com](mailto:languageappsign@gmail.com)."
+  "section_7_content": "Puedes:\n- Solicitar la eliminación de tus datos en cualquier momento.\n- Acceder a esta política desde la aplicación.\n- Contactarnos para dudas o reclamos a [languageappsign@gmail.com](mailto:languageappsign@gmail.com).",
+
+  "terms_title": "Términos y Condiciones",
+  "terms_section_1_title": "1. Aceptación de los términos",
+  "terms_section_1_content": "Al descargar, acceder o utilizar SpeakHands, aceptas estos Términos y Condiciones en su totalidad. Si no estás de acuerdo con ellos, no deberás usar la aplicación.",
+  "terms_section_2_title": "2. Uso permitido",
+  "terms_section_2_content": "La aplicación está destinada únicamente a fines personales, educativos o de apoyo comunicativo. El usuario se compromete a no utilizar la aplicación para actividades ilegales o que infrinjan derechos de terceros. No se debe usar la aplicación para generar contenido ofensivo o discriminatorio.",
+  "terms_section_3_title": "3. Propiedad intelectual",
+  "terms_section_3_content": "Todos los derechos de autor, logotipos, marcas y tecnologías utilizadas en SpeakHands son propiedad del equipo desarrollador y están protegidos por las leyes de propiedad intelectual.",
+  "terms_section_4_title": "4. Modificaciones al servicio",
+  "terms_section_4_content": "Nos reservamos el derecho de modificar o suspender temporal o permanentemente el servicio sin previo aviso. Esto incluye actualizaciones, cambios técnicos o de funcionalidad.",
+  "terms_section_5_title": "5. Limitación de responsabilidad",
+  "terms_section_5_content": "SpeakHands se proporciona 'tal cual'. No garantizamos una precisión absoluta en la interpretación de señas. SpeakHands no será responsable de daños directos o indirectos derivados del uso o mal uso de la aplicación, incluyendo errores en la traducción o malinterpretaciones.",
+  "terms_section_6_title": "6. Terminación del uso",
+  "terms_section_6_content": "Nos reservamos el derecho de suspender el acceso a la aplicación a cualquier usuario que incumpla estos términos, sin necesidad de previo aviso.",
+
+  "help_title": "Ayuda",
+  "search_questions": "Buscar preguntas...",
+  "faq_title": "Preguntas frecuentes (FAQ)",
+  "no_results_found": "No hemos encontrado resultados para tu búsqueda.",
+  "see_more": "Ver más",
+  "need_more_help": "¿Necesitas más ayuda? ¡Contáctanos!",
+
+  "email_app_not_found": "No se encontró una aplicación de correo configurada.",
+  "phone_call_failed": "No se pudo realizar la llamada.",
+
+  "faq_q01": "No puedo abrir el enlace de correo",
+  "faq_q01_a1": "Instala y configura una app de correo (Gmail/Outlook).",
+  "faq_q01_a2": "Ajustes > Apps predeterminadas > Correo: selecciona tu cliente.",
+  "faq_q01_a3": "Prueba en un dispositivo físico (los emuladores suelen no tener correo).",
+
+  "faq_q02": "¿Cómo puedo restablecer mi contraseña?",
+  "faq_q02_a1": "Ve a Perfil > Cuenta > Restablecer contraseña.",
+  "faq_q02_a2": "Revisa tu correo (spam) para el enlace de restablecimiento.",
+  "faq_q02_a3": "Si no llega, intenta de nuevo o contáctanos por correo.",
+
+  "faq_q03": "¿Cómo cambio mi dirección de correo electrónico?",
+  "faq_q03_a1": "Perfil > Datos personales > Correo electrónico.",
+  "faq_q03_a2": "Verifica el nuevo correo desde el enlace recibido.",
+  "faq_q03_a3": "Cierra sesión y vuelve a entrar si no ves el cambio.",
+
+  "faq_q04": "¿Qué hacer si tengo un problema técnico?",
+  "faq_q04_a1": "Cierra y vuelve a abrir la app.",
+  "faq_q04_a2": "Reinicia el dispositivo.",
+  "faq_q04_a3": "Actualiza a la última versión disponible.",
+
+  "faq_q05": "La cámara no funciona",
+  "faq_q05_a1": "Asegúrate de haber concedido los permisos de cámara en Ajustes.",
+  "faq_q05_a2": "Cierra otras aplicaciones que puedan estar usando la cámara.",
+  "faq_q05_a3": "Prueba a reiniciar la app o el dispositivo.",
+  "faq_q05_a4": "Revisa que tu cámara esté limpia y sin obstrucciones.",
+
+  "faq_q06": "La aplicación no responde",
+  "faq_q06_a1": "Cierra y vuelve a abrir la aplicación.",
+  "faq_q06_a2": "Reinicia tu dispositivo.",
+  "faq_q06_a3": "Verifica que tengas la última versión de la aplicación instalada.",
+  "faq_q06_a4": "Si el problema persiste, intenta desinstalar y reinstalar la aplicación.",
+
+  "faq_q07": "La app no detecta las manos",
+  "faq_q07_a1": "Asegúrate de estar en un lugar bien iluminado.",
+  "faq_q07_a2": "Mantén las manos dentro del cuadro de la cámara.",
+  "faq_q07_a3": "Evita fondos demasiado complejos que puedan interferir con la detección.",
+  "faq_q07_a4": "Asegúrate de que la cámara esté limpia.",
+
+  "faq_q08": "La traducción es incorrecta",
+  "faq_q08_a1": "Asegúrate de que tu mano esté posicionada correctamente en el cuadro.",
+  "faq_q08_a2": "Revisa que la iluminación sea suficiente para que la cámara pueda detectar las señas.",
+  "faq_q08_a3": "Intenta mover la mano más lentamente para una mejor detección.",
+  "faq_q08_a4": "Si el problema persiste, intenta reiniciar la aplicación.",
+
+  "faq_q09": "La aplicación se cierra inesperadamente",
+  "faq_q09_a1": "Asegúrate de tener suficiente espacio de almacenamiento en tu dispositivo.",
+  "faq_q09_a2": "Reinicia tu dispositivo para liberar memoria.",
+  "faq_q09_a3": "Si el problema persiste, desinstala y vuelve a instalar la aplicación.",
+  "faq_q09_a4": "Verifica que la aplicación esté actualizada a la última versión.",
+
+  "faq_q10": "La aplicación no se conecta a Internet",
+  "faq_q10_a1": "Verifica tu conexión a Internet (Wi-Fi o datos móviles).",
+  "faq_q10_a2": "Reinicia tu router o dispositivo si tienes problemas con la conexión.",
+  "faq_q10_a3": "Verifica que la app tenga permisos para acceder a Internet.",
+  "faq_q10_a4": "Prueba desactivando y volviendo a activar la conexión Wi-Fi o datos móviles."
 
 }
