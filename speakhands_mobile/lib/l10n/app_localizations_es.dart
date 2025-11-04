@@ -42,7 +42,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get saying => 'Deja que tus manos hablen';
 
   @override
-  String get translator_screen_title => 'Traducir';
+  String get translator_screen_title => 'Traductor';
 
   @override
   String get let_your_hands_speak => 'Deja que tus manos hablen';
@@ -83,7 +83,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get subtitle_intro => 'Muestra tus manos a la cámara';
 
   @override
-  String get settings_title => 'Configuración';
+  String get settings_title => 'Ajustes';
 
   @override
   String get account_section => 'Cuenta';

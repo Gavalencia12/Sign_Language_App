@@ -3,6 +3,7 @@ import 'package:speakhands_mobile/screens/interpreter/interpreter_screen.dart';
 import 'package:speakhands_mobile/screens/settings/settings_screen.dart';
 import 'package:speakhands_mobile/screens/translator/translator_screen.dart';
 import 'package:speakhands_mobile/theme/app_colors.dart';
+import 'package:speakhands_mobile/l10n/app_localizations.dart';
 
 // The main navigation widget that manages the bottom navigation bar
 // and switches between the core app screens: **Interpreter**, **Translator**, and **Settings**.
@@ -142,11 +143,11 @@ class _MainNavigationState extends State<MainNavigation> {
   String _getTextForIndex(int index) {
     switch (index) {
       case 0:
-        return 'Interprete';
+        return AppLocalizations.of(context)!.interpreter_screen_title;
       case 1:
-        return 'Traductor';
+        return AppLocalizations.of(context)!.translator_screen_title;
       case 2:
-        return 'Ajustes';
+        return AppLocalizations.of(context)!.settings_title;
       default:
         return '';
     }

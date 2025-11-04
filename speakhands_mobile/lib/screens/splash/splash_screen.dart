@@ -130,7 +130,6 @@ class _SplashScreenState extends State<SplashScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20),
 
                   // Texto final "SpeakHands"
                   AnimatedOpacity(

@@ -14,7 +14,7 @@
   "learn_info": "Esta es la sección para aprender lengua de señas.",
   "saying": "Deja que tus manos hablen",
 
-  "translator_screen_title": "Traducir",
+  "translator_screen_title": "Traductor",
   "let_your_hands_speak": "Deja que tus manos hablen",
   "translation": "Traducción:",
   "waiting_prediction": "Esperando predicción...",
@@ -34,7 +34,7 @@
   "screen_intro": "Bienvenido a la pantalla de traductor",
   "subtitle_intro": "Muestra tus manos a la cámara",
 
-  "settings_title": "Configuración",
+  "settings_title": "Ajustes",
   "account_section": "Cuenta",
   "personal_data": "Datos personales",
   "account": "Cuenta",

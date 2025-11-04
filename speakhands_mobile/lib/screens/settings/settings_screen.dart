@@ -5,6 +5,7 @@ import 'package:speakhands_mobile/providers/theme_provider.dart';
 import 'package:speakhands_mobile/l10n/app_localizations.dart';
 import 'package:speakhands_mobile/widgets/custom_app_bar.dart';
 import 'package:speakhands_mobile/widgets/dialogs/language_dialog.dart';
+import 'package:speakhands_mobile/l10n/app_localizations.dart';
 
 // Import local pages
 import 'pages/terms_and_conditions_screen.dart';
@@ -47,7 +48,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: CustomAppBar(title: "Settings"),
+      appBar: CustomAppBar(title: AppLocalizations.of(context)!.settings_title,),
       body: Stack(
         children: [
           SingleChildScrollView(
