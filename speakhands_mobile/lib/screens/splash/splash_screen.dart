@@ -19,11 +19,10 @@ class _SplashScreenState extends State<SplashScreen> {
     'assets/images/M.png',
   ];
 
-  // Duraciones (rápidas)
-  static const Duration fadeDuration = Duration(milliseconds: 220);   // crossfade
-  static const Duration holdDuration = Duration(milliseconds:450);   // tiempo visible
-  static const Duration bgFinalDuration = Duration(milliseconds: 600); // fondo al final
-  static const Duration progressDuration = Duration(milliseconds: 1500); // barra de carga
+  // Duraciones base
+  static const Duration fadeDuration = Duration(milliseconds: 200);
+  static const Duration bgFinalDuration = Duration(milliseconds: 600);
+  static const Duration progressDuration = Duration(milliseconds: 1500);
 
   // Tamaños
   static const double _baseSize = 150;
@@ -31,7 +30,6 @@ class _SplashScreenState extends State<SplashScreen> {
   double _sizeFor(int i) => i == 0 ? _baseSize : _baseSize * _smallerFactor;
 
   int _index = 0;
-  Timer? _stepTimer;
 
   // Estados de la fase final
   bool _finalPhase = false; // cuando termina la secuencia de imágenes
@@ -46,55 +44,60 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    setState(() {
-      _bgStart = AppColors.surface(context);
-      _bgEnd = AppColors.background(context);
-    });
-  });
-    // Avanza imágenes en secuencia
-    final step = holdDuration + fadeDuration;
-    _stepTimer = Timer.periodic(step, (t) {
-      if (!mounted) return;
-
-      // Si estamos en la primera imagen (el GIF), la dejamos más tiempo
-      final extraDelay = (_index == 0) ? Duration(seconds: 2) : Duration.zero;
-
-      Future.delayed(extraDelay, () {
-        if (!mounted) return;
-
-        if (_index < _images.length - 1) {
-          setState(() => _index++);
-        } else {
-          t.cancel();
-          setState(() {
-            _finalPhase = true;
-            _finalFade = true;
-          });
-
-          if (!_navigateScheduled) {
-            _navigateScheduled = true;
-            Future.delayed(const Duration(seconds: 2), () {
-              AppRouter.replaceWith(context, '/main');
-            });
-          }
-        }
+    // Asignar colores del tema después del primer frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        _bgStart = AppColors.surface(context);
+        _bgEnd = AppColors.background(context);
       });
     });
+
+    // Iniciar la secuencia de imágenes
+    _startSequence();
   }
 
-  @override
-  void dispose() {
-    _stepTimer?.cancel();
-    super.dispose();
+  // Secuencia controlada de imágenes
+  void _startSequence() {
+    if (!mounted) return;
+
+    // Duraciones personalizadas por imagen
+    final durations = [
+      const Duration(seconds: 2), // GIF "hola.gif"
+      const Duration(milliseconds: 700), // L.png
+      const Duration(milliseconds: 700), // S.png
+      const Duration(milliseconds: 700), // M.png
+    ];
+
+    Future.delayed(durations[_index], () {
+      if (!mounted) return;
+
+      if (_index < _images.length - 1) {
+        setState(() => _index++);
+        _startSequence(); // pasa a la siguiente imagen
+      } else {
+        // Última imagen -> inicia fase final
+        setState(() {
+          _finalPhase = true;
+          _finalFade = true;
+        });
+
+        // Navegar después de la animación final
+        if (!_navigateScheduled) {
+          _navigateScheduled = true;
+          Future.delayed(const Duration(seconds: 2), () {
+            AppRouter.replaceWith(context, '/main');
+          });
+        }
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    
-    final Color textColor =  AppColors.primary(context);
+
+    final Color textColor = AppColors.primary(context);
     final Color accentColor = AppColors.text(context);
-    
+
     return Scaffold(
       body: AnimatedContainer(
         duration: bgFinalDuration,
@@ -102,12 +105,12 @@ class _SplashScreenState extends State<SplashScreen> {
         color: _finalPhase ? _bgEnd : _bgStart,
         child: Stack(
           children: [
-            // Contenido centrado: imágenes + (al final) textos
+            // Contenido centrado: imágenes + texto final
             Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Marco fijo para evitar saltos de layout
+                  // Marco fijo para evitar saltos
                   SizedBox.square(
                     dimension: _baseSize,
                     child: Stack(
@@ -128,7 +131,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                   const SizedBox(height: 20),
 
-                  // Mensaje final: aparece sólo en fase final
+                  // Texto final "SpeakHands"
                   AnimatedOpacity(
                     opacity: _finalPhase ? 1.0 : 0.0,
                     duration: const Duration(milliseconds: 300),
@@ -152,7 +155,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                 const TextSpan(text: 'Speak'),
                                 TextSpan(
                                   text: 'Hands',
-                                  style: TextStyle(color:accentColor),
+                                  style: TextStyle(color: accentColor),
                                 ),
                               ],
                             ),
@@ -170,7 +173,7 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             ),
 
-            // Barra de carga delgada, pegada casi al fondo
+            // Barra de carga inferior
             Align(
               alignment: const Alignment(0, 0.9),
               child: Padding(
@@ -179,7 +182,8 @@ class _SplashScreenState extends State<SplashScreen> {
                   opacity: _finalPhase ? 1.0 : 0.0,
                   duration: const Duration(milliseconds: 250),
                   child: TweenAnimationBuilder<double>(
-                    tween: Tween(begin: 0.0, end: _finalPhase ? 1.0 : 0.0),
+                    tween:
+                        Tween(begin: 0.0, end: _finalPhase ? 1.0 : 0.0),
                     duration: progressDuration,
                     curve: Curves.easeInOut,
                     builder: (context, value, child) {

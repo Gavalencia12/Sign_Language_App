@@ -37,7 +37,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  flutter_launcher_icons: ^0.14.4
+  
 flutter:
   uses-material-design: true
   generate: true
@@ -54,13 +55,19 @@ flutter:
     - assets/privacy_policy.json
     - assets/faqs.json
 
-# 👇 El bloque l10n VA FUERA del bloque flutter
+#  El bloque l10n VA FUERA del bloque flutter
 l10n:
   arb-dir: lib/l10n
   template-arb-file: intl_en.arb
   output-localization-file: app_localizations.dart
 
     # Si tienes sonidos, íconos o más, aquí los agregas
+
+flutter_launcher_icons: 
+android: "adaptive" 
+image_path: assets/images/LogoLSM.png # tu ícono (por ej. un logotipo minimal) 
+adaptive_icon_background: "#FF5C8DAD" # negro (combina con el splash) 
+adaptive_icon_foreground: assets/images/LogoLSM.pn
 
 # Opcional para futuras fuentes personalizadas
 # fonts:
