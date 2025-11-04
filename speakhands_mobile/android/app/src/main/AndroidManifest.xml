@@ -3,7 +3,7 @@
     package="com.example.speakhands_mobile">
 
     <application
-        android:label="speakhands_mobile"
+        android:label="SpeakHands"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 
