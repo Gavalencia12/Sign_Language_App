@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:speakhands_mobile/providers/theme_provider.dart';
 import 'package:speakhands_mobile/theme/app_colors.dart';
+import 'package:speakhands_mobile/l10n/app_localizations.dart';
 
 // Displays a bottom sheet allowing the user to choose between
 // Light, Dark, or System default theme modes.
@@ -62,7 +63,7 @@ class Modal {
               // === Light mode option ===
               RadioListTile<ThemeModeOption>(
                 activeColor: primaryColor,
-                title: Text('Claro', style: TextStyle(color: textColor)),
+                title: Text(AppLocalizations.of(context)!.light, style: TextStyle(color: textColor)),
                 value: ThemeModeOption.light,
                 groupValue: themeMode,
                 onChanged: (mode) {
@@ -76,7 +77,7 @@ class Modal {
               // === Dark mode option ===
               RadioListTile<ThemeModeOption>(
                 activeColor: primaryColor,
-                title: Text('Oscuro', style: TextStyle(color: textColor)),
+                title: Text( AppLocalizations.of(context)!.dark, style: TextStyle(color: textColor)),
                 value: ThemeModeOption.dark,
                 groupValue: themeMode,
                 onChanged: (mode) {
@@ -91,7 +92,7 @@ class Modal {
               RadioListTile<ThemeModeOption>(
                 activeColor: primaryColor,
                 title: Text(
-                  'Predeterminado del sistema',
+                  AppLocalizations.of(context)!.system,
                   style: TextStyle(color: textColor),
                 ),
                 value: ThemeModeOption.system,

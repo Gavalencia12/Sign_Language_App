@@ -95,6 +95,24 @@ abstract class AppLocalizations {
     Locale('es')
   ];
 
+  /// No description provided for @select_language.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a language'**
+  String get select_language;
+
+  /// No description provided for @len_es.
+  ///
+  /// In en, this message translates to:
+  /// **'Spanish'**
+  String get len_es;
+
+  /// No description provided for @len_en.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get len_en;
+
   /// No description provided for @clear.
   ///
   /// In en, this message translates to:
@@ -131,203 +149,17 @@ abstract class AppLocalizations {
   /// **'Let your signs be heard'**
   String get let_your_sign_be_heard;
 
-  /// No description provided for @select_language.
+  /// No description provided for @learn_info.
   ///
   /// In en, this message translates to:
-  /// **'Select Language'**
-  String get select_language;
+  /// **'This is the section to learn sign language.'**
+  String get learn_info;
 
-  /// No description provided for @section1.
+  /// No description provided for @saying.
   ///
   /// In en, this message translates to:
-  /// **'Section 1'**
-  String get section1;
-
-  /// No description provided for @section2.
-  ///
-  /// In en, this message translates to:
-  /// **'Section 2'**
-  String get section2;
-
-  /// No description provided for @section3.
-  ///
-  /// In en, this message translates to:
-  /// **'Section 3'**
-  String get section3;
-
-  /// No description provided for @section4.
-  ///
-  /// In en, this message translates to:
-  /// **'Section 4'**
-  String get section4;
-
-  /// No description provided for @alphabet.
-  ///
-  /// In en, this message translates to:
-  /// **'Alphabet'**
-  String get alphabet;
-
-  /// No description provided for @numbers.
-  ///
-  /// In en, this message translates to:
-  /// **'Numbers'**
-  String get numbers;
-
-  /// No description provided for @greetings.
-  ///
-  /// In en, this message translates to:
-  /// **'Greetings'**
-  String get greetings;
-
-  /// No description provided for @pronouns.
-  ///
-  /// In en, this message translates to:
-  /// **'Pronouns'**
-  String get pronouns;
-
-  /// No description provided for @test.
-  ///
-  /// In en, this message translates to:
-  /// **'Test'**
-  String get test;
-
-  /// No description provided for @colors.
-  ///
-  /// In en, this message translates to:
-  /// **'Colors'**
-  String get colors;
-
-  /// No description provided for @family.
-  ///
-  /// In en, this message translates to:
-  /// **'Family'**
-  String get family;
-
-  /// No description provided for @animals.
-  ///
-  /// In en, this message translates to:
-  /// **'Animals'**
-  String get animals;
-
-  /// No description provided for @dates.
-  ///
-  /// In en, this message translates to:
-  /// **'Dates'**
-  String get dates;
-
-  /// No description provided for @sentence_structure.
-  ///
-  /// In en, this message translates to:
-  /// **'Sentence Structure'**
-  String get sentence_structure;
-
-  /// No description provided for @questions.
-  ///
-  /// In en, this message translates to:
-  /// **'Questions'**
-  String get questions;
-
-  /// No description provided for @time.
-  ///
-  /// In en, this message translates to:
-  /// **'Time'**
-  String get time;
-
-  /// No description provided for @negations_affirmations.
-  ///
-  /// In en, this message translates to:
-  /// **'Negations and Affirmations'**
-  String get negations_affirmations;
-
-  /// No description provided for @transport.
-  ///
-  /// In en, this message translates to:
-  /// **'Transport'**
-  String get transport;
-
-  /// No description provided for @object.
-  ///
-  /// In en, this message translates to:
-  /// **'Object'**
-  String get object;
-
-  /// No description provided for @emotions.
-  ///
-  /// In en, this message translates to:
-  /// **'Emotions'**
-  String get emotions;
-
-  /// No description provided for @emergencies.
-  ///
-  /// In en, this message translates to:
-  /// **'Emergencies'**
-  String get emergencies;
-
-  /// No description provided for @welcome_back.
-  ///
-  /// In en, this message translates to:
-  /// **'Hi, Welcome back!'**
-  String get welcome_back;
-
-  /// No description provided for @my_progress.
-  ///
-  /// In en, this message translates to:
-  /// **'My progress'**
-  String get my_progress;
-
-  /// No description provided for @not_progress_yet.
-  ///
-  /// In en, this message translates to:
-  /// **'Not progress yet,'**
-  String get not_progress_yet;
-
-  /// No description provided for @lets_start_learning.
-  ///
-  /// In en, this message translates to:
-  /// **'Let\'s start learning!'**
-  String get lets_start_learning;
-
-  /// No description provided for @section.
-  ///
-  /// In en, this message translates to:
-  /// **'Section'**
-  String get section;
-
-  /// No description provided for @lesson.
-  ///
-  /// In en, this message translates to:
-  /// **'Lesson'**
-  String get lesson;
-
-  /// No description provided for @describe_alphabet.
-  ///
-  /// In en, this message translates to:
-  /// **'Describe Alphabet'**
-  String get describe_alphabet;
-
-  /// No description provided for @started_section_1.
-  ///
-  /// In en, this message translates to:
-  /// **'Started learning section 1!'**
-  String get started_section_1;
-
-  /// No description provided for @challenge_of_the_day.
-  ///
-  /// In en, this message translates to:
-  /// **'Challenge of the Day'**
-  String get challenge_of_the_day;
-
-  /// No description provided for @complete_lesson.
-  ///
-  /// In en, this message translates to:
-  /// **'Complete the lesson:'**
-  String get complete_lesson;
-
-  /// No description provided for @alphabet_title.
-  ///
-  /// In en, this message translates to:
-  /// **'ALPHABET'**
-  String get alphabet_title;
+  /// **'Let your hands do the talking'**
+  String get saying;
 
   /// No description provided for @translator_screen_title.
   ///
@@ -407,102 +239,6 @@ abstract class AppLocalizations {
   /// **'Show your hands to the camera'**
   String get subtitle_intro;
 
-  /// No description provided for @edit_your_profile.
-  ///
-  /// In en, this message translates to:
-  /// **'Edit your profile'**
-  String get edit_your_profile;
-
-  /// No description provided for @settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Settings'**
-  String get settings;
-
-  /// No description provided for @age.
-  ///
-  /// In en, this message translates to:
-  /// **'Age: '**
-  String get age;
-
-  /// No description provided for @email.
-  ///
-  /// In en, this message translates to:
-  /// **'Email'**
-  String get email;
-
-  /// No description provided for @phone.
-  ///
-  /// In en, this message translates to:
-  /// **'Phone'**
-  String get phone;
-
-  /// No description provided for @without_phone.
-  ///
-  /// In en, this message translates to:
-  /// **'Without phone'**
-  String get without_phone;
-
-  /// No description provided for @birth_date.
-  ///
-  /// In en, this message translates to:
-  /// **'Birth Date'**
-  String get birth_date;
-
-  /// No description provided for @without_birth_date.
-  ///
-  /// In en, this message translates to:
-  /// **'Without Birth Date'**
-  String get without_birth_date;
-
-  /// No description provided for @my_statistics.
-  ///
-  /// In en, this message translates to:
-  /// **'MY STATISTICS:'**
-  String get my_statistics;
-
-  /// No description provided for @your_progress.
-  ///
-  /// In en, this message translates to:
-  /// **'Your Progress:'**
-  String get your_progress;
-
-  /// No description provided for @level.
-  ///
-  /// In en, this message translates to:
-  /// **'Level'**
-  String get level;
-
-  /// No description provided for @disability.
-  ///
-  /// In en, this message translates to:
-  /// **'Disability:'**
-  String get disability;
-
-  /// No description provided for @without_disability.
-  ///
-  /// In en, this message translates to:
-  /// **'Without Disability'**
-  String get without_disability;
-
-  /// No description provided for @about_you.
-  ///
-  /// In en, this message translates to:
-  /// **'About You:'**
-  String get about_you;
-
-  /// No description provided for @without_information.
-  ///
-  /// In en, this message translates to:
-  /// **'Without information'**
-  String get without_information;
-
-  /// No description provided for @notifications.
-  ///
-  /// In en, this message translates to:
-  /// **'Notifications'**
-  String get notifications;
-
   /// No description provided for @settings_title.
   ///
   /// In en, this message translates to:
@@ -548,8 +284,50 @@ abstract class AppLocalizations {
   /// No description provided for @color.
   ///
   /// In en, this message translates to:
-  /// **'Color'**
+  /// **'Appearance'**
   String get color;
+
+  /// No description provided for @dark_mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Theme: Dark'**
+  String get dark_mode;
+
+  /// No description provided for @sure_mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Theme: Light'**
+  String get sure_mode;
+
+  /// No description provided for @sistem_mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Theme: System'**
+  String get sistem_mode;
+
+  /// No description provided for @select_theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Theme'**
+  String get select_theme;
+
+  /// No description provided for @dark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get dark;
+
+  /// No description provided for @light.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get light;
+
+  /// No description provided for @system.
+  ///
+  /// In en, this message translates to:
+  /// **'Predetermined by System'**
+  String get system;
 
   /// No description provided for @accessibility.
   ///
@@ -569,71 +347,17 @@ abstract class AppLocalizations {
   /// **'Terms and Conditions'**
   String get terms_and_conditions;
 
-  /// No description provided for @help.
-  ///
-  /// In en, this message translates to:
-  /// **'Help'**
-  String get help;
-
   /// No description provided for @qualife.
   ///
   /// In en, this message translates to:
   /// **'Qualife'**
   String get qualife;
 
-  /// No description provided for @login_section.
-  ///
-  /// In en, this message translates to:
-  /// **'The Login'**
-  String get login_section;
-
-  /// No description provided for @change_account.
-  ///
-  /// In en, this message translates to:
-  /// **'Change Account'**
-  String get change_account;
-
-  /// No description provided for @log_out.
-  ///
-  /// In en, this message translates to:
-  /// **'Log Out'**
-  String get log_out;
-
   /// No description provided for @hello.
   ///
   /// In en, this message translates to:
   /// **'Hello'**
   String get hello;
-
-  /// No description provided for @home_welcome_with_name.
-  ///
-  /// In en, this message translates to:
-  /// **'Hello {nombre}. Welcome on the Home Screen.'**
-  String home_welcome_with_name(Object nombre);
-
-  /// No description provided for @profile_welcome.
-  ///
-  /// In en, this message translates to:
-  /// **'You\'re in your profile. Here you can see your details and settings.'**
-  String get profile_welcome;
-
-  /// No description provided for @translate_info.
-  ///
-  /// In en, this message translates to:
-  /// **'Here you can translate your signs.'**
-  String get translate_info;
-
-  /// No description provided for @learn_info.
-  ///
-  /// In en, this message translates to:
-  /// **'This is the section to learn sign language.'**
-  String get learn_info;
-
-  /// No description provided for @profile_edit_intro.
-  ///
-  /// In en, this message translates to:
-  /// **'You are in the screen to edit your profile. Here you can change your personal information.'**
-  String get profile_edit_intro;
 
   /// No description provided for @privacy_policy_title.
   ///

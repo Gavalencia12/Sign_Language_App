@@ -19,7 +19,7 @@ class SectionTextBlock extends StatelessWidget {
   // The paragraph or body content of the section.
   final String content;
 
-  // 🔹 NEW: Optional custom color for links.
+  // NEW: Optional custom color for links.
   final Color? linkColor;
 
   const SectionTextBlock({

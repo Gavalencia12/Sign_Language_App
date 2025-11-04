@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:speakhands_mobile/routes/app_router.dart';
 import 'package:speakhands_mobile/theme/app_colors.dart';
 import 'package:speakhands_mobile/theme/text_styles.dart';
+import 'package:speakhands_mobile/l10n/app_localizations.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -162,7 +163,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           ),
                           const SizedBox(height: 6),
                           Text(
-                            'Deja que tus manos hablen',
+                            AppLocalizations.of(context)!.saying,
                             style: AppTextStyles.textTitle.copyWith(color: accentColor),
                           ),
                         ],

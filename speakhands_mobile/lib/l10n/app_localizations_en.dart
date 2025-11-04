@@ -9,6 +9,15 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get select_language => 'Select a language';
+
+  @override
+  String get len_es => 'Spanish';
+
+  @override
+  String get len_en => 'English';
+
+  @override
   String get clear => 'Clear';
 
   @override
@@ -27,103 +36,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get let_your_sign_be_heard => 'Let your signs be heard';
 
   @override
-  String get select_language => 'Select Language';
+  String get learn_info => 'This is the section to learn sign language.';
 
   @override
-  String get section1 => 'Section 1';
-
-  @override
-  String get section2 => 'Section 2';
-
-  @override
-  String get section3 => 'Section 3';
-
-  @override
-  String get section4 => 'Section 4';
-
-  @override
-  String get alphabet => 'Alphabet';
-
-  @override
-  String get numbers => 'Numbers';
-
-  @override
-  String get greetings => 'Greetings';
-
-  @override
-  String get pronouns => 'Pronouns';
-
-  @override
-  String get test => 'Test';
-
-  @override
-  String get colors => 'Colors';
-
-  @override
-  String get family => 'Family';
-
-  @override
-  String get animals => 'Animals';
-
-  @override
-  String get dates => 'Dates';
-
-  @override
-  String get sentence_structure => 'Sentence Structure';
-
-  @override
-  String get questions => 'Questions';
-
-  @override
-  String get time => 'Time';
-
-  @override
-  String get negations_affirmations => 'Negations and Affirmations';
-
-  @override
-  String get transport => 'Transport';
-
-  @override
-  String get object => 'Object';
-
-  @override
-  String get emotions => 'Emotions';
-
-  @override
-  String get emergencies => 'Emergencies';
-
-  @override
-  String get welcome_back => 'Hi, Welcome back!';
-
-  @override
-  String get my_progress => 'My progress';
-
-  @override
-  String get not_progress_yet => 'Not progress yet,';
-
-  @override
-  String get lets_start_learning => 'Let\'s start learning!';
-
-  @override
-  String get section => 'Section';
-
-  @override
-  String get lesson => 'Lesson';
-
-  @override
-  String get describe_alphabet => 'Describe Alphabet';
-
-  @override
-  String get started_section_1 => 'Started learning section 1!';
-
-  @override
-  String get challenge_of_the_day => 'Challenge of the Day';
-
-  @override
-  String get complete_lesson => 'Complete the lesson:';
-
-  @override
-  String get alphabet_title => 'ALPHABET';
+  String get saying => 'Let your hands do the talking';
 
   @override
   String get translator_screen_title => 'Translate';
@@ -167,54 +83,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get subtitle_intro => 'Show your hands to the camera';
 
   @override
-  String get edit_your_profile => 'Edit your profile';
-
-  @override
-  String get settings => 'Settings';
-
-  @override
-  String get age => 'Age: ';
-
-  @override
-  String get email => 'Email';
-
-  @override
-  String get phone => 'Phone';
-
-  @override
-  String get without_phone => 'Without phone';
-
-  @override
-  String get birth_date => 'Birth Date';
-
-  @override
-  String get without_birth_date => 'Without Birth Date';
-
-  @override
-  String get my_statistics => 'MY STATISTICS:';
-
-  @override
-  String get your_progress => 'Your Progress:';
-
-  @override
-  String get level => 'Level';
-
-  @override
-  String get disability => 'Disability:';
-
-  @override
-  String get without_disability => 'Without Disability';
-
-  @override
-  String get about_you => 'About You:';
-
-  @override
-  String get without_information => 'Without information';
-
-  @override
-  String get notifications => 'Notifications';
-
-  @override
   String get settings_title => 'Settings';
 
   @override
@@ -236,7 +104,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get language => 'Language';
 
   @override
-  String get color => 'Color';
+  String get color => 'Appearance';
+
+  @override
+  String get dark_mode => 'Current Theme: Dark';
+
+  @override
+  String get sure_mode => 'Current Theme: Light';
+
+  @override
+  String get sistem_mode => 'Current Theme: System';
+
+  @override
+  String get select_theme => 'Select Theme';
+
+  @override
+  String get dark => 'Dark';
+
+  @override
+  String get light => 'Light';
+
+  @override
+  String get system => 'Predetermined by System';
 
   @override
   String get accessibility => 'Accessibility';
@@ -248,39 +137,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get terms_and_conditions => 'Terms and Conditions';
 
   @override
-  String get help => 'Help';
-
-  @override
   String get qualife => 'Qualife';
 
   @override
-  String get login_section => 'The Login';
-
-  @override
-  String get change_account => 'Change Account';
-
-  @override
-  String get log_out => 'Log Out';
-
-  @override
   String get hello => 'Hello';
-
-  @override
-  String home_welcome_with_name(Object nombre) {
-    return 'Hello $nombre. Welcome on the Home Screen.';
-  }
-
-  @override
-  String get profile_welcome => 'You\'re in your profile. Here you can see your details and settings.';
-
-  @override
-  String get translate_info => 'Here you can translate your signs.';
-
-  @override
-  String get learn_info => 'This is the section to learn sign language.';
-
-  @override
-  String get profile_edit_intro => 'You are in the screen to edit your profile. Here you can change your personal information.';
 
   @override
   String get privacy_policy_title => 'Privacy Policy';
