@@ -51,9 +51,6 @@ flutter:
     - assets/lexicon/interpreter_function.json
     - assets/lexicon/videos/
     - assets/lexicon/images/
-    - assets/terms_and_conditions.json
-    - assets/privacy_policy.json
-    - assets/faqs.json
 
 #  El bloque l10n VA FUERA del bloque flutter
 l10n:

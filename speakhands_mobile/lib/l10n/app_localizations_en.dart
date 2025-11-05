@@ -143,6 +143,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hello => 'Hello';
 
   @override
+  String get show => 'Show';
+
+  @override
   String get privacy_policy_title => 'Privacy Policy';
 
   @override

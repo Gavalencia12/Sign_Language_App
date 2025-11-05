@@ -143,6 +143,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get hello => 'Hola';
 
   @override
+  String get show => 'Mostrar';
+
+  @override
   String get privacy_policy_title => 'Política de Privacidad';
 
   @override

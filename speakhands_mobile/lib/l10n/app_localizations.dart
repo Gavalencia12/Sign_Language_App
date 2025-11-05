@@ -359,6 +359,12 @@ abstract class AppLocalizations {
   /// **'Hello'**
   String get hello;
 
+  /// No description provided for @show.
+  ///
+  /// In en, this message translates to:
+  /// **'Show'**
+  String get show;
+
   /// No description provided for @privacy_policy_title.
   ///
   /// In en, this message translates to:
