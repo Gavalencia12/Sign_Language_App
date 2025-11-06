@@ -1,54 +1,77 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:speakhands_mobile/theme/app_colors.dart';
+import 'package:speakhands_mobile/l10n/app_localizations.dart';
 
-// A contact section widget displayed at the bottom of the Help screen.
-// It provides two interactive options for users to reach support:
-// - Sending an email to the technical support team.
-// - Making a direct phone call.
-// Both actions use the `url_launcher` package to open the default
-// email or phone app on the user’s device.
+/// A contact section displayed at the bottom of the Help screen.
+/// 
+/// Provides quick options for users to reach technical support:
+/// - Tap the email to open the default mail app.
+/// - Tap the phone number to open the dialer.
+/// 
+/// Uses `url_launcher` for launching intents and shows a SnackBar if
+/// no compatible app is found.
 class HelpContactSection extends StatelessWidget {
   const HelpContactSection({super.key});
 
-  // Opens the user's default email application with a prefilled recipient
-  // and subject line for technical support inquiries.
-  Future<void> _launchEmail() async {
-    final uri = Uri.parse(
-      'mailto:languageappsign@gmail.com?subject=Soporte%20Técnico',
+  // Opens the default email app with recipient and subject prefilled.
+  Future<void> _launchEmail(BuildContext context) async {
+    final Uri uri = Uri(
+      scheme: 'mailto',
+      path: 'languageappsign@gmail.com',
+      queryParameters: {'subject': 'Soporte Técnico'},
     );
-    if (await canLaunchUrl(uri)) await launchUrl(uri);
+
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            AppLocalizations.of(context)!.email_app_not_found,
+          ),
+        ),
+      );
+    }
   }
 
-  // Opens the phone dialer with the app's support number prefilled.
-  Future<void> _launchPhone() async {
-    final uri = Uri.parse('tel:+523142184467');
-    if (await canLaunchUrl(uri)) await launchUrl(uri);
+  // Opens the phone dialer with number prefilled.
+  Future<void> _launchPhone(BuildContext context) async {
+    final Uri uri = Uri(scheme: 'tel', path: '+523142184467');
+
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            AppLocalizations.of(context)!.phone_call_failed,
+          ),
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final Color textColor = AppColors.text(context);
-    final Color linkColor = AppColors.primary(context);
+    final loc = AppLocalizations.of(context)!;
+    final textColor = AppColors.text(context);
+    final linkColor = AppColors.primary(context);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // Section title
+        // Title (translated)
         Text(
-          '¿Necesitas más ayuda? ¡Contáctanos!',
+          loc.need_more_help,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
-            color: textColor,
-            fontWeight: FontWeight.bold,
-          ),
+                color: textColor,
+                fontWeight: FontWeight.bold,
+              ),
         ),
         const SizedBox(height: 8),
 
-        // Email (tap to open mail client)
+        // Email (clickable)
         GestureDetector(
-          onTap: _launchEmail,
+          onTap: () => _launchEmail(context),
           child: Text(
             'languageappsign@gmail.com',
             style: TextStyle(
@@ -61,9 +84,9 @@ class HelpContactSection extends StatelessWidget {
 
         const SizedBox(height: 8),
 
-        // Phone number (tap to open dialer)
+        // Phone number (clickable)
         GestureDetector(
-          onTap: _launchPhone,
+          onTap: () => _launchPhone(context),
           child: Text(
             '+52 (314) 218-4467',
             style: TextStyle(

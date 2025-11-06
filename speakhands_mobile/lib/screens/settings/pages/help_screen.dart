@@ -8,6 +8,7 @@ import '../widgets/faq/faq_list.dart';
 import '../widgets/help_contact_section.dart';
 import '../widgets/section_title.dart';
 import '../widgets/empty_state.dart';
+import 'package:speakhands_mobile/l10n/app_localizations.dart';
 
 // The **HelpScreen** provides users with access to frequently asked questions (FAQ)
 // and a contact section for additional support.
@@ -45,11 +46,14 @@ class _HelpScreenState extends State<HelpScreen> {
     super.initState();
     _load(); // Load FAQs on startup
     _searchCtrl.addListener(_applyFilter);
+     WidgetsBinding.instance.addPostFrameCallback((_) {
+      _load();
+    });
   }
 
   // Loads FAQ items asynchronously using the [FaqService].
   Future<void> _load() async {
-    final items = await _service.loadFaqs();
+    final items = await _service.loadFaqs(context);
     setState(() {
       _faqs = items;
       _filtered = items;
@@ -88,13 +92,15 @@ class _HelpScreenState extends State<HelpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!; 
+
     return Scaffold(
       backgroundColor: AppColors.surface(context),
 
       // Top navigation bar with a custom back arrow color.
       appBar: AppBar(
         title: Text(
-          'Ayuda',
+          loc.help_title,
           style: TextStyle(color: AppColors.onSurface(context)),
         ),
         backgroundColor: AppColors.surface(context),
@@ -116,21 +122,21 @@ class _HelpScreenState extends State<HelpScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 5),
                       child: CustomTextField(
                         controller: _searchCtrl,
-                        label: 'Buscar preguntas…',
+                        label: loc.search_questions,
                         icon: Icons.search,
                       ),
                     ),
                     const SizedBox(height: 15),
 
                     // Section title
-                    SectionTitle(title: 'Preguntas frecuentes (FAQ)'),
+                    SectionTitle(title: loc.faq_title),
 
                     const SizedBox(height: 8),
 
                     // List of top FAQs or empty state message
                     if (_filtered.isEmpty)
-                      const EmptyState(
-                        message: 'No encontramos resultados para tu búsqueda.',
+                      EmptyState(
+                        message: loc.no_results_found,
                       )
                     else
                       FaqList(items: _filtered, maxItems: 4),
@@ -148,11 +154,11 @@ class _HelpScreenState extends State<HelpScreen> {
                             fontSize: 14,
                           ),
                         ),
-                        child: const Text('Ver más'),
+                        child: Text(loc.see_more),
                       ),
                     ),
 
-                    const SizedBox(height: 54),
+                    const SizedBox(height: 14),
 
                     // Contact support section
                     Center(

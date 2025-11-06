@@ -95,6 +95,24 @@ abstract class AppLocalizations {
     Locale('es')
   ];
 
+  /// No description provided for @select_language.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a language'**
+  String get select_language;
+
+  /// No description provided for @len_es.
+  ///
+  /// In en, this message translates to:
+  /// **'Spanish'**
+  String get len_es;
+
+  /// No description provided for @len_en.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get len_en;
+
   /// No description provided for @clear.
   ///
   /// In en, this message translates to:
@@ -131,203 +149,17 @@ abstract class AppLocalizations {
   /// **'Let your signs be heard'**
   String get let_your_sign_be_heard;
 
-  /// No description provided for @select_language.
+  /// No description provided for @learn_info.
   ///
   /// In en, this message translates to:
-  /// **'Select Language'**
-  String get select_language;
+  /// **'This is the section to learn sign language.'**
+  String get learn_info;
 
-  /// No description provided for @section1.
+  /// No description provided for @saying.
   ///
   /// In en, this message translates to:
-  /// **'Section 1'**
-  String get section1;
-
-  /// No description provided for @section2.
-  ///
-  /// In en, this message translates to:
-  /// **'Section 2'**
-  String get section2;
-
-  /// No description provided for @section3.
-  ///
-  /// In en, this message translates to:
-  /// **'Section 3'**
-  String get section3;
-
-  /// No description provided for @section4.
-  ///
-  /// In en, this message translates to:
-  /// **'Section 4'**
-  String get section4;
-
-  /// No description provided for @alphabet.
-  ///
-  /// In en, this message translates to:
-  /// **'Alphabet'**
-  String get alphabet;
-
-  /// No description provided for @numbers.
-  ///
-  /// In en, this message translates to:
-  /// **'Numbers'**
-  String get numbers;
-
-  /// No description provided for @greetings.
-  ///
-  /// In en, this message translates to:
-  /// **'Greetings'**
-  String get greetings;
-
-  /// No description provided for @pronouns.
-  ///
-  /// In en, this message translates to:
-  /// **'Pronouns'**
-  String get pronouns;
-
-  /// No description provided for @test.
-  ///
-  /// In en, this message translates to:
-  /// **'Test'**
-  String get test;
-
-  /// No description provided for @colors.
-  ///
-  /// In en, this message translates to:
-  /// **'Colors'**
-  String get colors;
-
-  /// No description provided for @family.
-  ///
-  /// In en, this message translates to:
-  /// **'Family'**
-  String get family;
-
-  /// No description provided for @animals.
-  ///
-  /// In en, this message translates to:
-  /// **'Animals'**
-  String get animals;
-
-  /// No description provided for @dates.
-  ///
-  /// In en, this message translates to:
-  /// **'Dates'**
-  String get dates;
-
-  /// No description provided for @sentence_structure.
-  ///
-  /// In en, this message translates to:
-  /// **'Sentence Structure'**
-  String get sentence_structure;
-
-  /// No description provided for @questions.
-  ///
-  /// In en, this message translates to:
-  /// **'Questions'**
-  String get questions;
-
-  /// No description provided for @time.
-  ///
-  /// In en, this message translates to:
-  /// **'Time'**
-  String get time;
-
-  /// No description provided for @negations_affirmations.
-  ///
-  /// In en, this message translates to:
-  /// **'Negations and Affirmations'**
-  String get negations_affirmations;
-
-  /// No description provided for @transport.
-  ///
-  /// In en, this message translates to:
-  /// **'Transport'**
-  String get transport;
-
-  /// No description provided for @object.
-  ///
-  /// In en, this message translates to:
-  /// **'Object'**
-  String get object;
-
-  /// No description provided for @emotions.
-  ///
-  /// In en, this message translates to:
-  /// **'Emotions'**
-  String get emotions;
-
-  /// No description provided for @emergencies.
-  ///
-  /// In en, this message translates to:
-  /// **'Emergencies'**
-  String get emergencies;
-
-  /// No description provided for @welcome_back.
-  ///
-  /// In en, this message translates to:
-  /// **'Hi, Welcome back!'**
-  String get welcome_back;
-
-  /// No description provided for @my_progress.
-  ///
-  /// In en, this message translates to:
-  /// **'My progress'**
-  String get my_progress;
-
-  /// No description provided for @not_progress_yet.
-  ///
-  /// In en, this message translates to:
-  /// **'Not progress yet,'**
-  String get not_progress_yet;
-
-  /// No description provided for @lets_start_learning.
-  ///
-  /// In en, this message translates to:
-  /// **'Let\'s start learning!'**
-  String get lets_start_learning;
-
-  /// No description provided for @section.
-  ///
-  /// In en, this message translates to:
-  /// **'Section'**
-  String get section;
-
-  /// No description provided for @lesson.
-  ///
-  /// In en, this message translates to:
-  /// **'Lesson'**
-  String get lesson;
-
-  /// No description provided for @describe_alphabet.
-  ///
-  /// In en, this message translates to:
-  /// **'Describe Alphabet'**
-  String get describe_alphabet;
-
-  /// No description provided for @started_section_1.
-  ///
-  /// In en, this message translates to:
-  /// **'Started learning section 1!'**
-  String get started_section_1;
-
-  /// No description provided for @challenge_of_the_day.
-  ///
-  /// In en, this message translates to:
-  /// **'Challenge of the Day'**
-  String get challenge_of_the_day;
-
-  /// No description provided for @complete_lesson.
-  ///
-  /// In en, this message translates to:
-  /// **'Complete the lesson:'**
-  String get complete_lesson;
-
-  /// No description provided for @alphabet_title.
-  ///
-  /// In en, this message translates to:
-  /// **'ALPHABET'**
-  String get alphabet_title;
+  /// **'Let your hands do the talking'**
+  String get saying;
 
   /// No description provided for @translator_screen_title.
   ///
@@ -407,102 +239,6 @@ abstract class AppLocalizations {
   /// **'Show your hands to the camera'**
   String get subtitle_intro;
 
-  /// No description provided for @edit_your_profile.
-  ///
-  /// In en, this message translates to:
-  /// **'Edit your profile'**
-  String get edit_your_profile;
-
-  /// No description provided for @settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Settings'**
-  String get settings;
-
-  /// No description provided for @age.
-  ///
-  /// In en, this message translates to:
-  /// **'Age: '**
-  String get age;
-
-  /// No description provided for @email.
-  ///
-  /// In en, this message translates to:
-  /// **'Email'**
-  String get email;
-
-  /// No description provided for @phone.
-  ///
-  /// In en, this message translates to:
-  /// **'Phone'**
-  String get phone;
-
-  /// No description provided for @without_phone.
-  ///
-  /// In en, this message translates to:
-  /// **'Without phone'**
-  String get without_phone;
-
-  /// No description provided for @birth_date.
-  ///
-  /// In en, this message translates to:
-  /// **'Birth Date'**
-  String get birth_date;
-
-  /// No description provided for @without_birth_date.
-  ///
-  /// In en, this message translates to:
-  /// **'Without Birth Date'**
-  String get without_birth_date;
-
-  /// No description provided for @my_statistics.
-  ///
-  /// In en, this message translates to:
-  /// **'MY STATISTICS:'**
-  String get my_statistics;
-
-  /// No description provided for @your_progress.
-  ///
-  /// In en, this message translates to:
-  /// **'Your Progress:'**
-  String get your_progress;
-
-  /// No description provided for @level.
-  ///
-  /// In en, this message translates to:
-  /// **'Level'**
-  String get level;
-
-  /// No description provided for @disability.
-  ///
-  /// In en, this message translates to:
-  /// **'Disability:'**
-  String get disability;
-
-  /// No description provided for @without_disability.
-  ///
-  /// In en, this message translates to:
-  /// **'Without Disability'**
-  String get without_disability;
-
-  /// No description provided for @about_you.
-  ///
-  /// In en, this message translates to:
-  /// **'About You:'**
-  String get about_you;
-
-  /// No description provided for @without_information.
-  ///
-  /// In en, this message translates to:
-  /// **'Without information'**
-  String get without_information;
-
-  /// No description provided for @notifications.
-  ///
-  /// In en, this message translates to:
-  /// **'Notifications'**
-  String get notifications;
-
   /// No description provided for @settings_title.
   ///
   /// In en, this message translates to:
@@ -548,8 +284,50 @@ abstract class AppLocalizations {
   /// No description provided for @color.
   ///
   /// In en, this message translates to:
-  /// **'Color'**
+  /// **'Appearance'**
   String get color;
+
+  /// No description provided for @dark_mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Theme: Dark'**
+  String get dark_mode;
+
+  /// No description provided for @sure_mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Theme: Light'**
+  String get sure_mode;
+
+  /// No description provided for @sistem_mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Theme: System'**
+  String get sistem_mode;
+
+  /// No description provided for @select_theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Theme'**
+  String get select_theme;
+
+  /// No description provided for @dark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get dark;
+
+  /// No description provided for @light.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get light;
+
+  /// No description provided for @system.
+  ///
+  /// In en, this message translates to:
+  /// **'Predetermined by System'**
+  String get system;
 
   /// No description provided for @accessibility.
   ///
@@ -569,35 +347,11 @@ abstract class AppLocalizations {
   /// **'Terms and Conditions'**
   String get terms_and_conditions;
 
-  /// No description provided for @help.
-  ///
-  /// In en, this message translates to:
-  /// **'Help'**
-  String get help;
-
   /// No description provided for @qualife.
   ///
   /// In en, this message translates to:
   /// **'Qualife'**
   String get qualife;
-
-  /// No description provided for @login_section.
-  ///
-  /// In en, this message translates to:
-  /// **'The Login'**
-  String get login_section;
-
-  /// No description provided for @change_account.
-  ///
-  /// In en, this message translates to:
-  /// **'Change Account'**
-  String get change_account;
-
-  /// No description provided for @log_out.
-  ///
-  /// In en, this message translates to:
-  /// **'Log Out'**
-  String get log_out;
 
   /// No description provided for @hello.
   ///
@@ -605,35 +359,11 @@ abstract class AppLocalizations {
   /// **'Hello'**
   String get hello;
 
-  /// No description provided for @home_welcome_with_name.
+  /// No description provided for @show.
   ///
   /// In en, this message translates to:
-  /// **'Hello {nombre}. Welcome on the Home Screen.'**
-  String home_welcome_with_name(Object nombre);
-
-  /// No description provided for @profile_welcome.
-  ///
-  /// In en, this message translates to:
-  /// **'You\'re in your profile. Here you can see your details and settings.'**
-  String get profile_welcome;
-
-  /// No description provided for @translate_info.
-  ///
-  /// In en, this message translates to:
-  /// **'Here you can translate your signs.'**
-  String get translate_info;
-
-  /// No description provided for @learn_info.
-  ///
-  /// In en, this message translates to:
-  /// **'This is the section to learn sign language.'**
-  String get learn_info;
-
-  /// No description provided for @profile_edit_intro.
-  ///
-  /// In en, this message translates to:
-  /// **'You are in the screen to edit your profile. Here you can change your personal information.'**
-  String get profile_edit_intro;
+  /// **'Show'**
+  String get show;
 
   /// No description provided for @privacy_policy_title.
   ///
@@ -736,6 +466,408 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You can:\n- Request the deletion of your data at any time.\n- Access this policy from the app.\n- Contact us for questions or complaints at [languageappsign@gmail.com](mailto:languageappsign@gmail.com).'**
   String get section_7_content;
+
+  /// No description provided for @terms_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms and Conditions'**
+  String get terms_title;
+
+  /// No description provided for @terms_section_1_title.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Acceptance of Terms'**
+  String get terms_section_1_title;
+
+  /// No description provided for @terms_section_1_content.
+  ///
+  /// In en, this message translates to:
+  /// **'By downloading, accessing, or using SpeakHands, you agree to these Terms and Conditions in full. If you do not agree, you must not use the application.'**
+  String get terms_section_1_content;
+
+  /// No description provided for @terms_section_2_title.
+  ///
+  /// In en, this message translates to:
+  /// **'2. Permitted Use'**
+  String get terms_section_2_title;
+
+  /// No description provided for @terms_section_2_content.
+  ///
+  /// In en, this message translates to:
+  /// **'The application is intended solely for personal, educational, or communicative support purposes. You agree not to use it for illegal activities or those infringing on third-party rights. Offensive or discriminatory content generation is prohibited.'**
+  String get terms_section_2_content;
+
+  /// No description provided for @terms_section_3_title.
+  ///
+  /// In en, this message translates to:
+  /// **'3. Intellectual Property'**
+  String get terms_section_3_title;
+
+  /// No description provided for @terms_section_3_content.
+  ///
+  /// In en, this message translates to:
+  /// **'All copyrights, logos, trademarks, and technologies used in SpeakHands are the property of the development team and are protected by intellectual property laws.'**
+  String get terms_section_3_content;
+
+  /// No description provided for @terms_section_4_title.
+  ///
+  /// In en, this message translates to:
+  /// **'4. Service Modifications'**
+  String get terms_section_4_title;
+
+  /// No description provided for @terms_section_4_content.
+  ///
+  /// In en, this message translates to:
+  /// **'We reserve the right to modify or temporarily or permanently suspend the service without prior notice. This includes updates, technical, or functionality changes.'**
+  String get terms_section_4_content;
+
+  /// No description provided for @terms_section_5_title.
+  ///
+  /// In en, this message translates to:
+  /// **'5. Limitation of Liability'**
+  String get terms_section_5_title;
+
+  /// No description provided for @terms_section_5_content.
+  ///
+  /// In en, this message translates to:
+  /// **'SpeakHands is provided \'as is\'. We do not guarantee absolute accuracy in sign interpretation. SpeakHands will not be responsible for direct or indirect damages derived from the use or misuse of the app, including translation errors or misinterpretations.'**
+  String get terms_section_5_content;
+
+  /// No description provided for @terms_section_6_title.
+  ///
+  /// In en, this message translates to:
+  /// **'6. Termination of Use'**
+  String get terms_section_6_title;
+
+  /// No description provided for @terms_section_6_content.
+  ///
+  /// In en, this message translates to:
+  /// **'We reserve the right to suspend access to the app for any user who violates these terms, without prior notice.'**
+  String get terms_section_6_content;
+
+  /// No description provided for @help_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get help_title;
+
+  /// No description provided for @search_questions.
+  ///
+  /// In en, this message translates to:
+  /// **'Search questions...'**
+  String get search_questions;
+
+  /// No description provided for @faq_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Frequently Asked Questions (FAQ)'**
+  String get faq_title;
+
+  /// No description provided for @no_results_found.
+  ///
+  /// In en, this message translates to:
+  /// **'We found no results for your search.'**
+  String get no_results_found;
+
+  /// No description provided for @see_more.
+  ///
+  /// In en, this message translates to:
+  /// **'See more'**
+  String get see_more;
+
+  /// No description provided for @need_more_help.
+  ///
+  /// In en, this message translates to:
+  /// **'Need more help? Contact us!'**
+  String get need_more_help;
+
+  /// No description provided for @email_app_not_found.
+  ///
+  /// In en, this message translates to:
+  /// **'No email application found.'**
+  String get email_app_not_found;
+
+  /// No description provided for @phone_call_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not start the phone call.'**
+  String get phone_call_failed;
+
+  /// No description provided for @faq_q01.
+  ///
+  /// In en, this message translates to:
+  /// **'I can’t open the email link'**
+  String get faq_q01;
+
+  /// No description provided for @faq_q01_a1.
+  ///
+  /// In en, this message translates to:
+  /// **'Install and set up an email app (Gmail/Outlook).'**
+  String get faq_q01_a1;
+
+  /// No description provided for @faq_q01_a2.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings > Default apps > Email: select your client.'**
+  String get faq_q01_a2;
+
+  /// No description provided for @faq_q01_a3.
+  ///
+  /// In en, this message translates to:
+  /// **'Try on a physical device (emulators usually don’t have email).'**
+  String get faq_q01_a3;
+
+  /// No description provided for @faq_q02.
+  ///
+  /// In en, this message translates to:
+  /// **'How can I reset my password?'**
+  String get faq_q02;
+
+  /// No description provided for @faq_q02_a1.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Profile > Account > Reset password.'**
+  String get faq_q02_a1;
+
+  /// No description provided for @faq_q02_a2.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your email (spam) for the reset link.'**
+  String get faq_q02_a2;
+
+  /// No description provided for @faq_q02_a3.
+  ///
+  /// In en, this message translates to:
+  /// **'If it doesn’t arrive, try again or contact us by email.'**
+  String get faq_q02_a3;
+
+  /// No description provided for @faq_q03.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I change my email address?'**
+  String get faq_q03;
+
+  /// No description provided for @faq_q03_a1.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile > Personal data > Email.'**
+  String get faq_q03_a1;
+
+  /// No description provided for @faq_q03_a2.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify the new email using the link you received.'**
+  String get faq_q03_a2;
+
+  /// No description provided for @faq_q03_a3.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out and back in if you don’t see the change.'**
+  String get faq_q03_a3;
+
+  /// No description provided for @faq_q04.
+  ///
+  /// In en, this message translates to:
+  /// **'What should I do if I have a technical issue?'**
+  String get faq_q04;
+
+  /// No description provided for @faq_q04_a1.
+  ///
+  /// In en, this message translates to:
+  /// **'Close and reopen the app.'**
+  String get faq_q04_a1;
+
+  /// No description provided for @faq_q04_a2.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart the device.'**
+  String get faq_q04_a2;
+
+  /// No description provided for @faq_q04_a3.
+  ///
+  /// In en, this message translates to:
+  /// **'Update to the latest version available.'**
+  String get faq_q04_a3;
+
+  /// No description provided for @faq_q05.
+  ///
+  /// In en, this message translates to:
+  /// **'The camera isn’t working'**
+  String get faq_q05;
+
+  /// No description provided for @faq_q05_a1.
+  ///
+  /// In en, this message translates to:
+  /// **'Make sure camera permissions are granted in Settings.'**
+  String get faq_q05_a1;
+
+  /// No description provided for @faq_q05_a2.
+  ///
+  /// In en, this message translates to:
+  /// **'Close other apps that may be using the camera.'**
+  String get faq_q05_a2;
+
+  /// No description provided for @faq_q05_a3.
+  ///
+  /// In en, this message translates to:
+  /// **'Try restarting the app or device.'**
+  String get faq_q05_a3;
+
+  /// No description provided for @faq_q05_a4.
+  ///
+  /// In en, this message translates to:
+  /// **'Make sure the camera is clean and unobstructed.'**
+  String get faq_q05_a4;
+
+  /// No description provided for @faq_q06.
+  ///
+  /// In en, this message translates to:
+  /// **'The app is not responding'**
+  String get faq_q06;
+
+  /// No description provided for @faq_q06_a1.
+  ///
+  /// In en, this message translates to:
+  /// **'Close and reopen the app.'**
+  String get faq_q06_a1;
+
+  /// No description provided for @faq_q06_a2.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart your device.'**
+  String get faq_q06_a2;
+
+  /// No description provided for @faq_q06_a3.
+  ///
+  /// In en, this message translates to:
+  /// **'Check that you have the latest app version installed.'**
+  String get faq_q06_a3;
+
+  /// No description provided for @faq_q06_a4.
+  ///
+  /// In en, this message translates to:
+  /// **'If it persists, try uninstalling and reinstalling the app.'**
+  String get faq_q06_a4;
+
+  /// No description provided for @faq_q07.
+  ///
+  /// In en, this message translates to:
+  /// **'The app doesn’t detect hands'**
+  String get faq_q07;
+
+  /// No description provided for @faq_q07_a1.
+  ///
+  /// In en, this message translates to:
+  /// **'Make sure you’re in a well-lit place.'**
+  String get faq_q07_a1;
+
+  /// No description provided for @faq_q07_a2.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your hands within the camera frame.'**
+  String get faq_q07_a2;
+
+  /// No description provided for @faq_q07_a3.
+  ///
+  /// In en, this message translates to:
+  /// **'Avoid busy backgrounds that may interfere with detection.'**
+  String get faq_q07_a3;
+
+  /// No description provided for @faq_q07_a4.
+  ///
+  /// In en, this message translates to:
+  /// **'Ensure the camera is clean.'**
+  String get faq_q07_a4;
+
+  /// No description provided for @faq_q08.
+  ///
+  /// In en, this message translates to:
+  /// **'The translation is incorrect'**
+  String get faq_q08;
+
+  /// No description provided for @faq_q08_a1.
+  ///
+  /// In en, this message translates to:
+  /// **'Make sure your hand is positioned correctly within the frame.'**
+  String get faq_q08_a1;
+
+  /// No description provided for @faq_q08_a2.
+  ///
+  /// In en, this message translates to:
+  /// **'Check that lighting is sufficient for the camera to detect signs.'**
+  String get faq_q08_a2;
+
+  /// No description provided for @faq_q08_a3.
+  ///
+  /// In en, this message translates to:
+  /// **'Try moving your hand more slowly for better detection.'**
+  String get faq_q08_a3;
+
+  /// No description provided for @faq_q08_a4.
+  ///
+  /// In en, this message translates to:
+  /// **'If it persists, try restarting the app.'**
+  String get faq_q08_a4;
+
+  /// No description provided for @faq_q09.
+  ///
+  /// In en, this message translates to:
+  /// **'The app closes unexpectedly'**
+  String get faq_q09;
+
+  /// No description provided for @faq_q09_a1.
+  ///
+  /// In en, this message translates to:
+  /// **'Ensure you have enough storage space.'**
+  String get faq_q09_a1;
+
+  /// No description provided for @faq_q09_a2.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart your device to free memory.'**
+  String get faq_q09_a2;
+
+  /// No description provided for @faq_q09_a3.
+  ///
+  /// In en, this message translates to:
+  /// **'If it persists, uninstall and reinstall the app.'**
+  String get faq_q09_a3;
+
+  /// No description provided for @faq_q09_a4.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify the app is updated to the latest version.'**
+  String get faq_q09_a4;
+
+  /// No description provided for @faq_q10.
+  ///
+  /// In en, this message translates to:
+  /// **'The app can’t connect to the Internet'**
+  String get faq_q10;
+
+  /// No description provided for @faq_q10_a1.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your Internet connection (Wi-Fi or mobile data).'**
+  String get faq_q10_a1;
+
+  /// No description provided for @faq_q10_a2.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart your router or device if connection issues continue.'**
+  String get faq_q10_a2;
+
+  /// No description provided for @faq_q10_a3.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify the app has permission to access the Internet.'**
+  String get faq_q10_a3;
+
+  /// No description provided for @faq_q10_a4.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle Wi-Fi or mobile data off and on again.'**
+  String get faq_q10_a4;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

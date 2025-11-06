@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart' hide Dialog;
 import 'package:provider/provider.dart';
+import 'package:speakhands_mobile/providers/locale_provider.dart';
 import 'package:speakhands_mobile/providers/theme_provider.dart';
 import 'package:speakhands_mobile/l10n/app_localizations.dart';
 import 'package:speakhands_mobile/widgets/custom_app_bar.dart';
+import 'package:speakhands_mobile/widgets/dialogs/language_dialog.dart';
+import 'package:speakhands_mobile/l10n/app_localizations.dart';
 
 // Import local pages
 import 'pages/terms_and_conditions_screen.dart';
@@ -45,7 +48,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: CustomAppBar(title: "Settings"),
+      appBar: CustomAppBar(title: AppLocalizations.of(context)!.settings_title,),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -69,7 +72,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      onTap: () => Dialog.show(context),
+                      trailing: ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: Image.asset(
+                          context.watch<LocaleProvider>().locale.languageCode == 'es'
+                              ? 'assets/images/mexico.png'
+                              : 'assets/images/usa.png',
+                          width: 36,
+                          height: 24,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      onTap: () => LanguageDialog.show(context),
                     ),
 
                     // Theme mode selection (Light / Dark / System)
@@ -79,16 +93,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         color: iconColor,
                       ),
                       title: Text(
-                        'Apariencia',
-                        style: TextStyle(color: textColor),
+                        AppLocalizations.of(context)!.color,
+                        style: TextStyle(color: textColor,
+                        fontWeight: FontWeight.w600,),
                       ),
                       subtitle: Text(
                         themeProvider.themeModeOption == ThemeModeOption.dark
-                            ? 'Tema actual: Oscuro'
+                            ? AppLocalizations.of(context)!.dark_mode
                             : themeProvider.themeModeOption ==
                                 ThemeModeOption.light
-                            ? 'Tema actual: Claro'
-                            : 'Tema actual: Sistema',
+                            ? AppLocalizations.of(context)!.sure_mode
+                            : AppLocalizations.of(context)!.sistem_mode,
                         style: TextStyle(color: textColor.withOpacity(0.7)),
                       ),
                       onTap: () => Modal.show(context),
@@ -98,8 +113,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ListTile(
                       leading: Icon(Icons.accessibility, color: iconColor),
                       title: Text(
-                        "Accesibilidad",
-                        style: TextStyle(color: textColor),
+                        AppLocalizations.of(context)!.accessibility,
+                        style: TextStyle(color: textColor,
+                        fontWeight: FontWeight.w600,),
                       ),
                       /* onTap: () => */
                     ),
@@ -119,7 +135,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       leading: Icon(Icons.security, color: iconColor),
                       title: Text(
                         AppLocalizations.of(context)!.privacy_policy,
-                        style: TextStyle(color: textColor),
+                        style: TextStyle(color: textColor,
+                        fontWeight: FontWeight.w600,),
                       ),
                       onTap:
                           () => Navigator.push(
@@ -135,7 +152,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       leading: Icon(Icons.library_books, color: iconColor),
                       title: Text(
                         AppLocalizations.of(context)!.terms_and_conditions,
-                        style: TextStyle(color: textColor),
+                        style: TextStyle(color: textColor,
+                        fontWeight: FontWeight.w600,),
                       ),
                       onTap:
                           () => Navigator.push(
@@ -150,8 +168,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ListTile(
                       leading: Icon(Icons.help, color: iconColor),
                       title: Text(
-                        AppLocalizations.of(context)!.help,
-                        style: TextStyle(color: textColor),
+                        AppLocalizations.of(context)!.help_information_section,
+                        style: TextStyle(color: textColor,
+                        fontWeight: FontWeight.w600,),
                       ),
                       onTap:
                           () => Navigator.push(

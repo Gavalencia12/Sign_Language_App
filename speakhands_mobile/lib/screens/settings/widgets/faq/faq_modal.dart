@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:speakhands_mobile/screens/settings/models/faq_item.dart';
 import 'faq_tile.dart';
 import 'package:speakhands_mobile/theme/app_colors.dart';
+import 'package:speakhands_mobile/l10n/app_localizations.dart';
 
 // A modal bottom sheet that displays a scrollable list of all
 // Frequently Asked Questions (FAQs).
@@ -22,6 +23,9 @@ class FaqModal extends StatelessWidget {
     final Color textColor = AppColors.text(context);
     final Color iconColor = AppColors.text(context).withOpacity(0.8);
     final Color handleColor = AppColors.text(context).withOpacity(0.3);
+
+    //access localization
+    final loc = AppLocalizations.of(context)!;
 
     return DraggableScrollableSheet(
       expand: false,
@@ -64,7 +68,7 @@ class FaqModal extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        'Preguntas frecuentes',
+                        loc.faq_title,
                         style: Theme.of(
                           context,
                         ).textTheme.titleMedium?.copyWith(
@@ -74,7 +78,7 @@ class FaqModal extends StatelessWidget {
                       ),
                     ),
                     IconButton(
-                      tooltip: 'Cerrar',
+                      tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
                       onPressed: () => Navigator.pop(context),
                       icon: Icon(Icons.close, color: iconColor),
                     ),

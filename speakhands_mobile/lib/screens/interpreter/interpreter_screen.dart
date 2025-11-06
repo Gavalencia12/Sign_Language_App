@@ -10,6 +10,7 @@ import 'package:speakhands_mobile/widgets/custom_app_bar.dart';
 import 'package:speakhands_mobile/providers/speech_provider.dart';
 import 'package:speakhands_mobile/service/speech_io_service.dart';
 import 'package:speakhands_mobile/l10n/app_localizations.dart';
+import 'package:speakhands_mobile/screens/interpreter/functions/buildcamerapreview.dart';
 
 /// ---------------------------------------------------------------------------
 /// Screen: INTERPRETER (voice ↔ text)
@@ -200,10 +201,14 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      flex: 1,
                       child: AspectRatio(
                         aspectRatio: 3 / 4,
-                        child: _buildCameraPreview(context, loc),
+                        child: CameraPreviewWidget(
+                          imagePath: _imagePath,
+                          vp: _vp,
+                          vpInit: _vpInit,
+                          captionText: _captionText,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -272,7 +277,11 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
                 const SizedBox(height: 16),
 
                 // Mostrar SIEMPRE el preview (antes se ocultaba con teclado)
-                Expanded(child: _buildCameraPreview(context, loc)),
+                Expanded(child: CameraPreviewWidget(imagePath: _imagePath,
+                          vp: _vp,
+                          vpInit: _vpInit,
+                          captionText: _captionText,
+                        )),
               ],
             ),
           ),
@@ -308,7 +317,11 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
         const SizedBox(height: 16),
 
         // Preview
-        AspectRatio(aspectRatio: 1, child: _buildCameraPreview(context, loc)),
+        AspectRatio(aspectRatio: 1, child: CameraPreviewWidget(imagePath: _imagePath,
+                          vp: _vp,
+                          vpInit: _vpInit,
+                          captionText: _captionText,
+                        ),),
 
         const SizedBox(height: 16),
       ],
@@ -533,76 +546,6 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
               ),
             ],
           ),
-        ],
-      ),
-    );
-  }
-
-  /// Preview: shows image or video with a bottom-centered caption.
-  Widget _buildCameraPreview(BuildContext context, AppLocalizations loc) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.surface(context),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: Stack(
-        children: [
-          // IMAGE (alphabet or term image) all box
-          if (_imagePath != null)
-            Positioned.fill(
-              child: Image.asset(_imagePath!, fit: BoxFit.cover),
-            ),
-
-          // VIDEO all box
-          if (_vp != null && _vpInit != null)
-            FutureBuilder(
-              future: _vpInit,
-              builder: (_, snap) {
-                if (snap.connectionState != ConnectionState.done) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                return Positioned.fill(
-                  child: FittedBox(
-                    fit: BoxFit.cover,           // <- clave para cubrir
-                    clipBehavior: Clip.hardEdge, // <- asegura el recorte
-                    child: SizedBox(
-                      // Usa el tamaño nativo del video para que FittedBox escale bien
-                      width: _vp!.value.size.width,
-                      height: _vp!.value.size.height,
-                      child: VideoPlayer(_vp!),
-                    ),
-                  ),
-                );
-              },
-            ),
-
-          // CAPTION (bottom-centered stripe)
-          if ((_captionText ?? '').isNotEmpty)
-            Positioned(
-              left: 12,
-              right: 12,
-              bottom: 12,
-              child: Center(
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary(context),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    _captionText!,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: AppColors.onPrimary(context),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              ),
-            ),
         ],
       ),
     );

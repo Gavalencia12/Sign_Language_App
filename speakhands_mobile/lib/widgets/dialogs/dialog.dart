@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:speakhands_mobile/providers/locale_provider.dart';
 import 'package:speakhands_mobile/theme/app_colors.dart';
+import 'package:speakhands_mobile/l10n/app_localizations.dart';
 
 // Displays a modal dialog that allows the user to select the app language.
 // This dialog interacts directly with [LocaleProvider] to update
@@ -31,7 +32,7 @@ class Dialog {
 
           // === Title ===
           title: Text(
-            "Selecciona un idioma",
+            AppLocalizations.of(context)!.select_language,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
@@ -47,7 +48,7 @@ class Dialog {
               RadioListTile<String>(
                 activeColor: AppColors.primary(context),
                 title: Text(
-                  "Español",
+                  AppLocalizations.of(context)!.len_es,
                   style: TextStyle(color: AppColors.text(context)),
                 ),
                 value: 'es',
@@ -62,7 +63,7 @@ class Dialog {
               RadioListTile<String>(
                 activeColor: AppColors.primary(context),
                 title: Text(
-                  "English",
+                  AppLocalizations.of(context)!.len_en,
                   style: TextStyle(color: AppColors.text(context)),
                 ),
                 value: 'en',

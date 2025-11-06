@@ -9,6 +9,15 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get select_language => 'Select a language';
+
+  @override
+  String get len_es => 'Spanish';
+
+  @override
+  String get len_en => 'English';
+
+  @override
   String get clear => 'Clear';
 
   @override
@@ -27,103 +36,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get let_your_sign_be_heard => 'Let your signs be heard';
 
   @override
-  String get select_language => 'Select Language';
+  String get learn_info => 'This is the section to learn sign language.';
 
   @override
-  String get section1 => 'Section 1';
-
-  @override
-  String get section2 => 'Section 2';
-
-  @override
-  String get section3 => 'Section 3';
-
-  @override
-  String get section4 => 'Section 4';
-
-  @override
-  String get alphabet => 'Alphabet';
-
-  @override
-  String get numbers => 'Numbers';
-
-  @override
-  String get greetings => 'Greetings';
-
-  @override
-  String get pronouns => 'Pronouns';
-
-  @override
-  String get test => 'Test';
-
-  @override
-  String get colors => 'Colors';
-
-  @override
-  String get family => 'Family';
-
-  @override
-  String get animals => 'Animals';
-
-  @override
-  String get dates => 'Dates';
-
-  @override
-  String get sentence_structure => 'Sentence Structure';
-
-  @override
-  String get questions => 'Questions';
-
-  @override
-  String get time => 'Time';
-
-  @override
-  String get negations_affirmations => 'Negations and Affirmations';
-
-  @override
-  String get transport => 'Transport';
-
-  @override
-  String get object => 'Object';
-
-  @override
-  String get emotions => 'Emotions';
-
-  @override
-  String get emergencies => 'Emergencies';
-
-  @override
-  String get welcome_back => 'Hi, Welcome back!';
-
-  @override
-  String get my_progress => 'My progress';
-
-  @override
-  String get not_progress_yet => 'Not progress yet,';
-
-  @override
-  String get lets_start_learning => 'Let\'s start learning!';
-
-  @override
-  String get section => 'Section';
-
-  @override
-  String get lesson => 'Lesson';
-
-  @override
-  String get describe_alphabet => 'Describe Alphabet';
-
-  @override
-  String get started_section_1 => 'Started learning section 1!';
-
-  @override
-  String get challenge_of_the_day => 'Challenge of the Day';
-
-  @override
-  String get complete_lesson => 'Complete the lesson:';
-
-  @override
-  String get alphabet_title => 'ALPHABET';
+  String get saying => 'Let your hands do the talking';
 
   @override
   String get translator_screen_title => 'Translate';
@@ -167,54 +83,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get subtitle_intro => 'Show your hands to the camera';
 
   @override
-  String get edit_your_profile => 'Edit your profile';
-
-  @override
-  String get settings => 'Settings';
-
-  @override
-  String get age => 'Age: ';
-
-  @override
-  String get email => 'Email';
-
-  @override
-  String get phone => 'Phone';
-
-  @override
-  String get without_phone => 'Without phone';
-
-  @override
-  String get birth_date => 'Birth Date';
-
-  @override
-  String get without_birth_date => 'Without Birth Date';
-
-  @override
-  String get my_statistics => 'MY STATISTICS:';
-
-  @override
-  String get your_progress => 'Your Progress:';
-
-  @override
-  String get level => 'Level';
-
-  @override
-  String get disability => 'Disability:';
-
-  @override
-  String get without_disability => 'Without Disability';
-
-  @override
-  String get about_you => 'About You:';
-
-  @override
-  String get without_information => 'Without information';
-
-  @override
-  String get notifications => 'Notifications';
-
-  @override
   String get settings_title => 'Settings';
 
   @override
@@ -236,7 +104,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get language => 'Language';
 
   @override
-  String get color => 'Color';
+  String get color => 'Appearance';
+
+  @override
+  String get dark_mode => 'Current Theme: Dark';
+
+  @override
+  String get sure_mode => 'Current Theme: Light';
+
+  @override
+  String get sistem_mode => 'Current Theme: System';
+
+  @override
+  String get select_theme => 'Select Theme';
+
+  @override
+  String get dark => 'Dark';
+
+  @override
+  String get light => 'Light';
+
+  @override
+  String get system => 'Predetermined by System';
 
   @override
   String get accessibility => 'Accessibility';
@@ -248,39 +137,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get terms_and_conditions => 'Terms and Conditions';
 
   @override
-  String get help => 'Help';
-
-  @override
   String get qualife => 'Qualife';
-
-  @override
-  String get login_section => 'The Login';
-
-  @override
-  String get change_account => 'Change Account';
-
-  @override
-  String get log_out => 'Log Out';
 
   @override
   String get hello => 'Hello';
 
   @override
-  String home_welcome_with_name(Object nombre) {
-    return 'Hello $nombre. Welcome on the Home Screen.';
-  }
-
-  @override
-  String get profile_welcome => 'You\'re in your profile. Here you can see your details and settings.';
-
-  @override
-  String get translate_info => 'Here you can translate your signs.';
-
-  @override
-  String get learn_info => 'This is the section to learn sign language.';
-
-  @override
-  String get profile_edit_intro => 'You are in the screen to edit your profile. Here you can change your personal information.';
+  String get show => 'Show';
 
   @override
   String get privacy_policy_title => 'Privacy Policy';
@@ -332,4 +195,205 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get section_7_content => 'You can:\n- Request the deletion of your data at any time.\n- Access this policy from the app.\n- Contact us for questions or complaints at [languageappsign@gmail.com](mailto:languageappsign@gmail.com).';
+
+  @override
+  String get terms_title => 'Terms and Conditions';
+
+  @override
+  String get terms_section_1_title => '1. Acceptance of Terms';
+
+  @override
+  String get terms_section_1_content => 'By downloading, accessing, or using SpeakHands, you agree to these Terms and Conditions in full. If you do not agree, you must not use the application.';
+
+  @override
+  String get terms_section_2_title => '2. Permitted Use';
+
+  @override
+  String get terms_section_2_content => 'The application is intended solely for personal, educational, or communicative support purposes. You agree not to use it for illegal activities or those infringing on third-party rights. Offensive or discriminatory content generation is prohibited.';
+
+  @override
+  String get terms_section_3_title => '3. Intellectual Property';
+
+  @override
+  String get terms_section_3_content => 'All copyrights, logos, trademarks, and technologies used in SpeakHands are the property of the development team and are protected by intellectual property laws.';
+
+  @override
+  String get terms_section_4_title => '4. Service Modifications';
+
+  @override
+  String get terms_section_4_content => 'We reserve the right to modify or temporarily or permanently suspend the service without prior notice. This includes updates, technical, or functionality changes.';
+
+  @override
+  String get terms_section_5_title => '5. Limitation of Liability';
+
+  @override
+  String get terms_section_5_content => 'SpeakHands is provided \'as is\'. We do not guarantee absolute accuracy in sign interpretation. SpeakHands will not be responsible for direct or indirect damages derived from the use or misuse of the app, including translation errors or misinterpretations.';
+
+  @override
+  String get terms_section_6_title => '6. Termination of Use';
+
+  @override
+  String get terms_section_6_content => 'We reserve the right to suspend access to the app for any user who violates these terms, without prior notice.';
+
+  @override
+  String get help_title => 'Help';
+
+  @override
+  String get search_questions => 'Search questions...';
+
+  @override
+  String get faq_title => 'Frequently Asked Questions (FAQ)';
+
+  @override
+  String get no_results_found => 'We found no results for your search.';
+
+  @override
+  String get see_more => 'See more';
+
+  @override
+  String get need_more_help => 'Need more help? Contact us!';
+
+  @override
+  String get email_app_not_found => 'No email application found.';
+
+  @override
+  String get phone_call_failed => 'Could not start the phone call.';
+
+  @override
+  String get faq_q01 => 'I can’t open the email link';
+
+  @override
+  String get faq_q01_a1 => 'Install and set up an email app (Gmail/Outlook).';
+
+  @override
+  String get faq_q01_a2 => 'Settings > Default apps > Email: select your client.';
+
+  @override
+  String get faq_q01_a3 => 'Try on a physical device (emulators usually don’t have email).';
+
+  @override
+  String get faq_q02 => 'How can I reset my password?';
+
+  @override
+  String get faq_q02_a1 => 'Go to Profile > Account > Reset password.';
+
+  @override
+  String get faq_q02_a2 => 'Check your email (spam) for the reset link.';
+
+  @override
+  String get faq_q02_a3 => 'If it doesn’t arrive, try again or contact us by email.';
+
+  @override
+  String get faq_q03 => 'How do I change my email address?';
+
+  @override
+  String get faq_q03_a1 => 'Profile > Personal data > Email.';
+
+  @override
+  String get faq_q03_a2 => 'Verify the new email using the link you received.';
+
+  @override
+  String get faq_q03_a3 => 'Log out and back in if you don’t see the change.';
+
+  @override
+  String get faq_q04 => 'What should I do if I have a technical issue?';
+
+  @override
+  String get faq_q04_a1 => 'Close and reopen the app.';
+
+  @override
+  String get faq_q04_a2 => 'Restart the device.';
+
+  @override
+  String get faq_q04_a3 => 'Update to the latest version available.';
+
+  @override
+  String get faq_q05 => 'The camera isn’t working';
+
+  @override
+  String get faq_q05_a1 => 'Make sure camera permissions are granted in Settings.';
+
+  @override
+  String get faq_q05_a2 => 'Close other apps that may be using the camera.';
+
+  @override
+  String get faq_q05_a3 => 'Try restarting the app or device.';
+
+  @override
+  String get faq_q05_a4 => 'Make sure the camera is clean and unobstructed.';
+
+  @override
+  String get faq_q06 => 'The app is not responding';
+
+  @override
+  String get faq_q06_a1 => 'Close and reopen the app.';
+
+  @override
+  String get faq_q06_a2 => 'Restart your device.';
+
+  @override
+  String get faq_q06_a3 => 'Check that you have the latest app version installed.';
+
+  @override
+  String get faq_q06_a4 => 'If it persists, try uninstalling and reinstalling the app.';
+
+  @override
+  String get faq_q07 => 'The app doesn’t detect hands';
+
+  @override
+  String get faq_q07_a1 => 'Make sure you’re in a well-lit place.';
+
+  @override
+  String get faq_q07_a2 => 'Keep your hands within the camera frame.';
+
+  @override
+  String get faq_q07_a3 => 'Avoid busy backgrounds that may interfere with detection.';
+
+  @override
+  String get faq_q07_a4 => 'Ensure the camera is clean.';
+
+  @override
+  String get faq_q08 => 'The translation is incorrect';
+
+  @override
+  String get faq_q08_a1 => 'Make sure your hand is positioned correctly within the frame.';
+
+  @override
+  String get faq_q08_a2 => 'Check that lighting is sufficient for the camera to detect signs.';
+
+  @override
+  String get faq_q08_a3 => 'Try moving your hand more slowly for better detection.';
+
+  @override
+  String get faq_q08_a4 => 'If it persists, try restarting the app.';
+
+  @override
+  String get faq_q09 => 'The app closes unexpectedly';
+
+  @override
+  String get faq_q09_a1 => 'Ensure you have enough storage space.';
+
+  @override
+  String get faq_q09_a2 => 'Restart your device to free memory.';
+
+  @override
+  String get faq_q09_a3 => 'If it persists, uninstall and reinstall the app.';
+
+  @override
+  String get faq_q09_a4 => 'Verify the app is updated to the latest version.';
+
+  @override
+  String get faq_q10 => 'The app can’t connect to the Internet';
+
+  @override
+  String get faq_q10_a1 => 'Check your Internet connection (Wi-Fi or mobile data).';
+
+  @override
+  String get faq_q10_a2 => 'Restart your router or device if connection issues continue.';
+
+  @override
+  String get faq_q10_a3 => 'Verify the app has permission to access the Internet.';
+
+  @override
+  String get faq_q10_a4 => 'Toggle Wi-Fi or mobile data off and on again.';
 }
