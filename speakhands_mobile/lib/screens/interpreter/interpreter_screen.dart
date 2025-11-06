@@ -6,12 +6,24 @@ import 'package:provider/provider.dart';
 import 'package:speakhands_mobile/theme/app_colors.dart';
 import 'package:speakhands_mobile/theme/text_styles.dart';
 import 'package:video_player/video_player.dart';
-import 'package:speakhands_mobile/widgets/custom_app_bar.dart'; // Módulo de barra de app
-import 'package:speakhands_mobile/widgets/custom_text_field.dart'; // Módulo de campo de texto personalizado
+import 'package:speakhands_mobile/widgets/custom_app_bar.dart';
 import 'package:speakhands_mobile/providers/speech_provider.dart';
+import 'package:speakhands_mobile/service/speech_io_service.dart';
 import 'package:speakhands_mobile/l10n/app_localizations.dart';
-import 'services/interpreter_speech_service.dart';
-import 'widgets/interpreter_widgets.dart';
+import 'package:speakhands_mobile/screens/interpreter/functions/buildcamerapreview.dart';
+
+/// ---------------------------------------------------------------------------
+/// Screen: INTERPRETER (voice ↔ text)
+/// ---------------------------------------------------------------------------
+/// Purpose:
+/// - Voice input (Speech-to-Text) via `speech_to_text`.
+/// - Text-to-Speech playback via `flutter_tts`.
+/// - Editable text box featuring:
+///   • placeholder, character counter, clear button, mic/stop toggle with glow.
+///   • keyboard-aware behavior: the box grows when the keyboard is open.
+/// - Text → (video | alphabet image) using lexicon JSON.
+///   Shows bottom-centered caption over media (e.g., "hola").
+/// ---------------------------------------------------------------------------
 
 class InterpreterScreen extends StatefulWidget {
   const InterpreterScreen({super.key});
@@ -19,41 +31,78 @@ class InterpreterScreen extends StatefulWidget {
   @override
   State<InterpreterScreen> createState() => _InterpreterScreenState();
 
+  /// Character limit shown/enforced in the text box
   static const int _charLimit = 1000;
 }
 
 class _InterpreterScreenState extends State<InterpreterScreen> {
+  // Unified service for STT + TTS (init, listen, speak, etc.)
   final SpeechIOService _speech = SpeechIOService();
+
+  // Text controllers for the editable box
   final TextEditingController _textCtrl = TextEditingController();
   final FocusNode _textFocus = FocusNode();
+
+  // “Interpreted” text (filled either by STT or your LSM → text pipeline)
   String _interpretedText = '';
-  bool _ready = false;
-  bool _readingPreset = false;
+
+  // State flags
+  bool _ready = false; // STT is initialized and ready
+  bool _readingPreset = false; // playing a sample text
+
+  // === LEXICON / MEDIA STATE ===
   Map<String, dynamic>? _assetManifest;
+
+  // Lexicon terms & indices
   List<Map<String, dynamic>> _terms = [];
-  Map<String, Map<String, dynamic>> _byKey = {};
-  Map<String, Map<String, dynamic>> _byEs = {};
-  Map<String, Map<String, dynamic>> _byEn = {};
+  Map<String, Map<String, dynamic>> _byKey = {}; // inicializado
+  Map<String, Map<String, dynamic>> _byEs  = {}; // inicializado
+  Map<String, Map<String, dynamic>> _byEn = {}; //  inicializado
+
+  // NEW: templates y slots
+  List<Map<String, dynamic>> _templates = [];            // NEW
+  Map<String, dynamic> _slotTypes = {};                  // NEW
+
+  // Ready flags
   bool _lexiconReady = false;
   bool _manifestReady = false;
-  String? _captionText;
-  String? _imagePath;
-  VideoPlayerController? _vp;
-  Future<void>? _vpInit;
-  String? _emoji;
-  Timer? _lookupTimer;
 
-  List<Map<String, dynamic>> _templates = [];
-  Map<String, dynamic> _slotTypes = {}; 
+  // Current media
+  String? _captionText;            // Text for the bottom stripe (e.g., "hola")
+  String? _imagePath;              // Image (alphabet or term image)
+  VideoPlayerController? _vp;      // Video controller
+  Future<void>? _vpInit;
+
+  // Current emoji (not used yet)
+  String? _emoji;
+
+  // Debounce for lookups
+  Timer? _lookupTimer;
 
   @override
   void initState() {
     super.initState();
+
+    // Use addPostFrameCallback to ensure a mounted context is available
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // Initialize STT + TTS
       await _speech.init(sttLocale: 'es-MX', ttsLocale: 'es-MX');
       if (!mounted) return;
       setState(() => _ready = _speech.sttReady);
+
+      // Sync controller with initial state
       _textCtrl.text = _interpretedText;
+
+      // If voice output is enabled, play a short welcome message
+      final speakOn =
+          Provider.of<SpeechProvider>(context, listen: false).enabled;
+      if (speakOn) {
+        final loc = AppLocalizations.of(context)!;
+        final lc = Localizations.localeOf(context).languageCode;
+        await _speech.speak(loc.learn_info, languageCode: lc);
+      }
+
+      // Load lexicon + manifest (for media lookup)
       await _loadLexicon();
       await _loadAssetManifest();
     });
@@ -61,28 +110,44 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
 
   @override
   void dispose() {
+    // Release text controllers
     _lookupTimer?.cancel();
     _textCtrl.dispose();
     _textFocus.dispose();
+
+    // Release video & STT/TTS resources
     _disposeVideo();
     _speech.dispose();
     super.dispose();
   }
 
+  // ----------------- STT control -----------------
+
+  /// Starts voice recognition.
+  /// - `partialResults: true`: show partial results in real time.
+  /// - On final result, if voice output is enabled, read it aloud.
   Future<void> _startStt() async {
     if (!_ready || _speech.isListening) return;
     await _speech.startListening(
       localeId: 'es-MX',
       onResult: (text, isFinal) async {
+        // Respect character limit to avoid UI overflow
         final limit = InterpreterScreen._charLimit;
         final clipped = text.length > limit ? text.substring(0, limit) : text;
+
+        // Update controller and state with dictated text
         _textCtrl.value = TextEditingValue(
           text: clipped,
           selection: TextSelection.collapsed(offset: clipped.length),
         );
         setState(() => _interpretedText = clipped);
+
+        // Trigger media lookup
         _lookupDebounced();
-        final speakOn = Provider.of<SpeechProvider>(context, listen: false).enabled;
+
+        // On final result, speak if enabled and there is text
+        final speakOn =
+            Provider.of<SpeechProvider>(context, listen: false).enabled;
         if (isFinal && speakOn && _interpretedText.isNotEmpty) {
           await _speech.speak(_interpretedText);
         }
@@ -90,8 +155,10 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
     );
   }
 
+  /// Stops voice recognition (if active).
   Future<void> _stopStt() => _speech.stopListening();
 
+  /// Plays a preset text (handy for quick testing).
   Future<void> _speakPreset() async {
     if (_readingPreset) return;
     setState(() => _readingPreset = true);
@@ -100,29 +167,63 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
     if (mounted) setState(() => _readingPreset = false);
   }
 
+  // ----------------- Build -----------------
+
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
     final speakOn = Provider.of<SpeechProvider>(context).enabled;
+
     return Scaffold(
       backgroundColor: AppColors.background(context),
       appBar: CustomAppBar(title: loc.interpreter_screen_title),
+
+      // Let the body resize when the keyboard shows
+      resizeToAvoidBottomInset: true,
+
+      // Dismiss the keyboard when tapping outside the TextField
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: OrientationBuilder(
           builder: (context, orientation) {
             final isPortrait = orientation == Orientation.portrait;
+
+            // Portrait: keyboard-aware body (box grows when the keyboard opens)
             if (isPortrait) {
               return _keyboardAwareBody(loc, speakOn);
             }
+
+            // Landscape: two-column layout (left preview, right controls)
             return SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(flex: 1, child: AspectRatio(aspectRatio: 3 / 4, child: _buildCameraPreview(context, loc))),
+                    Expanded(
+                      child: AspectRatio(
+                        aspectRatio: 3 / 4,
+                        child: CameraPreviewWidget(
+                          imagePath: _imagePath,
+                          vp: _vp,
+                          vpInit: _vpInit,
+                          captionText: _captionText,
+                        ),
+                      ),
+                    ),
                     const SizedBox(width: 16),
-                    Expanded(flex: 1, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: _buildContent(context, loc, speakOn, excludeCamera: true))),
+                    Expanded(
+                      flex: 1,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: _buildContent(
+                          context,
+                          loc,
+                          speakOn,
+                          excludeCamera: true,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -176,7 +277,11 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
                 const SizedBox(height: 16),
 
                 // Mostrar SIEMPRE el preview (antes se ocultaba con teclado)
-                Expanded(child: _buildCameraPreview(context, loc)),
+                Expanded(child: CameraPreviewWidget(imagePath: _imagePath,
+                          vp: _vp,
+                          vpInit: _vpInit,
+                          captionText: _captionText,
+                        )),
               ],
             ),
           ),
@@ -212,7 +317,11 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
         const SizedBox(height: 16),
 
         // Preview
-        AspectRatio(aspectRatio: 1, child: _buildCameraPreview(context, loc)),
+        AspectRatio(aspectRatio: 1, child: CameraPreviewWidget(imagePath: _imagePath,
+                          vp: _vp,
+                          vpInit: _vpInit,
+                          captionText: _captionText,
+                        ),),
 
         const SizedBox(height: 16),
       ],
@@ -437,76 +546,6 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
               ),
             ],
           ),
-        ],
-      ),
-    );
-  }
-
-  /// Preview: shows image or video with a bottom-centered caption.
-  Widget _buildCameraPreview(BuildContext context, AppLocalizations loc) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.surface(context),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: Stack(
-        children: [
-          // IMAGE (alphabet or term image) all box
-          if (_imagePath != null)
-            Positioned.fill(
-              child: Image.asset(_imagePath!, fit: BoxFit.cover),
-            ),
-
-          // VIDEO all box
-          if (_vp != null && _vpInit != null)
-            FutureBuilder(
-              future: _vpInit,
-              builder: (_, snap) {
-                if (snap.connectionState != ConnectionState.done) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                return Positioned.fill(
-                  child: FittedBox(
-                    fit: BoxFit.cover,           // <- clave para cubrir
-                    clipBehavior: Clip.hardEdge, // <- asegura el recorte
-                    child: SizedBox(
-                      // Usa el tamaño nativo del video para que FittedBox escale bien
-                      width: _vp!.value.size.width,
-                      height: _vp!.value.size.height,
-                      child: VideoPlayer(_vp!),
-                    ),
-                  ),
-                );
-              },
-            ),
-
-          // CAPTION (bottom-centered stripe)
-          if ((_captionText ?? '').isNotEmpty)
-            Positioned(
-              left: 12,
-              right: 12,
-              bottom: 12,
-              child: Center(
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary(context),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    _captionText!,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: AppColors.onPrimary(context),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              ),
-            ),
         ],
       ),
     );
