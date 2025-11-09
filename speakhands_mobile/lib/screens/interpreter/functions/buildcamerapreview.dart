@@ -11,7 +11,7 @@ class CameraPreviewWidget extends StatelessWidget {
   final VideoPlayerController? vp;
   final Future<void>? vpInit;
   final String? captionText;
-  final String? mediaError; // <-- ¡NUEVO!
+  final String? mediaError; 
 
   const CameraPreviewWidget({
     Key? key,
@@ -22,7 +22,7 @@ class CameraPreviewWidget extends StatelessWidget {
     this.vp,
     this.vpInit,
     this.captionText,
-    this.mediaError, // <-- ¡NUEVO!
+    this.mediaError, 
   }) : super(key: key);
 
   @override
@@ -34,9 +34,8 @@ class CameraPreviewWidget extends StatelessWidget {
       ),
       clipBehavior: Clip.antiAlias,
       child: Stack(
-        alignment: Alignment.center, // <-- AÑADIDO
+        alignment: Alignment.center, 
         children: [
-          // --- LÓGICA DE MEDIA ---
           if (vp != null && vpInit != null)
             FutureBuilder(
               future: vpInit,
@@ -44,9 +43,7 @@ class CameraPreviewWidget extends StatelessWidget {
                 if (snap.connectionState != ConnectionState.done) {
                   return const Center(child: CircularProgressIndicator());
                 }
-                // Si la inicialización falla (ej. 404 o Null check), el Future tendrá un error
                 if (snap.hasError) {
-                  // No mostramos nada, _mediaError lo manejará
                   return Container(color: Colors.black.withOpacity(0.1));
                 }
                 return Positioned.fill(
@@ -77,7 +74,6 @@ class CameraPreviewWidget extends StatelessWidget {
                   return const Center(child: CircularProgressIndicator());
                 },
                 errorBuilder: (context, error, stack) {
-                  // No mostramos nada aquí, _mediaError lo manejará
                   return Container(color: Colors.black.withOpacity(0.1));
                 },
               ),
@@ -86,13 +82,11 @@ class CameraPreviewWidget extends StatelessWidget {
             Positioned.fill(
               child: Image.asset(imagePath!, fit: BoxFit.cover),
             )
-          // --- Placeholder/Cámara si no hay nada más ---
           else if (mediaError == null)
             Center(
              
             ),
           
-          // --- ¡NUEVO! Capa de Mensaje de Error ---
           if (mediaError != null)
             Positioned.fill(
               child: Container(
@@ -115,7 +109,6 @@ class CameraPreviewWidget extends StatelessWidget {
             ),
 
 
-          // CAPTION (se muestra incluso si hay error)
           if ((captionText ?? '').isNotEmpty)
             Positioned(
               left: 12,

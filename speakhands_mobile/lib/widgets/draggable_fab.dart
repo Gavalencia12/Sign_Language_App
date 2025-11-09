@@ -48,7 +48,6 @@ class _DraggableFABState extends State<DraggableFAB> {
             left += details.delta.dx;
             top += details.delta.dy;
 
-            // Usamos las restricciones pasadas por el widget padre
             if (left < 0) left = 0;
             if (top < 0) top = 0;
             if (left > widget.constraints.maxWidth - buttonSize) left = widget.constraints.maxWidth - buttonSize;

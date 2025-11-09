@@ -76,7 +76,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => const CarouselModal(), // Asegúrate de tener este widget definido/importado
+      builder: (context) => const CarouselModal(), 
     );
   }
 
@@ -181,7 +181,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
-    final double screenPadding = 16.0; // Define tu padding como una constante
+    final double screenPadding = 16.0;
 
     return Scaffold(
       backgroundColor: AppColors.background(context),
@@ -280,7 +280,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                     storageKey: 'translator_screen_fab_position',
                     initialTop: 320.0,
                     initialLeft: 277.0,
-                    constraints: constraints, // PASAMOS las restricciones
+                    constraints: constraints, 
                     onPressed: _CarouselModal,
                   ),  
                 ],

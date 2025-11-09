@@ -50,11 +50,11 @@ class CarouselModal extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.pan_tool_alt, size: 80, color: primaryColor), // Color primario
+                      Icon(Icons.pan_tool_alt, size: 80, color: primaryColor), 
                       const SizedBox(height: 16),
                       Text(
                         loc.modal_1_interpreter,
-                        style: AppTextStyles.titleLargeLight.copyWith(color: textColor), // Estilo adaptado
+                        style: AppTextStyles.titleLargeLight.copyWith(color: textColor), 
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 10),
@@ -72,10 +72,10 @@ class CarouselModal extends StatelessWidget {
                         height: 150,
                         width: 150,
                         decoration: BoxDecoration(
-                          color: surfaceColor, // Color de superficie
+                          color: surfaceColor, 
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: Icon(Icons.videocam, size: 80, color: secondaryColor), // Color secundario
+                        child: Icon(Icons.videocam, size: 80, color: secondaryColor), 
                       ),
                       const SizedBox(height: 16),
                       Text(
@@ -88,11 +88,11 @@ class CarouselModal extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.volume_up, size: 80, color: secondaryColor), // Color secundario
+                      Icon(Icons.volume_up, size: 80, color: secondaryColor), 
                       const SizedBox(height: 16),
                       Text(
                         loc.modal_3_interpreter,
-                        style: AppTextStyles.titleLargeLight.copyWith(color: textColor), // Estilo adaptado
+                        style: AppTextStyles.titleLargeLight.copyWith(color: textColor), 
                       ),
                       const SizedBox(height: 10),
                       Text(
@@ -132,8 +132,8 @@ class CarouselModal extends StatelessWidget {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: currentPage == index
-                            ? primaryColor // Puntos activos
-                            : secondaryColor.withOpacity(0.5), // Puntos inactivos
+                            ? primaryColor 
+                            : secondaryColor.withOpacity(0.5), 
                       ),
                     ),
                   ),
