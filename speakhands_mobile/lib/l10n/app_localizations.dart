@@ -353,6 +353,60 @@ abstract class AppLocalizations {
   /// **'Qualife'**
   String get qualife;
 
+  /// No description provided for @speech_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Speech for text'**
+  String get speech_text;
+
+  /// No description provided for @download_tittle.
+  ///
+  /// In en, this message translates to:
+  /// **'Download files to use in offline mode'**
+  String get download_tittle;
+
+  /// No description provided for @download.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get download;
+
+  /// No description provided for @download_information.
+  ///
+  /// In en, this message translates to:
+  /// **'Download videos and images for offline use'**
+  String get download_information;
+
+  /// No description provided for @download_init.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting download...'**
+  String get download_init;
+
+  /// No description provided for @download_no_files.
+  ///
+  /// In en, this message translates to:
+  /// **'No files found to download.'**
+  String get download_no_files;
+
+  /// No description provided for @download_progress.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading... {percent}%'**
+  String download_progress(String percent);
+
+  /// No description provided for @download_complete.
+  ///
+  /// In en, this message translates to:
+  /// **'Download complete! ({downloaded} files)'**
+  String download_complete(String downloaded);
+
+  /// No description provided for @download_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Fatal error: {error}'**
+  String download_error(String error);
+
   /// No description provided for @hello.
   ///
   /// In en, this message translates to:
@@ -364,6 +418,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show'**
   String get show;
+
+  /// No description provided for @modal_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to the LSM Translator'**
+  String get modal_1;
+
+  /// No description provided for @modal_1_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the camera to translate your gestures in real time. Make sure you have good lighting.'**
+  String get modal_1_text;
+
+  /// No description provided for @modal_2.
+  ///
+  /// In en, this message translates to:
+  /// **'Place your hands inside the camera frame.'**
+  String get modal_2;
+
+  /// No description provided for @modal_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice translation'**
+  String get modal_3;
+
+  /// No description provided for @modla_3_text.
+  ///
+  /// In en, this message translates to:
+  /// **'The system can pronounce the detected letters or words. You can activate or pause it whenever you want.'**
+  String get modla_3_text;
+
+  /// No description provided for @modal_1_interpreter.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to the LSM Interpreter'**
+  String get modal_1_interpreter;
+
+  /// No description provided for @modal_1_interpreter_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the text input to get the sign language interpretation in real time. Type clearly.'**
+  String get modal_1_interpreter_text;
+
+  /// No description provided for @modal_2_interpreter.
+  ///
+  /// In en, this message translates to:
+  /// **'Type the text you want to interpret.'**
+  String get modal_2_interpreter;
+
+  /// No description provided for @modal_3_interpreter.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice interpretation'**
+  String get modal_3_interpreter;
+
+  /// No description provided for @modal_3_interpreter_text.
+  ///
+  /// In en, this message translates to:
+  /// **'The system can read aloud the interpreted text. You can activate or pause it whenever you want.'**
+  String get modal_3_interpreter_text;
 
   /// No description provided for @privacy_policy_title.
   ///

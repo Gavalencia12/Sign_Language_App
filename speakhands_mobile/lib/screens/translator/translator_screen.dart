@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:speakhands_mobile/l10n/app_localizations.dart';
 import 'package:speakhands_mobile/providers/speech_provider.dart';
 import 'package:speakhands_mobile/service/text_to_speech_service.dart';
@@ -12,6 +13,8 @@ import 'services/translation_service.dart';
 import 'widgets/camera_preview_box.dart';
 import 'widgets/translation_result_box.dart';
 import 'widgets/translator_controls.dart';
+import 'package:speakhands_mobile/widgets/draggable_fab.dart';
+import 'package:speakhands_mobile/screens/translator/widgets/carrusel_modal.dart';
 
 // The main screen responsible for real-time sign language translation.
 
@@ -67,6 +70,14 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
         (_) => _speakTranslatorIntro(),
       );
     }
+  }
+
+  void _CarouselModal() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const CarouselModal(), 
+    );
   }
 
   // Provides an introductory message using Text-to-Speech when the screen starts.
@@ -170,99 +181,113 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+    final double screenPadding = 16.0;
 
     return Scaffold(
       backgroundColor: AppColors.background(context),
       appBar: CustomAppBar(title: loc.translator_screen_title),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-
-              // --- Header ---
-              Text(
-                loc.let_your_hands_speak,
-                style: AppTextStyles.textTitle.copyWith(
-                      color: AppColors.text(context),
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-              const SizedBox(height: 16),
-
-              // --- Camera preview section ---
-              Expanded(
-                flex: 5,
-                child: Stack(
+      body:LayoutBuilder( 
+        builder: (context, constraints) {
+          return Padding(
+            padding: EdgeInsets.all(screenPadding),
+            child: Stack(
                   children: [
-                    CameraPreviewBox(
-                      isCameraActive: _isCameraActive,
-                      controller: _cameraService.controller,
-                    ),
-                    Positioned(
-                      top: 12,
-                      left: 12,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.surface(context),
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.text(context).withOpacity(0.15),
-                              blurRadius: 6,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
+                    Column(
+                      children: [
+
+                        // --- Header ---
+                        Text(
+                          loc.let_your_hands_speak,
+                          style: AppTextStyles.textTitle.copyWith(
+                                color: AppColors.text(context),
+                                fontWeight: FontWeight.bold,
+                              ),
                         ),
-                        child: FloatingActionButton.small(
-                          backgroundColor:
-                              _isCameraActive ? AppColors.error(context) : AppColors.primary(context),
-                          heroTag: "camera_toggle_btn",
-                          onPressed: _toggleCamera,
-                          child: Icon(
-                            _isCameraActive
-                                ? Icons.stop_rounded
-                                : Icons.videocam_rounded,
-                            color: AppColors.onPrimary(context),
+                        const SizedBox(height: 16),
+
+                        // --- Camera preview section ---
+                        Expanded(
+                          flex: 5,
+                          child: Stack(
+                            children: [
+                              CameraPreviewBox(
+                                isCameraActive: _isCameraActive,
+                                controller: _cameraService.controller,
+                              ),
+                              Positioned(
+                                top: 12,
+                                left: 12,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: AppColors.surface(context),
+                                    shape: BoxShape.circle,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: AppColors.text(context).withOpacity(0.15),
+                                        blurRadius: 6,
+                                        offset: Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                  child: FloatingActionButton.small(
+                                    backgroundColor:
+                                        _isCameraActive ? AppColors.error(context) : AppColors.primary(context),
+                                    heroTag: "camera_toggle_btn",
+                                    onPressed: _toggleCamera,
+                                    child: Icon(
+                                      _isCameraActive
+                                          ? Icons.stop_rounded
+                                          : Icons.videocam_rounded,
+                                      color: AppColors.onPrimary(context),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
+
+                        const SizedBox(height: 16),
+
+                        // --- Translation output section ---
+                        Text(
+                          loc.translation,
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                color: AppColors.text(context),
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        // --- Bottom controls ---
+                        TranslationResultBox(text: _translationResult),
+
+                        const SizedBox(height: 16),
+
+                        // Controls
+                        TranslatorControls(
+                          onRefresh: () {
+                            setState(() => _translationResult = loc.waiting_prediction);
+                          },
+                          onPause: () async {
+                            if (_isCameraActive) await _processFrame();
+                          },
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 16),
-
-              // --- Translation output section ---
-              Text(
-                loc.translation,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: AppColors.text(context),
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-
-              const SizedBox(height: 8),
-
-              // --- Bottom controls ---
-              TranslationResultBox(text: _translationResult),
-
-              const SizedBox(height: 16),
-
-              // Controls
-              TranslatorControls(
-                onRefresh: () {
-                  setState(() => _translationResult = loc.waiting_prediction);
-                },
-                onPause: () async {
-                  if (_isCameraActive) await _processFrame();
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
+                  DraggableFAB(
+                    storageKey: 'translator_screen_fab_position',
+                    initialTop: 320.0,
+                    initialLeft: 277.0,
+                    constraints: constraints, 
+                    onPressed: _CarouselModal,
+                  ),  
+                ],
+            ),
+          );
+        },
+      )
     );
   }
 }

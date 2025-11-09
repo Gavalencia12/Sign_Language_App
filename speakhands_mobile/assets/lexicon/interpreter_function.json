@@ -112,100 +112,74 @@
     { "key": "dolor_mano",     "es": "me duele la mano",     "en": "my hand hurts",      "emoji": "🤕🖐️", "gloss_lsm": "DOLOR MANO",     "category": "symptom", "media": { "type": "video", "path": "assets/lexicon/videos/dolor_mano.mp4" },     "caption": { "text": "me duele la mano" } },
     { "key": "dolor_pierna",   "es": "me duele la pierna",   "en": "my leg hurts",       "emoji": "🤕🦵", "gloss_lsm": "DOLOR PIERNA",   "category": "symptom", "media": { "type": "video", "path": "assets/lexicon/videos/dolor_pierna.mp4" },   "caption": { "text": "me duele la pierna" } },
     { "key": "dolor_pie",      "es": "me duele el pie",      "en": "my foot hurts",      "emoji": "🤕🦶", "gloss_lsm": "DOLOR PIE",      "category": "symptom", "media": { "type": "video", "path": "assets/lexicon/videos/dolor_pie.mp4" },      "caption": { "text": "me duele el pie" } },
-    { "key": "dolor_diente",   "es": "me duele el diente",   "en": "my tooth hurts",     "emoji": "🤕🦷", "gloss_lsm": "DOLOR DIENTE",   "category": "symptom", "media": { "type": "video", "path": "assets/lexicon/videos/dolor_diente.mp4" },   "caption": { "text": "me duele el diente" } }
-  ],
+    { "key": "dolor_diente",   "es": "me duele el diente",   "en": "my tooth hurts",     "emoji": "🤕🦷", "gloss_lsm": "DOLOR DIENTE",   "category": "symptom", "media": { "type": "video", "path": "assets/lexicon/videos/dolor_diente.mp4" },   "caption": { "text": "me duele el diente" } },
+    {"key": "accidente", "es": "accidente", "en": "accident", "emoji": "🚑💥", "gloss_lsm": "ACCIDENTE", "category": "emergencia", "media": { "type": "video", "path": "assets/lexicon/videos/accidente.mp4" }, "caption": { "text": "accidente" } },
+    {"key": "tuve_un_accidente", "es": "tuve un accidente", "en": "I had an accident", "emoji": "🚑💥", "gloss_lsm": "TUVE ACCIDENTE", "category": "emergencia", "media": { "type": "video", "path": "assets/lexicon/videos/tube_un_accidente.mp4" }, "caption": { "text": "tuve un accidente" } },
+    {"key": "fractura", "es": "fractura", "en": "fracture", "emoji": "🦴❌", "gloss_lsm": "FRACTURA", "category": "emergencia", "media": { "type": "video", "path": "assets/lexicon/videos/fractura.mp4" }, "caption": { "text": "fractura" } },
+    {"key": "tengo_una_fractura", "es": "tengo una fractura", "en": "I have a fracture", "emoji": "🦴❌", "gloss_lsm": "TUVE FRACTURA", "category": "emergencia", "media": { "type": "video", "path": "assets/lexicon/videos/tuve_una_fractura.mp4" }, "caption": { "text": "tengo una fractura" } },
+    {"key": "emergencia", "es": "emergencia", "en": "emergency", "emoji": "🚨🏥", "gloss_lsm": "EMERGENCIA", "category": "emergencia", "media": { "type": "video", "path": "assets/lexicon/videos/emergencia.mp4" }, "caption": { "text": "emergencia" } },
+    {"key": "urgente", "es": "urgente", "en": "urgent", "emoji": "⚠️⏳", "gloss_lsm": "URGENTE", "category": "emergencia", "media": { "type": "video", "path": "assets/lexicon/videos/urgente.mp4" }, "caption": { "text": "urgente" } },
+    {"key": "tiene_cita", "es": "¿Tiene cita?", "en": "Do you have an appointment?", "emoji": "❓📅", "gloss_lsm": "TIENE CITA", "category": "pregunta", "media": { "type": "video", "path": "assets/lexicon/videos/tiene_cita.mp4" }, "caption": { "text": "¿Tiene cita?" } },
 
-  "templates": [
-    {
-      "key": "dolor_en_parte",
-      "es": "me duele {parte}",
-      "en": "I have pain in my {parte}",
-      "emoji": "🤕 + {parte_emoji}",
-      "gloss_lsm": "DOLOR {parte}",
-      "slots": { "parte": "body_part" }
-    },
-    {
-      "key": "escala_dolor",
-      "es": "dolor {numero}/10",
-      "en": "pain {numero}/10",
-      "emoji": "🤕 {numero}️⃣",
-      "gloss_lsm": "DOLOR NIVEL {numero}",
-      "slots": { "numero": "pain_scale" }
-    },
-    {
-      "key": "tienes_cita",
-      "es": "¿tienes cita?",
-      "en": "do you have an appointment?",
-      "emoji": "🫵📅❓",
-      "gloss_lsm": "TU CITA ¿SI?",
-      "slots": {}
-    },
-    {
-      "key": "alergico_a",
-      "es": "soy alérgico a {sustancia}",
-      "en": "I'm allergic to {sustancia}",
-      "emoji": "🤧🚫 {sustancia}",
-      "gloss_lsm": "YO ALERGIA {sustancia}",
-      "slots": { "sustancia": "allergen" }
-    },
-    {
-      "key": "programar_cita",
-      "es": "quiero programar cita el {fecha} a las {hora}",
-      "en": "I want to schedule an appointment on {fecha} at {hora}",
-      "emoji": "📅⏰✅",
-      "gloss_lsm": "QUIERO CITA FECHA {fecha} HORA {hora}",
-      "slots": { "fecha": "date", "hora": "time" }
-    },
-    {
-      "key": "toma_medicamento",
-      "es": "tomo {medicamento} {frecuencia}",
-      "en": "I take {medicamento} {frecuencia}",
-      "emoji": "💊🔁",
-      "gloss_lsm": "YO MEDICINA {medicamento} {frecuencia}",
-      "slots": { "medicamento": "medicine", "frecuencia": "dose_freq" }
-    }
-  ],
+    {"key": "hoy", "es": "hoy", "en": "today", "emoji": "📅📍", "gloss_lsm": "HOY", "category": "tiempo", "media": { "type": "video", "path": "assets/lexicon/videos/hoy.mp4" }, "caption": { "text": "hoy" } },
+    {"key": "manana", "es": "mañana", "en": "tomorrow", "emoji": "📅➡️", "gloss_lsm": "MAÑANA", "category": "tiempo", "media": { "type": "video", "path": "assets/lexicon/videos/manana.mp4" }, "caption": { "text": "mañana" } },
+    {"key": "ayer", "es": "ayer", "en": "yesterday", "emoji": "📅⬅️", "gloss_lsm": "AYER", "category": "tiempo", "media": { "type": "video", "path": "assets/lexicon/videos/ayer.mp4" }, "caption": { "text": "ayer" } },
 
-  "slot_types": {
-    "body_part": [
-      { "key": "cabeza", "en": "head", "emoji": "🧠" },
-      { "key": "ojo", "en": "eye", "emoji": "👁️" },
-      { "key": "oido", "en": "ear", "emoji": "👂" },
-      { "key": "nariz", "en": "nose", "emoji": "👃" },
-      { "key": "garganta", "en": "throat", "emoji": "🗣️" },
-      { "key": "boca", "en": "mouth", "emoji": "🫦" },
-      { "key": "cuello", "en": "neck", "emoji": "🧍" },
-      { "key": "pecho", "en": "chest", "emoji": "🫁" },
-      { "key": "espalda", "en": "back", "emoji": "🦴" },
-      { "key": "estomago", "en": "stomach", "emoji": "🧍" },
-      { "key": "brazo", "en": "arm", "emoji": "💪" },
-      { "key": "mano", "en": "hand", "emoji": "🖐️" },
-      { "key": "pierna", "en": "leg", "emoji": "🦵" },
-      { "key": "pie", "en": "foot", "emoji": "🦶" },
-      { "key": "diente", "en": "tooth", "emoji": "🦷" }
-    ],
-    "pain_scale": [
-      { "key": "0" }, { "key": "1" }, { "key": "2" }, { "key": "3" }, { "key": "4" },
-      { "key": "5" }, { "key": "6" }, { "key": "7" }, { "key": "8" }, { "key": "9" }, { "key": "10" }
-    ],
-    "allergen": [
-      { "key": "penicilina" }, { "key": "ibuprofeno" }, { "key": "mariscos" }, { "key": "cacahuate" }, { "key": "lactosa" }
-    ],
-    "date": [{ "format": "YYYY-MM-DD" }],
-    "time": [{ "format": "HH:mm" }],
-    "medicine": [
-      { "key": "paracetamol" }, { "key": "ibuprofeno" }, { "key": "amoxicilina" }
-    ],
-    "dose_freq": [
-      { "key": "cada_8_horas", "es": "cada 8 horas", "en": "every 8 hours" },
-      { "key": "cada_12_horas", "es": "cada 12 horas", "en": "every 12 hours" },
-      { "key": "diario", "es": "diario", "en": "daily" },
-      { "key": "segun_necesidad", "es": "según necesidad", "en": "as needed" }
-    ]
-  },
+    {"key": "dia", "es": "día", "en": "day", "emoji": "📅☀️", "gloss_lsm": "DIA", "category": "unidad_tiempo", "media": { "type": "video", "path": "assets/lexicon/videos/dia.mp4" }, "caption": { "text": "día" } },
+    {"key": "semana", "es": "semana", "en": "week", "emoji": "📅7️⃣", "gloss_lsm": "SEMANA", "category": "unidad_tiempo", "media": { "type": "video", "path": "assets/lexicon/videos/semana.mp4" }, "caption": { "text": "semana" } },
+    {"key": "mes", "es": "mes", "en": "month", "emoji": "📅🗓️", "gloss_lsm": "MES", "category": "unidad_tiempo", "media": { "type": "video", "path": "assets/lexicon/videos/mes.mp4" }, "caption": { "text": "mes" } },
+    {"key": "ano",  "es":  "año",  "en":  "year",  "emoji":  "📅📆",  "gloss_lsm":  "ANO",  "category":  "unidad_tiempo",  "media": {  "type":  "video",  "path":  "assets/lexicon/videos/ano.mp4" },  "caption": {  "text":  "año" } },
+    
+    {"key": "lunes", "es": "lunes", "en": "Monday", "emoji": "📅1️⃣", "gloss_lsm": "LUNES", "category": "dia_semana", "media": { "type": "video", "path": "assets/lexicon/videos/lunes.mp4" }, "caption": { "text": "lunes" } },
+    {"key": "martes", "es": "martes", "en": "Tuesday", "emoji": "📅2️⃣", "gloss_lsm": "MARTES", "category": "dia_semana", "media": { "type": "video", "path": "assets/lexicon/videos/martes.mp4" }, "caption": { "text": "martes" } },
+    {"key": "miercoles", "es": "miércoles", "en": "Wednesday", "emoji": "📅3️⃣", "gloss_lsm": "MIERCOLES", "category": "dia_semana", "media": { "type": "video", "path": "assets/lexicon/videos/miercoles.mp4" }, "caption": { "text": "miércoles" } },
+    {"key": "jueves", "es": "jueves", "en": "Thursday",  "emoji": "📅4️⃣",  "gloss_lsm": "JUEVES",  "category": "dia_semana",  "media": { "type": "video",  "path": "assets/lexicon/videos/jueves.mp4" },  "caption": {  "text": "jueves" } },
+    {"key": "viernes", "es": "viernes", "en": "Friday", "emoji": "📅5️⃣", "gloss_lsm": "VIERNES", "category": "dia_semana", "media": { "type": "video", "path": "assets/lexicon/videos/viernes.mp4" }, "caption": { "text": "viernes" } },
+    {"key": "sabado","es":"sábado","en":"Saturday", "emoji": "📅6️⃣", "gloss_lsm": "SABADO", "category": "dia_semana", "media": { "type": "video", "path": "assets/lexicon/videos/sabado.mp4" }, "caption": { "text": "sábado" } },
+    {"key": "domingo", "es": "domingo", "en": "Sunday", "emoji": "📅7️⃣", "gloss_lsm": "DOMINGO", "category": "dia_semana", "media": { "type": "video", "path": "assets/lexicon/videos/domingo.mp4" }, "caption": { "text": "domingo" } },
 
-  "numeros": {
-    "0": "0️⃣", "1": "1️⃣", "2": "2️⃣", "3": "3️⃣", "4": "4️⃣",
-    "5": "5️⃣", "6": "6️⃣", "7": "7️⃣", "8": "8️⃣", "9": "9️⃣", "10": "🔟"
-  }
+    {"key": "enero", "es": "enero", "en": "January", "emoji": "📅1️⃣", "gloss_lsm": "ENERO", "category": "mes", "media": { "type": "video", "path": "assets/lexicon/videos/enero.mp4" }, "caption": { "text": "enero" } },
+    {"key": "febrero", "es": "febrero", "en": "February", "emoji": "📅2️⃣", "gloss_lsm": "FEBRERO", "category": "mes", "media": { "type": "video", "path": "assets/lexicon/videos/febrero.mp4" }, "caption": { "text": "febrero" } },
+    {"key": "marzo", "es": "marzo", "en": "March", "emoji": "📅3️⃣", "gloss_lsm": "MARZO", "category": "mes", "media": { "type": "video", "path": "assets/lexicon/videos/marzo.mp4" }, "caption": { "text": "marzo" } },
+    {"key": "abril",  "es":  "abril",  "en":  "April",  "emoji":  "📅4️⃣",  "gloss_lsm":  "ABRIL",  "category":  "mes",  "media": {  "type":  "video",  "path":  "assets/lexicon/videos/abril.mp4" },  "caption": {  "text":  "abril" } },
+    {"key":  "mayo",  "es":  "mayo",  "en":  "May",  "emoji":  "📅5️⃣",  "gloss_lsm":  "MAYO",  "category":  "mes",  "media": {  "type":  "video",  "path": "assets/lexicon/videos/mayo.mp4" },  "caption": {  "text":  "mayo" } },
+    {"key":  "junio",  "es":  "junio",  "en":  "June",  "emoji":  "📅6️⃣",  "gloss_lsm":  "JUNIO",  "category": "mes","media": {  "type":  "video",  "path": "assets/lexicon/videos/junio.mp4" },  "caption": {  "text":  "junio" } },
+    {"key": "julio", "es": "julio", "en": "July", "emoji": "📅7️⃣", "gloss_lsm": "JULIO", "category": "mes", "media": { "type": "video", "path": "assets/lexicon/videos/julio.mp4" }, "caption": { "text": "julio" } },
+    {"key": "agosto", "es": "agosto", "en": "August", "emoji": "📅8️⃣", "gloss_lsm": "AGOSTO", "category": "mes", "media": { "type": "video", "path": "assets/lexicon/videos/agosto.mp4" }, "caption": { "text": "agosto" } },
+    {"key": "septiembre", "es": "septiembre", "en": "September", "emoji": "📅9️⃣", "gloss_lsm": "SEPTIEMBRE", "category": "mes", "media": { "type": "video", "path": "assets/lexicon/videos/septiembre.mp4" }, "caption": { "text": "septiembre" } },
+    {"key": "octubre",  "es":  "octubre",  "en":  "October",  "emoji":  "📅🔟",  "gloss_lsm":  "OCTUBRE",  "category":  "mes",  "media": {  "type":  "video",  "path":  "assets/lexicon/videos/octubre.mp4" },  "caption": {  "text":  "octubre" } },
+    {"key":  "noviembre",  "es":  "noviembre",  "en":  "November",  "emoji":  "📅1️⃣1️⃣",  "gloss_lsm":  "NOVIEMBRE",  "category":  "mes", "media": {  "type":  "video",  "path":  "assets/lexicon/videos/noviembre.mp4" },  "caption": {  "text":  "noviembre" } },
+    {"key":  "diciembre",  "es":  "diciembre",  "en":  "December",  "emoji":  "📅1️⃣2️⃣","gloss_lsm":  "DICIEMBRE",  "category":  "mes", "media": {  "type":  "video",  "path":  "assets/lexicon/videos/diciembre.mp4" },  "caption": {  "text":  "diciembre" } },
+
+    {"key": "numeros", "es": "número", "en": "number", "emoji": "🔢", "gloss_lsm": "NUMERO", "category": "concept", "media": { "type": "video", "path": "assets/lexicon/videos/numero.mp4" }, "caption": { "text": "número" } },
+    {"key": "1", "es": "1", "en": "1", "emoji": "1️⃣", "gloss_lsm": "UNO", "category": "number", "media": { "type": "video", "path": "assets/lexicon/videos/1.mp4" }, "caption": { "text": "1" } },
+    {"key": "2", "es": "2", "en": "2", "emoji": "2️⃣", "gloss_lsm": "DOS", "category": "number", "media": { "type": "video", "path": "assets/lexicon/videos/2.mp4" }, "caption": { "text": "2" } },
+    {"key": "3", "es": "3", "en": "3", "emoji": "3️⃣", "gloss_lsm": "TRES", "category": "number", "media": { "type": "video", "path": "assets/lexicon/videos/3.mp4" }, "caption": { "text": "3" } },
+    {"key": "4", "es": "4", "en": "4", "emoji": "4️⃣", "gloss_lsm": "CUATRO", "category": "number",  "media": {  "type":  "video",  "path":  "assets/lexicon/videos/4.mp4" },  "caption": {  "text":  "4" } },
+    {"key":  "5",  "es":  "5",  "en":  "5",  "emoji":  "5️⃣",  "gloss_lsm":  "CINCO",  "category":  "number",  "media": {  "type":  "video",  "path":  "assets/lexicon/videos/5.mp4" },  "caption": {  "text":  "5" } },
+    {"key":  "6",  "es":  "6",  "en":  "6",  "emoji":  "6️⃣",  "gloss_lsm":  "SEIS",  "category":  "number",  "media": {  "type":  "video",  "path":  "assets/lexicon/videos/5.mp4" },  "caption": {  "text":  "5" } },
+    {"key": "7", "es": "7", "en": "7", "emoji": "7️⃣", "gloss_lsm": "SIETE", "category": "number", "media": { "type": "video", "path": "assets/lexicon/videos/7.mp4" }, "caption": { "text": "7" } },
+    {"key": "8", "es": "8", "en": "8", "emoji": "8️⃣", "gloss_lsm": "OCHO", "category": "number", "media": { "type": "video", "path": "assets/lexicon/videos/8.mp4" }, "caption": { "text": "8" } },
+    {"key": "9", "es": "9", "en": "9", "emoji": "9️⃣", "gloss_lsm": "NUEVE", "category": "number",  "media": {  "type":  "video",  "path":  "assets/lexicon/videos/9.mp4" },  "caption": {  "text":  "9" } },
+    {"key":  "10",  "es":  "10",  "en":  "10",  "emoji":  "🔟",  "gloss_lsm":  "DIEZ",  "category":  "number",  "media": {  "type":  "video",  "path":  "assets/lexicon/videos/10.mp4" },  "caption": {  "text":  "10" } },
+
+    {"key": "como_te_sientes", "es": "Cómo te sientes", "en": "How do you feel?", "emoji": "❓😊😞", "gloss_lsm": "COMO TU SENTIRSE", "category": "pregunta", "media": { "type": "video", "path": "assets/lexicon/videos/como_te_sientes.mp4" }, "caption": { "text": "¿Cómo te sientes?" } },
+    {"key": "bien", "es": "bien", "en": "well", "emoji": "👍", "gloss_lsm": "BIEN", "category": "estado", "media": { "type": "video", "path": "assets/lexicon/videos/bien.mp4" }, "caption": { "text": "bien" } },
+    {"key": "mal", "es": "mal", "en": "bad", "emoji": "👎", "gloss_lsm": "MAL", "category": "estado", "media": { "type": "video", "path": "assets/lexicon/videos/mal.mp4" }, "caption": { "text": "mal" } },
+    {"key": "sientes_dolor", "es": "Sientes dolor", "en": "Do you feel pain?", "emoji": "❓🤕", "gloss_lsm": "TU SENTIRSE DOLOR", "category": "pregunta", "media": { "type": "video", "path": "assets/lexicon/videos/sientes_dolor.mp4" }, "caption": { "text": "¿Sientes dolor?" } },
+    {"key": "cuidate", "es": "cuídate", "en": "take care", "emoji": "🤗", "gloss_lsm": "CUIDARSE", "category": "despedida", "media": { "type": "video", "path": "assets/lexicon/videos/cuidate.mp4" }, "caption": { "text": "cuídate" } },
+    {"key": "cansado", "es": "cansado", "en": "tired", "emoji": "😴", "gloss_lsm": "CANSADO", "category": "estado", "media": { "type": "video", "path": "assets/lexicon/videos/cansado.mp4" }, "caption": { "text": "cansado" } },
+    {"key": "estresado", "es": "estresado", "en": "stressed", "emoji": "😰", "gloss_lsm": "ESTRESADO", "category": "estado", "media": { "type": "video", "path": "assets/lexicon/videos/estresado.mp4" }, "caption": { "text": "estresado" } },
+
+    {"key": "feliz", "es": "feliz", "en": "happy", "emoji": "😊", "gloss_lsm": "FELIZ", "category": "estado", "media": { "type": "video", "path": "assets/lexicon/videos/feliz.mp4" }, "caption": { "text": "feliz" }  },
+    {"key": "triste", "es": "triste", "en": "sad", "emoji": "😞", "gloss_lsm": "TRISTE", "category": "estado", "media": { "type": "video", "path": "assets/lexicon/videos/triste.mp4" }, "caption": { "text": "triste" } },
+    {"key": "enojado", "es": "enojado", "en": "angry", "emoji": "😠", "gloss_lsm": "ENOJADO", "category": "estado", "media": { "type": "video", "path": "assets/lexicon/videos/enojado.mp4" }, "caption": { "text": "enojado" }  },
+    {"key": "asustado", "es": "asustado", "en": "scared", "emoji": "😨", "gloss_lsm": "ASUSTADO", "category": "estado", "media": { "type": "video", "path": "assets/lexicon/videos/asustado.mp4" }, "caption": { "text": "asustado" }  },
+    {"key": "preocupado", "es": "preocupado", "en": "worried", "emoji": "😟", "gloss_lsm": "PREOCUPADO", "category": "estado", "media": { "type": "video", "path": "assets/lexicon/videos/preocupado.mp4" }, "caption": { "text": "preocupado" }  },
+
+    {"key": "perro", "es": "perro", "en": "dog", "emoji": "🐶", "gloss_lsm": "PERRO", "category": "animal", "media": { "type": "video", "path": "assets/lexicon/videos/perro.mp4" }, "caption": { "text": "perro" }  },
+    {"key": "gato", "es": "gato", "en": "cat", "emoji": "🐱", "gloss_lsm": "GATO", "category": "animal", "media": { "type": "video", "path": "assets/lexicon/videos/gato.mp4" }, "caption": { "text": "gato" }  },
+    {"key": "pajaro", "es": "pájaro", "en": "bird", "emoji": "🐦", "gloss_lsm": "PAJARO", "category": "animal", "media": { "type": "video", "path": "assets/lexicon/videos/pajaro.mp4" }, "caption": { "text": "pájaro" } },
+    {"key": "pez", "es": "pez", "en": "fish", "emoji": "🐟", "gloss_lsm": "PEZ", "category": "animal", "media": { "type": "video", "path": "assets/lexicon/videos/pez.mp4" }, "caption": { "text": "pez" } }
+  ]
 }

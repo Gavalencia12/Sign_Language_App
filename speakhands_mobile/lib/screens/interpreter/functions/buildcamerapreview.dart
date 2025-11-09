@@ -1,19 +1,28 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:speakhands_mobile/theme/app_colors.dart';
 
 class CameraPreviewWidget extends StatelessWidget {
   final String? imagePath;
+  final File? imageFile;
+  final String? imageUrl;
+  final Map<String, String>? authHeaders;
   final VideoPlayerController? vp;
   final Future<void>? vpInit;
   final String? captionText;
+  final String? mediaError; 
 
   const CameraPreviewWidget({
     Key? key,
     this.imagePath,
+    this.imageFile,
+    this.imageUrl,
+    this.authHeaders,
     this.vp,
     this.vpInit,
     this.captionText,
+    this.mediaError, 
   }) : super(key: key);
 
   @override
@@ -25,20 +34,17 @@ class CameraPreviewWidget extends StatelessWidget {
       ),
       clipBehavior: Clip.antiAlias,
       child: Stack(
+        alignment: Alignment.center, 
         children: [
-          // IMAGE (alphabet or term image) all box
-          if (imagePath != null)
-            Positioned.fill(
-              child: Image.asset(imagePath!, fit: BoxFit.cover),
-            ),
-
-          // VIDEO all box
           if (vp != null && vpInit != null)
             FutureBuilder(
               future: vpInit,
               builder: (_, snap) {
                 if (snap.connectionState != ConnectionState.done) {
                   return const Center(child: CircularProgressIndicator());
+                }
+                if (snap.hasError) {
+                  return Container(color: Colors.black.withOpacity(0.1));
                 }
                 return Positioned.fill(
                   child: FittedBox(
@@ -52,9 +58,57 @@ class CameraPreviewWidget extends StatelessWidget {
                   ),
                 );
               },
+            )
+          else if (imageFile != null)
+            Positioned.fill(
+              child: Image.file(imageFile!, fit: BoxFit.cover),
+            )
+          else if (imageUrl != null)
+            Positioned.fill(
+              child: Image.network(
+                imageUrl!,
+                headers: authHeaders,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, progress) {
+                  if (progress == null) return child;
+                  return const Center(child: CircularProgressIndicator());
+                },
+                errorBuilder: (context, error, stack) {
+                  return Container(color: Colors.black.withOpacity(0.1));
+                },
+              ),
+            )
+          else if (imagePath != null)
+            Positioned.fill(
+              child: Image.asset(imagePath!, fit: BoxFit.cover),
+            )
+          else if (mediaError == null)
+            Center(
+             
+            ),
+          
+          if (mediaError != null)
+            Positioned.fill(
+              child: Container(
+                color: Colors.black.withOpacity(0.6),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      mediaError!,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Colors.white, 
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
 
-          // CAPTION (bottom-centered stripe)
+
           if ((captionText ?? '').isNotEmpty)
             Positioned(
               left: 12,

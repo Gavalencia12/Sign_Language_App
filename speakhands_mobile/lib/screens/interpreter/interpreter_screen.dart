@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:speakhands_mobile/screens/interpreter/widgets/carrusel_modal.dart';
 import 'package:speakhands_mobile/theme/app_colors.dart';
 import 'package:speakhands_mobile/theme/text_styles.dart';
 import 'package:video_player/video_player.dart';
@@ -11,6 +13,9 @@ import 'package:speakhands_mobile/providers/speech_provider.dart';
 import 'package:speakhands_mobile/service/speech_io_service.dart';
 import 'package:speakhands_mobile/l10n/app_localizations.dart';
 import 'package:speakhands_mobile/screens/interpreter/functions/buildcamerapreview.dart';
+import 'package:speakhands_mobile/widgets/draggable_fab.dart';
+import 'package:http/http.dart' as http;
+import 'dart:io';
 
 /// ---------------------------------------------------------------------------
 /// Screen: INTERPRETER (voice ↔ text)
@@ -43,34 +48,33 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
   final TextEditingController _textCtrl = TextEditingController();
   final FocusNode _textFocus = FocusNode();
 
+  /// The base URL for the remote media server (Ngrok/MinIO).
+  final String baseUrl = 'https://orville-unclosable-victoria.ngrok-free.dev';
+
   // “Interpreted” text (filled either by STT or your LSM → text pipeline)
   String _interpretedText = '';
-
-  // State flags
-  bool _ready = false; // STT is initialized and ready
-  bool _readingPreset = false; // playing a sample text
+  bool _ready = false;
+  bool _readingPreset = false;
 
   // === LEXICON / MEDIA STATE ===
   Map<String, dynamic>? _assetManifest;
 
   // Lexicon terms & indices
   List<Map<String, dynamic>> _terms = [];
-  Map<String, Map<String, dynamic>> _byKey = {}; // inicializado
-  Map<String, Map<String, dynamic>> _byEs  = {}; // inicializado
-  Map<String, Map<String, dynamic>> _byEn = {}; //  inicializado
-
-  // NEW: templates y slots
-  List<Map<String, dynamic>> _templates = [];            // NEW
-  Map<String, dynamic> _slotTypes = {};                  // NEW
-
-  // Ready flags
+  Map<String, Map<String, dynamic>> _byKey = {};
+  Map<String, Map<String, dynamic>> _byEs  = {};
+  Map<String, Map<String, dynamic>> _byEn = {};
+  List<Map<String, dynamic>> _templates = [];
+  Map<String, dynamic> _slotTypes = {};
   bool _lexiconReady = false;
   bool _manifestReady = false;
 
   // Current media
-  String? _captionText;            // Text for the bottom stripe (e.g., "hola")
-  String? _imagePath;              // Image (alphabet or term image)
-  VideoPlayerController? _vp;      // Video controller
+  String? _captionText;
+  String? _imagePath;
+  File? _imageFile;
+  String? _imageUrl;
+  VideoPlayerController? _vp;
   Future<void>? _vpInit;
 
   // Current emoji (not used yet)
@@ -78,6 +82,10 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
 
   // Debounce for lookups
   Timer? _lookupTimer;
+
+  /// Displays an error message in the [CameraPreviewWidget] if media
+  /// fails to load from both online (streaming) and offline (local) sources.
+  String? _mediaError;
 
   @override
   void initState() {
@@ -155,7 +163,14 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
     );
   }
 
-  /// Stops voice recognition (if active).
+  void _CarouselModal() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const CarouselModal(),
+    );
+  }
+
   Future<void> _stopStt() => _speech.stopListening();
 
   /// Plays a preset text (handy for quick testing).
@@ -173,6 +188,8 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
     final speakOn = Provider.of<SpeechProvider>(context).enabled;
+    
+    final authHeader = {'ngrok-skip-browser-warning': 'true'};
 
     return Scaffold(
       backgroundColor: AppColors.background(context),
@@ -182,62 +199,84 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
       resizeToAvoidBottomInset: true,
 
       // Dismiss the keyboard when tapping outside the TextField
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: OrientationBuilder(
-          builder: (context, orientation) {
-            final isPortrait = orientation == Orientation.portrait;
+      body: LayoutBuilder( 
+        builder: (context, constraints) {
+          final buttonSize = 50.0;
+          final screenPadding = 16.0;
+          final initialRightPosition = constraints.maxWidth - buttonSize - screenPadding;
 
-            // Portrait: keyboard-aware body (box grows when the keyboard opens)
-            if (isPortrait) {
-              return _keyboardAwareBody(loc, speakOn);
-            }
+          return Stack( 
+            children: [
+              // --- principal content  ---
+              GestureDetector(
+                onTap: () => FocusScope.of(context).unfocus(),
+                child: OrientationBuilder(
+                  builder: (context, orientation) {
+                    final isPortrait = orientation == Orientation.portrait;
 
-            // Landscape: two-column layout (left preview, right controls)
-            return SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: AspectRatio(
-                        aspectRatio: 3 / 4,
-                        child: CameraPreviewWidget(
-                          imagePath: _imagePath,
-                          vp: _vp,
-                          vpInit: _vpInit,
-                          captionText: _captionText,
+                    if (isPortrait) {
+                      return _keyboardAwareBody(loc, speakOn, authHeader);
+                    }
+
+                    // Landscape layout
+                    return SafeArea(
+                      child: Padding(
+                        padding: EdgeInsets.all(screenPadding),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: AspectRatio(
+                                aspectRatio: 3 / 4,
+                                child: CameraPreviewWidget(
+                                  imagePath: _imagePath,
+                                  imageFile: _imageFile,
+                                  imageUrl: _imageUrl,
+                                  authHeaders: authHeader,
+                                  vp: _vp,
+                                  vpInit: _vpInit,
+                                  captionText: _captionText,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: _buildContent(
+                                  context,
+                                  loc,
+                                  speakOn,
+                                  authHeader,
+                                  excludeCamera: true,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: _buildContent(
-                          context,
-                          loc,
-                          speakOn,
-                          excludeCamera: true,
-                        ),
-                      ),
-                    ),
-                  ],
+                    );
+                  },
                 ),
               ),
-            );
-          },
-        ),
+
+              DraggableFAB(
+                storageKey: 'interpreter_screen_fab_position',
+                initialTop: 570.0,
+                initialLeft: initialRightPosition,
+                constraints: constraints, 
+                onPressed: _CarouselModal, 
+              ),
+            ],
+          );
+        }
       ),
     );
   }
 
   /// Keyboard-aware body (portrait):
-  /// - Adapts `textBoxHeight` depending on whether the keyboard is open.
-  /// - **Ahora el preview SIEMPRE se ve**, aunque el teclado esté abierto.
-  Widget _keyboardAwareBody( AppLocalizations loc, bool speakOn) {
+  Widget _keyboardAwareBody( AppLocalizations loc, bool speakOn, Map<String, String> authHeader) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final media = MediaQuery.of(context);
@@ -264,7 +303,7 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
                 ),
                 const SizedBox(height: 10),
 
-                // Animated container for the text box + action bar)
+                // Animated container...
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 180),
                   height: textBoxHeight.clamp(
@@ -276,12 +315,18 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
 
                 const SizedBox(height: 16),
 
-                // Mostrar SIEMPRE el preview (antes se ocultaba con teclado)
-                Expanded(child: CameraPreviewWidget(imagePath: _imagePath,
-                          vp: _vp,
-                          vpInit: _vpInit,
-                          captionText: _captionText,
-                        )),
+                Expanded(
+                  child: CameraPreviewWidget(
+                    imagePath: _imagePath,
+                    imageFile: _imageFile,
+                    imageUrl: _imageUrl,
+                    authHeaders: authHeader,
+                    vp: _vp,
+                    vpInit: _vpInit,
+                    captionText: _captionText,
+                    mediaError: _mediaError,
+                  )
+                ),
               ],
             ),
           ),
@@ -294,7 +339,9 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
   List<Widget> _buildContent(
     BuildContext context,
     AppLocalizations loc,
-    bool speakOn, {
+    bool speakOn,
+    Map<String, String> authHeader,
+    {
     bool excludeCamera = false,
   }) {
     return [
@@ -317,10 +364,15 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
         const SizedBox(height: 16),
 
         // Preview
-        AspectRatio(aspectRatio: 1, child: CameraPreviewWidget(imagePath: _imagePath,
+        AspectRatio(aspectRatio: 1, child: CameraPreviewWidget(
+                          imagePath: _imagePath,
+                          imageFile: _imageFile,
+                          imageUrl: _imageUrl,
+                          authHeaders: authHeader,
                           vp: _vp,
                           vpInit: _vpInit,
                           captionText: _captionText,
+                          mediaError: _mediaError,
                         ),),
 
         const SizedBox(height: 16),
@@ -329,9 +381,6 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
   }
 
   /// style box:
-  /// - Editable text area with placeholder.
-  /// - “X” button to clear content.
-  /// - Bottom bar: Mic/Stop with glow, TTS, counter y botón "Mostrar".
   Widget _googleLikeBox(
     AppLocalizations loc, bool speakOn
   ) {
@@ -426,7 +475,6 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
                       _lookupDebounced(); // ← lookup JSON + media
                     },
                     onSubmitted: (_) {
-                      // Enter: cerrar teclado y forzar resolución
                       FocusScope.of(context).unfocus();
                       _resolveAndShow(_interpretedText);
                     },
@@ -510,24 +558,12 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
                     IconButton(
                       tooltip: loc.speakText,
                       icon: Icon(Icons.volume_up, color: textColor),
-                      onPressed: _interpretedText.isEmpty
+                      onPressed: _interpretedText.trim().isEmpty
                           ? null
                           : () async {
-                              final speakOn =
-                                  Provider.of<SpeechProvider>(context, listen: false)
-                                      .enabled;
-                              if (speakOn) await _speech.speak(_textCtrl.text);
+                              await _speech.stopSpeak();
+                              await _speech.speak(_textCtrl.text);
                             },
-                    ),
-
-                    // Mostrar: cierra teclado y resuelve ya
-                    IconButton(
-                      tooltip: 'Mostrar',
-                      icon: Icon(Icons.visibility, color: textColor),
-                      onPressed: () {
-                        FocusScope.of(context).unfocus();
-                        _resolveAndShow(_interpretedText);
-                      },
                     ),
 
                     const Spacer(),
@@ -564,7 +600,6 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
     // NEW: cargar templates y slot_types
     _templates  = (data['templates'] as List?)?.cast<Map<String, dynamic>>() ?? [];
     _slotTypes  = (data['slot_types'] as Map<String, dynamic>? ) ?? {};
-
     _lexiconReady = true;
     if (mounted) setState(() {});
   }
@@ -578,17 +613,7 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
 
   String _normalize(String input) {
     final lower = input.trim().toLowerCase();
-    const map = {
-      'á': 'a',
-      'é': 'e',
-      'í': 'i',
-      'ó': 'o',
-      'ú': 'u',
-      'ä': 'a',
-      'ë': 'e',
-      'ï': 'i',
-      'ö': 'o',
-      'ü': 'u'
+    const map = {'á': 'a',  'é': 'e',  'í': 'i',  'ó': 'o',  'ú': 'u',  'ä': 'a',  'ë': 'e',  'ï': 'i',  'ö': 'o',  'ü': 'u'
     };
     final sb = StringBuffer();
     for (final r in lower.runes) {
@@ -609,6 +634,149 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
     }
     return sb.toString().replaceAll(RegExp(r'\s+'), ' ').trim();
   }
+  
+  /// Removes the 'assets/' prefix from lexicon paths.
+  
+  /// The JSON file may contain full asset paths (e.g., 'assets/lexicon/videos/hola.mp4').
+  /// This function strips the prefix to get the bare resource name (e.g., 'hola.mp4')
+  /// needed for Docker and local file saving.
+  String _cleanPath(String path) {
+    const String prefixVideo = 'assets/lexicon/videos/';
+    const String prefixImage = 'assets/lexicon/images/';
+    
+    if (path.startsWith(prefixVideo)) {
+      return path.substring(prefixVideo.length); 
+    }
+    if (path.startsWith(prefixImage)) {
+      return path.substring(prefixImage.length); 
+    }
+    return path; 
+  }
+
+  /// Gets the local [File] reference for a downloaded (offline) resource.
+  ///
+  /// This creates the 'videos' or 'imagenes' subdirectory if it doesn't exist.
+  Future<File> _getLocalFile(String resourceName, String type) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final folder = (type == 'video') ? 'videos' : 'imagenes';
+    
+    final Directory subDir = Directory('${directory.path}/$folder');
+    if (!await subDir.exists()) {
+      await subDir.create(recursive: true);
+    }
+    
+    return File('${subDir.path}/$resourceName');
+  }
+
+  /// Attempts to initialize and play a video directly from the remote [url].
+
+  /// Creates a new [VideoPlayerController] for the network [url].
+  /// Throws an exception if the video fails to initialize (e.g., 404
+  /// or network error), which is then caught by [_displayMedia].
+  Future<void> _streamVideoFromDocker(String url) async {
+    _disposeVideo();
+    final headers = {'ngrok-skip-browser-warning': 'true'};
+
+    _vp = VideoPlayerController.networkUrl(
+      Uri.parse(url),
+      httpHeaders: headers,
+    );
+
+    try {
+      _vpInit = _vp!.initialize();
+      await _vpInit; 
+
+      setState(() {
+        _vp!.setLooping(true);
+        _vp!.play();
+      });
+      _autoHideKeyboardIfOpen();
+    } catch (e) {
+      print("Error inicializando video desde URL: $e");
+      // ¡Relanza el error para que _displayMedia lo atrape!
+      throw e;
+    }
+  }
+
+  /// Sets the [_imageUrl] to stream an image from the remote [url].
+  
+  /// This does not await the load; the `Image.network` widget handles
+  /// the loading, error, and placeholder UI.
+  Future<void> _streamImageFromDocker(String url) async {
+    _disposeVideo();
+    setState(() {
+      _imagePath = null;
+      _imageFile = null;
+      _imageUrl = url;
+    });
+    _autoHideKeyboardIfOpen();
+  }
+
+  /// Main media loading logic with an "Online-First" strategy.
+  ///
+  /// 1. **Online (Stream):** Tries to stream the media from the [baseUrl].
+  /// 2. **Offline (Local):** If streaming fails (throws any exception, like
+  ///    no internet or 404), it searches for the media in local storage
+  ///    (files downloaded by [DownloadService]).
+  /// 3. **Error:** If both fail, it sets [_mediaError] to display a
+  ///    "needs download" message.
+  Future<void> _displayMedia(String resourceName, String type) async {
+    // 1. Limpiar estado
+    _disposeVideo();
+    setState(() {
+      _imagePath = null;
+      _imageFile = null;
+      _imageUrl = null;
+      _mediaError = null; 
+    });
+
+    try {
+      print("Mostrando desde [Red/Docker]: $resourceName");
+      String url = '';
+      if (type == 'video') {
+        url = '$baseUrl/lexicon/videos/$resourceName';
+        await _streamVideoFromDocker(url); 
+      } else {
+        url = '$baseUrl/lexicon/imagenes/$resourceName';
+        await _streamImageFromDocker(url); 
+      }
+      return; 
+    } catch (e) {
+      print("Fallo online ($e), buscando en [Local Storage]: $resourceName");
+      
+      final File localFile = await _getLocalFile(resourceName, type);
+
+      if (await localFile.exists()) {
+        print("Encontrado en [Local Storage]: ${localFile.path}");
+        if (type == 'video') {
+          _vp = VideoPlayerController.file(localFile);
+          _vpInit = _vp!.initialize().then((_) {
+            _vp!..setLooping(true)..play();
+            if (mounted) setState(() {});
+          });
+        } else {
+          setState(() => _imageFile = localFile);
+        }
+        _autoHideKeyboardIfOpen();
+        return; 
+      }
+    }
+
+    print("No encontrado en ningún lado. Mostrando error.");
+    setState(() {
+      _mediaError = "Sin conexión. Descarga el modo offline desde Ajustes.";
+    });
+  }
+
+  bool _assetExists(String path) {
+    final m = _assetManifest;
+    if (m == null || m.isEmpty) return true;
+    if (m.containsKey(path)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   bool _isSingleLetter(String s) {
     final t = _normalize(s);
@@ -618,18 +786,10 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
   String _alphabetPath(String s) =>
       'assets/lexicon/images/${s.trim().toUpperCase()}.png';
 
-  // Relajado: if the manifest is not loaded, assume the asset exists
-  bool _assetExists(String path) {
-    final m = _assetManifest;
-    if (m == null || m.isEmpty) return true;
-    return m.containsKey(path);
-  }
-
   void _lookupDebounced() {
     _lookupTimer?.cancel();
     _lookupTimer = Timer(const Duration(milliseconds: 180), () {
       if (!_lexiconReady || !_manifestReady) {
-        // Reintento corto si aún no cargan
         _lookupTimer = Timer(const Duration(milliseconds: 180), () {
           if (_lexiconReady && _manifestReady) {
             _resolveAndShow(_interpretedText);
@@ -649,7 +809,6 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
     }
   }
 
-  // *** NUEVO: helper para mapear ES/EN a la key canónica (ES) ***
   String? _canonicalBodyPartKey(String tokenNorm) {
     final list = (_slotTypes['body_part'] as List?)?.cast<Map<String, dynamic>>();
     if (list == null) return null;
@@ -658,7 +817,7 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
       final keyEs = _normalize(item['key'] as String);
       final keyEn = _normalize((item['en'] ?? '') as String);
       if (tokenNorm == keyEs || (keyEn.isNotEmpty && tokenNorm == keyEn)) {
-        return item['key'] as String; // devolvemos SIEMPRE la key ES
+        return item['key'] as String;
       }
     }
     return null;
@@ -680,41 +839,46 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
     return null;
   }
 
-  // *** NUEVO: helper central para mostrar media de un term por key, con fallback de patrón ***
+  /// Displays media for a term, handling complex template fallbacks.
+  
+  /// 1. **Asset:** Checks if the [path] from the JSON exists in local `assets/`.
+  /// 2. **Online/Offline:** If not in assets, it cleans the path (e.g., 'hola.mp4')
+  ///    and calls [_displayMedia] to handle the Online-First logic.
   void _showTermByKeyOrPattern(String termKey, {String? patternBaseKey}) {
     final term = _byKey[termKey];
+    String? path;
+    String? type;
+
     if (term != null) {
       final media = term['media'] as Map<String, dynamic>?;
-      final type  = media?['type'] as String?;
-      final path  = media?['path'] as String?;
+      type = media?['type'] as String?;
+      path = media?['path'] as String?;
+    }
 
-      if (type == 'image' && path != null && _assetExists(path)) {
-        _imagePath = path;
-        _autoHideKeyboardIfOpen();
-        return;
-      }
-      if (type == 'video' && path != null && _assetExists(path)) {
-        _vp = VideoPlayerController.asset(path);
-        _vpInit = _vp!.initialize().then((_) {
-          _vp!..setLooping(true)..play();
+    if (path != null && type != null) {
+      if (_assetExists(path)) {
+        print("Mostrando (helper) desde [Local Asset]: $path");
+        if (type == 'video') {
+          _vp = VideoPlayerController.asset(path);
+          _vpInit = _vp!.initialize().then((_) {
+            _vp!..setLooping(true)..play();
+            _autoHideKeyboardIfOpen();
+            if (mounted) setState(() {});
+          });
+        } else if (type == 'image') {
+          _imagePath = path; 
           _autoHideKeyboardIfOpen();
-          if (mounted) setState(() {});
-        });
-        return;
+        }
+      } else {
+        final resourceName = _cleanPath(path);
+        _displayMedia(resourceName, type);
       }
+      return;
     }
 
-    // Fallback: usa patrón convencional (si no hay term o path)
     final key = patternBaseKey ?? termKey;
-    final v = 'assets/lexicon/videos/$key.mp4';
-    if (_assetExists(v)) {
-      _vp = VideoPlayerController.asset(v);
-      _vpInit = _vp!.initialize().then((_) {
-        _vp!..setLooping(true)..play();
-        _autoHideKeyboardIfOpen();
-        if (mounted) setState(() {});
-      });
-    }
+    final resourceName = '$key.mp4';
+    _displayMedia(resourceName, 'video');
   }
 
   // resolving "me duele {parte}" template
@@ -727,8 +891,7 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
 
     final m = re.firstMatch(qNorm);
     if (m == null) return false;
-
-    final parte = m.group(1)!;                 // ej. "cabeza"
+    final parte = m.group(1)!;
     final parteEmoji = _bodyPartEmoji(parte);
 
     // Compón the emoji template
@@ -736,8 +899,6 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
 
     // Caption (opcional): glosa simple
     _captionText = 'DOLOR ' + parte.toUpperCase();
-
-    // NUEVO: intenta usar un term explícito "dolor_{parte}" y si no, fallback al patrón
     _showTermByKeyOrPattern('dolor_${parte}', patternBaseKey: 'dolor_${parte}');
     return true;
   }
@@ -747,8 +908,6 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
     // body_part keys se asumen en inglés (e.g., head, arm, leg)
     final bodyParts = (_slotTypes['body_part'] as List?)?.cast<Map<String, dynamic>>() ?? [];
     if (bodyParts.isEmpty) return false;
-
-    // Opciones en INGLÉS (fallback a key ES si falta "en")
     final opcionesEn = bodyParts.map((m) {
       final enVal = (m['en'] ?? m['key']) as String;
       return RegExp.escape(_normalize(enVal));
@@ -780,17 +939,27 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
 
     _emoji = parteEmoji == null ? '🤕' : '🤕 $parteEmoji';
     _captionText = 'DOLOR ' + canonKey.toUpperCase();
-
-    // NUEVO: term "dolor_{canonKey}" o fallback al patrón
     _showTermByKeyOrPattern('dolor_${canonKey}', patternBaseKey: 'dolor_${canonKey}');
     return true;
   }
 
+  // The central lookup function called by the text field.
+  ///
+  /// It resolves the user's query [String] to a term and then decides
+  /// how to display the media.
+  /// 1. **Alphabet:** If it's a single letter, shows the local asset.
+  /// 2. **Templates:** Tries to match 'dolor' (pain) templates.
+  /// 3. **Term:** Finds a matching term.
+  ///    - If the term's media is a local asset (`_assetExists` is true),
+  ///      it loads from assets.
+  ///    - Otherwise, it calls [_displayMedia] to handle the Online/Offline logic.
   void _resolveAndShow(String query) {
-    if (!_lexiconReady) return; // guard extra
+    if (!_lexiconReady) return; 
 
     _disposeVideo();
     _imagePath = null;
+    _imageFile = null; 
+    _imageUrl = null;  
     _captionText = null;
     _emoji = null;
 
@@ -832,21 +1001,15 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
       int bestScore = -1;
       for (final t in _terms) {
         final esn = _normalize(t['es'] as String);
-        final enn = _normalize((t['en'] ?? '') as String); // NEW
+        final enn = _normalize((t['en'] ?? '') as String); 
         int s = -1;
 
         bool eq  = (esn == q) || (enn == q);
         bool pre = esn.startsWith(q) || (enn.isNotEmpty && enn.startsWith(q));
         bool con = esn.contains(q)   || (enn.isNotEmpty && enn.contains(q));
-
-        if (eq) {
-          s = 3;
-        } else if (pre) {
-          s = 2;
-        } else if (con) {
-          s = 1;
-        }
-
+        if (eq) s = 3;
+        else if (pre) s = 2;
+        else if (con) s = 1;
         if (s > bestScore) {
           bestScore = s;
           best = t;
@@ -865,30 +1028,30 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
       // media
       final media = term['media'] as Map<String, dynamic>?;
       final type = media?['type'] as String?;
-      final path = media?['path'] as String?;
+      final path = media?['path'] as String?; 
 
-      if (type == 'image' && path != null && _assetExists(path)) {
-        _imagePath = path;
-        _autoHideKeyboardIfOpen();
-      } else if (type == 'video' && path != null && _assetExists(path)) {
-        _vp = VideoPlayerController.asset(path);
-        _vpInit = _vp!.initialize().then((_) {
-          _vp!..setLooping(true)..play();
-          _autoHideKeyboardIfOpen();
-          if (mounted) setState(() {});
-        });
-      } else {
-        // Fallback: try conventional video path by key
-        final key = term['key'] as String;
-        final v = 'assets/lexicon/videos/$key.mp4';
-        if (_assetExists(v)) {
-          _vp = VideoPlayerController.asset(v);
-          _vpInit = _vp!.initialize().then((_) {
-            _vp!..setLooping(true)..play();
+      if (type != null && path != null) {
+        if (_assetExists(path)) {
+          print("Mostrando desde [Local Asset]: $path");
+          if (type == 'video') {
+            _vp = VideoPlayerController.asset(path);
+            _vpInit = _vp!.initialize().then((_) {
+              _vp!..setLooping(true)..play();
+              _autoHideKeyboardIfOpen();
+              if (mounted) setState(() {});
+            });
+          } else if (type == 'image') {
+            _imagePath = path;
             _autoHideKeyboardIfOpen();
-            if (mounted) setState(() {});
-          });
+          }
+        } else {
+          final resourceName = _cleanPath(path);
+          _displayMedia(resourceName, type);
         }
+      } else {
+        final key = term['key'] as String;
+        final resourceName = '$key.mp4';
+        _displayMedia(resourceName, 'video');
       }
     }
 
@@ -901,12 +1064,16 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
     _vp = null;
     _vpInit = null;
   }
-
+  /// Resets all media state variables to their default (null) values.
+  /// This is called when the 'X' button is pressed.
   void _clearMedia() {
     _disposeVideo();
     _imagePath = null;
+    _imageFile = null; 
+    _imageUrl = null; 
     _captionText = null;
     _emoji = null;
+    _mediaError = null;
     setState(() {});
   }
 }

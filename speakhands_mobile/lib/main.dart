@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:speakhands_mobile/providers/theme_provider.dart';
 import 'package:speakhands_mobile/providers/locale_provider.dart';
 import 'package:speakhands_mobile/providers/speech_provider.dart';
+import 'package:speakhands_mobile/service/donwload_service.dart';
 import 'app.dart';
 
 void main() async {
@@ -22,6 +23,7 @@ void main() async {
         ChangeNotifierProvider<ThemeProvider>.value(value: themeProvider),
         ChangeNotifierProvider(create: (_) => LocaleProvider()),
         ChangeNotifierProvider(create: (_) => SpeechProvider()),
+        ChangeNotifierProvider(create: (_) => DownloadService()),
       ],
       child: const App(),
     ),

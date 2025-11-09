@@ -53,8 +53,55 @@
   "help_information_section": "Ayuda e Información",
   "terms_and_conditions": "Términos y condiciones",
   "qualife": "Qualife",
+  "speech_text":"Lectura por voz",
+  
+  "download_tittle": "Descargar archivos para usar en modo offline",
+  "download": "Descargar",
+
+  "download_information": "Descarga videos e imágenes para uso sin conexión",
+
+  "download_init": "Iniciando descarga...",
+  "download_no_files": "No se encontraron archivos para descargar.",
+  "download_progress": "Descargando... {percent}%",
+  "@download_progress": {
+    "placeholders": {
+      "percent": {
+        "type": "String",
+        "example": "50"
+      }
+    }
+  },
+  "download_complete": "¡Descarga completa! ({downloaded} archivos)",
+  "@download_complete": {
+    "placeholders": {
+      "downloaded": {
+        "type": "String"
+      }
+    }
+  },
+  "download_error": "Error fatal: {error}",
+  "@download_error": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
   "hello": "Hola",
   "show": "Mostrar",
+
+  "modal_1":"Bienvenido al Traductor de LSM",
+  "modal_1_text": "Usa la cámara para traducir tus gestos en tiempo real. Asegúrate de tener buena iluminación.",
+  "modal_2": "Coloca tus manos dentro del recuadro de la cámara.",
+  "modal_3": "Traducción con voz",
+  "modla_3_text":"El sistema puede pronunciar las letras o palabras detectadas. Puedes activarlo o pausarlo cuando quieras.",
+
+  "modal_1_interpreter": "Bienvenido al Intérprete de LSM",
+  "modal_1_interpreter_text": "Usa el campo de texto para obtener la interpretación en lengua de señas en tiempo real. Escribe con claridad.",
+  "modal_2_interpreter": "Escribe el texto que deseas interpretar.",
+  "modal_3_interpreter": "Interpretación con voz",
+  "modal_3_interpreter_text":"El sistema puede leer en voz alta el texto interpretado. Puedes activarlo o pausarlo cuando quieras.",
+
 
   "privacy_policy_title": "Política de Privacidad",
   "error_loading_data": "Error al cargar los datos. Inténtalo nuevamente.",

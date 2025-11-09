@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  convert: ^3.0.1  # Para base64Encode
   cupertino_icons: ^1.0.2
   tflite_flutter: ^0.11.0
   camera: ^0.10.5+5

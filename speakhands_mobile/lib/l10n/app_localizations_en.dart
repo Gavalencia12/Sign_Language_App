@@ -140,10 +140,73 @@ class AppLocalizationsEn extends AppLocalizations {
   String get qualife => 'Qualife';
 
   @override
+  String get speech_text => 'Speech for text';
+
+  @override
+  String get download_tittle => 'Download files to use in offline mode';
+
+  @override
+  String get download => 'Download';
+
+  @override
+  String get download_information => 'Download videos and images for offline use';
+
+  @override
+  String get download_init => 'Starting download...';
+
+  @override
+  String get download_no_files => 'No files found to download.';
+
+  @override
+  String download_progress(String percent) {
+    return 'Downloading... $percent%';
+  }
+
+  @override
+  String download_complete(String downloaded) {
+    return 'Download complete! ($downloaded files)';
+  }
+
+  @override
+  String download_error(String error) {
+    return 'Fatal error: $error';
+  }
+
+  @override
   String get hello => 'Hello';
 
   @override
   String get show => 'Show';
+
+  @override
+  String get modal_1 => 'Welcome to the LSM Translator';
+
+  @override
+  String get modal_1_text => 'Use the camera to translate your gestures in real time. Make sure you have good lighting.';
+
+  @override
+  String get modal_2 => 'Place your hands inside the camera frame.';
+
+  @override
+  String get modal_3 => 'Voice translation';
+
+  @override
+  String get modla_3_text => 'The system can pronounce the detected letters or words. You can activate or pause it whenever you want.';
+
+  @override
+  String get modal_1_interpreter => 'Welcome to the LSM Interpreter';
+
+  @override
+  String get modal_1_interpreter_text => 'Use the text input to get the sign language interpretation in real time. Type clearly.';
+
+  @override
+  String get modal_2_interpreter => 'Type the text you want to interpret.';
+
+  @override
+  String get modal_3_interpreter => 'Voice interpretation';
+
+  @override
+  String get modal_3_interpreter_text => 'The system can read aloud the interpreted text. You can activate or pause it whenever you want.';
 
   @override
   String get privacy_policy_title => 'Privacy Policy';
