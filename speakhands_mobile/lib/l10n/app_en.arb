@@ -53,8 +53,56 @@
   "help_information_section": "Help & Information",
   "terms_and_conditions": "Terms and Conditions",
   "qualife": "Qualife",
+ "speech_text":"Speech for text",
+
+  "download_tittle": "Download files to use in offline mode",
+  "download": "Download",
+
+  "download_information": "Download videos and images for offline use",
+
+  "download_init": "Starting download...",
+  "download_no_files": "No files found to download.",
+  "download_progress": "Downloading... {percent}%",
+  "@download_progress": {
+    "placeholders": {
+      "percent": {
+        "type": "String",
+        "example": "50"
+      }
+    }
+  },
+  "download_complete": "Download complete! ({downloaded} files)",
+  "@download_complete": {
+    "placeholders": {
+      "downloaded": {
+        "type": "String"
+      }
+    }
+  },
+  "download_error": "Fatal error: {error}",
+  "@download_error": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
   "hello": "Hello",
   "show": "Show",
+
+  "modal_1": "Welcome to the LSM Translator",
+  "modal_1_text": "Use the camera to translate your gestures in real time. Make sure you have good lighting.",
+  "modal_2": "Place your hands inside the camera frame.",
+  "modal_3": "Voice translation",
+  "modla_3_text":"The system can pronounce the detected letters or words. You can activate or pause it whenever you want.",
+
+  "modal_1_interpreter": "Welcome to the LSM Interpreter",
+  "modal_1_interpreter_text": "Use the text input to get the sign language interpretation in real time. Type clearly.",
+  "modal_2_interpreter": "Type the text you want to interpret.",
+  "modal_3_interpreter": "Voice interpretation",
+  "modal_3_interpreter_text":"The system can read aloud the interpreted text. You can activate or pause it whenever you want.",
+
 
   
   "privacy_policy_title": "Privacy Policy",

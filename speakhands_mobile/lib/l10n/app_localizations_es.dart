@@ -140,10 +140,73 @@ class AppLocalizationsEs extends AppLocalizations {
   String get qualife => 'Qualife';
 
   @override
+  String get speech_text => 'Lectura por voz';
+
+  @override
+  String get download_tittle => 'Descargar archivos para usar en modo offline';
+
+  @override
+  String get download => 'Descargar';
+
+  @override
+  String get download_information => 'Descarga videos e imágenes para uso sin conexión';
+
+  @override
+  String get download_init => 'Iniciando descarga...';
+
+  @override
+  String get download_no_files => 'No se encontraron archivos para descargar.';
+
+  @override
+  String download_progress(String percent) {
+    return 'Descargando... $percent%';
+  }
+
+  @override
+  String download_complete(String downloaded) {
+    return '¡Descarga completa! ($downloaded archivos)';
+  }
+
+  @override
+  String download_error(String error) {
+    return 'Error fatal: $error';
+  }
+
+  @override
   String get hello => 'Hola';
 
   @override
   String get show => 'Mostrar';
+
+  @override
+  String get modal_1 => 'Bienvenido al Traductor de LSM';
+
+  @override
+  String get modal_1_text => 'Usa la cámara para traducir tus gestos en tiempo real. Asegúrate de tener buena iluminación.';
+
+  @override
+  String get modal_2 => 'Coloca tus manos dentro del recuadro de la cámara.';
+
+  @override
+  String get modal_3 => 'Traducción con voz';
+
+  @override
+  String get modla_3_text => 'El sistema puede pronunciar las letras o palabras detectadas. Puedes activarlo o pausarlo cuando quieras.';
+
+  @override
+  String get modal_1_interpreter => 'Bienvenido al Intérprete de LSM';
+
+  @override
+  String get modal_1_interpreter_text => 'Usa el campo de texto para obtener la interpretación en lengua de señas en tiempo real. Escribe con claridad.';
+
+  @override
+  String get modal_2_interpreter => 'Escribe el texto que deseas interpretar.';
+
+  @override
+  String get modal_3_interpreter => 'Interpretación con voz';
+
+  @override
+  String get modal_3_interpreter_text => 'El sistema puede leer en voz alta el texto interpretado. Puedes activarlo o pausarlo cuando quieras.';
 
   @override
   String get privacy_policy_title => 'Política de Privacidad';

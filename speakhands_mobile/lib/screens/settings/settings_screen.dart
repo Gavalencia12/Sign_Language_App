@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart' hide Dialog;
 import 'package:provider/provider.dart';
 import 'package:speakhands_mobile/providers/locale_provider.dart';
+import 'package:speakhands_mobile/providers/speech_provider.dart';
 import 'package:speakhands_mobile/providers/theme_provider.dart';
 import 'package:speakhands_mobile/l10n/app_localizations.dart';
+import 'package:speakhands_mobile/service/text_to_speech_service.dart';
 import 'package:speakhands_mobile/widgets/custom_app_bar.dart';
 import 'package:speakhands_mobile/widgets/dialogs/language_dialog.dart';
-import 'package:speakhands_mobile/l10n/app_localizations.dart';
+import 'package:speakhands_mobile/service/donwload_service.dart';
 
 // Import local pages
 import 'pages/terms_and_conditions_screen.dart';
@@ -17,7 +19,6 @@ import 'widgets/section_title.dart';
 import 'widgets/settings_card.dart';
 
 // Global dialogs
-import 'package:speakhands_mobile/widgets/dialogs/dialog.dart';
 import 'package:speakhands_mobile/widgets/dialogs/modal.dart';
 
 // Global theme colors
@@ -36,7 +37,24 @@ class SettingsScreen extends StatefulWidget {
   State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
+final TextToSpeechService ttsService = TextToSpeechService();
+String? currentSection;
+bool loading = true;
+
 class _SettingsScreenState extends State<SettingsScreen> {
+
+  String _getTranslatedStatus(AppLocalizations loc, String statusKey) {
+    // This is the initial key set in DownloadService
+    if (statusKey == 'download_information') {
+      // (Make sure this key exists in your .arb files)
+      // Si no tienes 'download_information', usa tu clave para el texto inicial
+      return loc.download_information; 
+    }
+    // If it's not the initial key, it's already a translated message
+    // (e.g., "Downloading... 50%")
+    return statusKey;
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -45,6 +63,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final Color backgroundColor = AppColors.background(context);
     final Color textColor = AppColors.text(context);
     final Color iconColor = AppColors.text(context).withOpacity(0.85);
+    
+    Future<void> _speakText() async {
+      final speakOn = Provider.of<SpeechProvider>(context, listen: false).enabled;
+      if (speakOn) {
+        await ttsService.stop();
+        final locale = Localizations.localeOf(context);
+        final texto = AppLocalizations.of(context)!.learn_info;
+        await ttsService.speak(texto, languageCode: locale.languageCode);
+      }
+    }
+     Future<void> _loadCurrentSection() async {
+      setState(() {
+        loading = false;
+        currentSection = null;
+      });
+    }
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -182,7 +216,86 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ],
                 ),
+                 SectionTitle(
+                  title: AppLocalizations.of(context)!.download_tittle,
+                ),
+                Consumer<DownloadService>(
+                  builder: (context, downloadService, child) {
+                  
+                  final loc = AppLocalizations.of(context)!;
+                  
+                  final String statusText = _getTranslatedStatus(loc, downloadService.statusMessage);
+
+                    return SettingsCard(
+                      children: [
+                        ListTile(
+                          leading: downloadService.isDownloading
+                              ? SizedBox(
+                                  width: 24,
+                                  height: 24,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2.5,
+                                    value: downloadService.progress > 0 
+                                           ? downloadService.progress 
+                                           : null,
+                                  ),
+                                )
+                              : Icon(Icons.download_for_offline, color: iconColor),
+                          title: Text(
+                            AppLocalizations.of(context)!.download,
+                            style: TextStyle(
+                              color: textColor,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                statusText, // <-- Usamos el texto traducido
+                                style: TextStyle(color: textColor.withOpacity(0.7)),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              if (downloadService.isDownloading && downloadService.progress > 0)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: LinearProgressIndicator(
+                                    value: downloadService.progress,
+                                    backgroundColor: Colors.grey.withOpacity(0.3),
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      AppColors.primary(context),
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                          onTap: downloadService.isDownloading
+                              ? null 
+                              : () {
+                                  Provider.of<DownloadService>(context,
+                                          listen: false)
+                                      .startFullDownload(loc); 
+                                },
+                        ),
+                      ],
+                    );
+                  },
+                ),
                 const SizedBox(height: 40),
+                 
+                 SwitchListTile(
+                  title: Flexible( 
+                    child: Text(
+                      AppLocalizations.of(context)!.speech_text, 
+                      style: TextStyle(color: textColor, fontWeight: FontWeight.w600,) 
+                    ),
+                  ),
+                  value: Provider.of<SpeechProvider>(context).enabled,
+                  onChanged: (value) =>
+                      Provider.of<SpeechProvider>(context, listen: false)
+                          .toggleSpeech(value),
+                ),
               ],
             ),
           ),
