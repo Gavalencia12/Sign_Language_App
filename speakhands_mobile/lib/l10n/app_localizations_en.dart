@@ -54,7 +54,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get waiting_prediction => 'Waiting for prediction...';
 
   @override
+  String get predictions_paused => 'Predictions paused';
+
+  @override
   String get camera_not_active => 'Camera not active';
+
+  @override
+  String get refresh => 'Refresh';
+
+  @override
+  String get pause => 'Pause';
+
+  @override
+  String get resume => 'Resume';
 
   @override
   String detected_letter(Object letter) {

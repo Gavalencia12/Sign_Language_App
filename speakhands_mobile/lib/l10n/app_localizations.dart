@@ -185,11 +185,35 @@ abstract class AppLocalizations {
   /// **'Waiting for prediction...'**
   String get waiting_prediction;
 
+  /// No description provided for @predictions_paused.
+  ///
+  /// In en, this message translates to:
+  /// **'Predictions paused'**
+  String get predictions_paused;
+
   /// No description provided for @camera_not_active.
   ///
   /// In en, this message translates to:
   /// **'Camera not active'**
   String get camera_not_active;
+
+  /// No description provided for @refresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get refresh;
+
+  /// No description provided for @pause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get pause;
+
+  /// No description provided for @resume.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume'**
+  String get resume;
 
   /// Shows the detected letter
   ///
