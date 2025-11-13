@@ -60,6 +60,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get camera_not_active => 'Cámara no activa';
 
   @override
+  String get refresh => 'Refrescar';
+
+  @override
+  String get pause => 'Pausar';
+
+  @override
+  String get resume => 'Reudar';
+
+  @override
   String detected_letter(Object letter) {
     return 'Letra detectada: $letter';
   }
