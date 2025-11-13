@@ -197,6 +197,24 @@ abstract class AppLocalizations {
   /// **'Camera not active'**
   String get camera_not_active;
 
+  /// No description provided for @refresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get refresh;
+
+  /// No description provided for @pause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get pause;
+
+  /// No description provided for @resume.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume'**
+  String get resume;
+
   /// Shows the detected letter
   ///
   /// In en, this message translates to:
