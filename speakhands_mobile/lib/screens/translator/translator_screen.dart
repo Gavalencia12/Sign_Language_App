@@ -151,7 +151,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
     
     await _cameraService.flipCamera();
     
-    // Resetea los niveles de zoom al girar
+    // Resets zoom levels on rotation
     _currentZoomLevel = 1.0;
     _baseZoomLevel = 1.0;
     
