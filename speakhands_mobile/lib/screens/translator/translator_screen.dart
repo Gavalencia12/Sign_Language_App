@@ -50,6 +50,12 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
   Timer? _delayTimer;
   Timer? _cooldownTimer;
 
+  bool _isPaused = false;
+
+  // --- Zoom control states ---
+  double _currentZoomLevel = 1.0;
+  double _baseZoomLevel = 1.0;
+
   // --- Lifecycle ---
   @override
   void initState() {
@@ -110,6 +116,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
         setState(() {
           _isCameraActive = false;
           _translationResult = loc.waiting_prediction;
+          _isPaused = false;
         });
       if (speakOn && !_isDisposed)
         await _ttsService.speak(loc.camera_toggle_off);
@@ -118,6 +125,11 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
 
       // Start camera and begin frame detection loop
       await _cameraService.startCamera();
+      
+      // Reset zoom levels
+      _currentZoomLevel = 1.0;
+      _baseZoomLevel = 1.0;
+
       if (!_isDisposed) setState(() => _isCameraActive = true);
       if (speakOn && !_isDisposed)
         await _ttsService.speak(loc.camera_toggle_on);
@@ -125,10 +137,26 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
       Timer.periodic(const Duration(milliseconds: 500), (timer) async {
         if (_isDisposed || !_cameraService.isActive) {
           timer.cancel();
-        } else if (_canDetect) {
+        } else if (_canDetect && !_isPaused) { 
           await _processFrame();
         }
       });
+    }
+  }
+
+  // Flips the camera between front and back.
+  // Resets zoom levels after flipping.
+  Future<void> _flipCameraAndUpdate() async {
+    if (!_isCameraActive) return; 
+    
+    await _cameraService.flipCamera();
+    
+    // Resetea los niveles de zoom al girar
+    _currentZoomLevel = 1.0;
+    _baseZoomLevel = 1.0;
+    
+    if (!_isDisposed) {
+      setState(() {});
     }
   }
 
@@ -137,6 +165,9 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
   // 2. Running inference through the model.
   // 3. Updating the UI and providing optional speech output.
   Future<void> _processFrame() async {
+    // If paused, skip processing
+    if (_isPaused) return;
+
     final landmarks = await _cameraService.getLandmarks();
     if (landmarks == null || landmarks.length != 63) {
       if (!_isDisposed) setState(() => _translationResult = "");
@@ -208,42 +239,94 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                         // --- Camera preview section ---
                         Expanded(
                           flex: 5,
-                          child: Stack(
-                            children: [
-                              CameraPreviewBox(
-                                isCameraActive: _isCameraActive,
-                                controller: _cameraService.controller,
-                              ),
-                              Positioned(
-                                top: 12,
-                                left: 12,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: AppColors.surface(context),
-                                    shape: BoxShape.circle,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: AppColors.text(context).withOpacity(0.15),
-                                        blurRadius: 6,
-                                        offset: Offset(0, 3),
+                          child: GestureDetector(
+                            onScaleStart: (details) {
+                              //save the base zoom level
+                              _baseZoomLevel = _currentZoomLevel;
+                            },
+                            onScaleUpdate: (details) {
+                              if (_cameraService.controller == null || !_isCameraActive) return;
+                              
+                              // Calculate the new zoom level
+                              _currentZoomLevel = (_baseZoomLevel * details.scale)
+                                  .clamp(
+                                    _cameraService.minZoom,
+                                    _cameraService.maxZoom,
+                                  );
+                              
+                              //apply the zoom level to the camera
+                              _cameraService.setZoom(_currentZoomLevel);
+                            },
+                            child: Stack(
+                              children: [
+                                CameraPreviewBox(
+                                  isCameraActive: _isCameraActive,
+                                  controller: _cameraService.controller,
+                                ),
+                               //buttons control
+                                Positioned(
+                                  top: 12,
+                                  left: 12,
+                                  child: Row(
+                                    children: [
+                                      // Botón 1: Toggle Cámara
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: AppColors.surface(context),
+                                          shape: BoxShape.circle,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: AppColors.text(context).withOpacity(0.15),
+                                              blurRadius: 6,
+                                              offset: Offset(0, 3),
+                                            ),
+                                          ],
+                                        ),
+                                        child: FloatingActionButton.small(
+                                          backgroundColor:
+                                              _isCameraActive ? AppColors.error(context) : AppColors.primary(context),
+                                          heroTag: "camera_toggle_btn",
+                                          onPressed: _toggleCamera,
+                                          child: Icon(
+                                            _isCameraActive
+                                                ? Icons.stop_rounded
+                                                : Icons.videocam_rounded,
+                                            color: AppColors.onPrimary(context),
+                                          ),
+                                        ),
                                       ),
+
+                                      if (_isCameraActive)
+                                              const SizedBox(width: 8),
+                                      // botón 2: Flip Cámara
+                                      if (_isCameraActive)
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: AppColors.surface(context),
+                                            shape: BoxShape.circle,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: AppColors.text(context).withOpacity(0.15),
+                                                blurRadius: 6,
+                                                offset: Offset(0, 3),
+                                              ),
+                                            ],
+                                          ),
+                                          child: FloatingActionButton.small(
+                                            backgroundColor: AppColors.surface(context),
+                                            heroTag: "camera_flip_btn",
+                                            onPressed: _flipCameraAndUpdate,
+                                            child: Icon(
+                                              Icons.flip_camera_ios_rounded,
+                                              color: AppColors.primary(context),
+                                            ),
+                                          ),
+                                        ),
                                     ],
                                   ),
-                                  child: FloatingActionButton.small(
-                                    backgroundColor:
-                                        _isCameraActive ? AppColors.error(context) : AppColors.primary(context),
-                                    heroTag: "camera_toggle_btn",
-                                    onPressed: _toggleCamera,
-                                    child: Icon(
-                                      _isCameraActive
-                                          ? Icons.stop_rounded
-                                          : Icons.videocam_rounded,
-                                      color: AppColors.onPrimary(context),
-                                    ),
-                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
 
@@ -268,10 +351,23 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
                         // Controls
                         TranslatorControls(
                           onRefresh: () {
-                            setState(() => _translationResult = loc.waiting_prediction);
+                            setState(() {
+                              _isPaused = false; // Resume if paused
+                              _translationResult = loc.waiting_prediction;
+                            });
                           },
-                          onPause: () async {
-                            if (_isCameraActive) await _processFrame();
+                          onPause: () {
+                            if (!_isCameraActive) return; 
+                            
+                            setState(() {
+                              _isPaused = true; //pause detection
+                              _translationResult = loc.predictions_paused; 
+                            });
+                            
+                            //Cancel timers
+                            _delayTimer?.cancel();
+                            _cooldownTimer?.cancel();
+                            _canDetect = true;
                           },
                         ),
                       ],
