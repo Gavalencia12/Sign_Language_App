@@ -22,6 +22,20 @@ class CameraService {
   // Tracks whether the controller has been disposed.
   bool isDisposed = false;
 
+  // List of available cameras on the device.
+  List<CameraDescription> _cameras = [];
+
+  // Currently selected camera (e.g., front or back).
+  CameraDescription? _currentCamera;
+
+  // Maximum and minimum zoom levels supported by the camera.
+  double _maxZoom = 1.0;
+  double _minZoom = 1.0;
+
+  // Getters for camera properties.
+  double get minZoom => _minZoom;
+  double get maxZoom => _maxZoom;
+
   // Channel used to communicate with the native side (Android)
   // to request hand landmarks.
   static const platform = MethodChannel('com.speakhands/landmarks');
@@ -31,17 +45,70 @@ class CameraService {
   // and sets its resolution to medium. Audio is disabled to optimize
   // performance for hand recognition tasks.
   Future<void> startCamera() async {
-    final cameras = await availableCameras();
-    final camera = cameras.first;
+    if (_cameras.isEmpty) {
+      _cameras = await availableCameras();
+    }
+
+    // Selecciona la cámara trasera por defecto, si no, la primera.
+    _currentCamera = _cameras.firstWhere(
+      (cam) => cam.lensDirection == CameraLensDirection.back,
+      orElse: () => _cameras.first,
+    );
+
+    await _initializeCamera(_currentCamera!);
+  }
+
+
+  Future<void> _initializeCamera(CameraDescription cameraDescription) async {
+    // Si ya hay un controlador, primero lo detenemos
+    if (controller != null) {
+      await controller?.dispose();
+    }
 
     controller = CameraController(
-      camera,
+      cameraDescription,
       ResolutionPreset.medium,
       enableAudio: false,
     );
 
     await controller!.initialize();
+
+    // Guarda los niveles de zoom de la cámara actual
+    _minZoom = await controller!.getMinZoomLevel();
+    _maxZoom = await controller!.getMaxZoomLevel();
+
+    _currentCamera = cameraDescription;
     isActive = true;
+  }
+
+  // --- NUEVO: flipCamera() ---
+  // Cambia entre la cámara frontal y la trasera.
+  Future<void> flipCamera() async {
+    if (_cameras.isEmpty || !isActive) return;
+
+    // Determina la dirección opuesta
+    final currentDirection = _currentCamera!.lensDirection;
+    final newDirection = currentDirection == CameraLensDirection.back
+        ? CameraLensDirection.front
+        : CameraLensDirection.back;
+
+    // Busca la nueva cámara
+    CameraDescription newCamera = _cameras.firstWhere(
+      (cam) => cam.lensDirection == newDirection,
+      orElse: () => _cameras.first, // Fallback por si no encuentra
+    );
+
+    // Reinicia la cámara con la nueva descripción
+    await _initializeCamera(newCamera);
+  }
+
+  // --- NUEVO: setZoom() ---
+  // Establece el nivel de zoom, asegurando que esté dentro de los límites.
+  Future<void> setZoom(double zoom) async {
+    if (controller == null || !isActive) return;
+    // Sujeta el valor entre el mínimo y máximo
+    double clampedZoom = zoom.clamp(_minZoom, _maxZoom);
+    await controller!.setZoomLevel(clampedZoom);
   }
 
   // Stops the camera and releases all associated resources.

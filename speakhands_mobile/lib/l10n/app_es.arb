@@ -18,6 +18,7 @@
   "let_your_hands_speak": "Deja que tus manos hablen",
   "translation": "Traducción:",
   "waiting_prediction": "Esperando predicción...",
+  "predictions_paused": "Predicciones en pausa",
   "camera_not_active": "Cámara no activa",
   "detected_letter": "Letra detectada: {letter}",
   "@detected_letter": {
