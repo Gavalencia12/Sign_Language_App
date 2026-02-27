@@ -49,7 +49,7 @@ class CameraService {
       _cameras = await availableCameras();
     }
 
-    // Select the rear camera
+    // Selecciona la cámara trasera por defecto, si no, la primera.
     _currentCamera = _cameras.firstWhere(
       (cam) => cam.lensDirection == CameraLensDirection.back,
       orElse: () => _cameras.first,
@@ -60,7 +60,7 @@ class CameraService {
 
 
   Future<void> _initializeCamera(CameraDescription cameraDescription) async {
-    // If there is already a controller, we stop it first
+    // Si ya hay un controlador, primero lo detenemos
     if (controller != null) {
       await controller?.dispose();
     }
@@ -73,7 +73,7 @@ class CameraService {
 
     await controller!.initialize();
 
-    // Saves the zoom levels of the current camera
+    // Guarda los niveles de zoom de la cámara actual
     _minZoom = await controller!.getMinZoomLevel();
     _maxZoom = await controller!.getMaxZoomLevel();
 
@@ -81,29 +81,32 @@ class CameraService {
     isActive = true;
   }
 
-  // Switch between the front and rear cameras.
+  // --- NUEVO: flipCamera() ---
+  // Cambia entre la cámara frontal y la trasera.
   Future<void> flipCamera() async {
     if (_cameras.isEmpty || !isActive) return;
 
-    // Determine the opposite direction
+    // Determina la dirección opuesta
     final currentDirection = _currentCamera!.lensDirection;
     final newDirection = currentDirection == CameraLensDirection.back
         ? CameraLensDirection.front
         : CameraLensDirection.back;
 
-    // Search the new Camera
+    // Busca la nueva cámara
     CameraDescription newCamera = _cameras.firstWhere(
       (cam) => cam.lensDirection == newDirection,
-      orElse: () => _cameras.first,
+      orElse: () => _cameras.first, // Fallback por si no encuentra
     );
 
+    // Reinicia la cámara con la nueva descripción
     await _initializeCamera(newCamera);
   }
 
-  // Sets the zoom level, ensuring it is within limits.
+  // --- NUEVO: setZoom() ---
+  // Establece el nivel de zoom, asegurando que esté dentro de los límites.
   Future<void> setZoom(double zoom) async {
     if (controller == null || !isActive) return;
-    // Holds the value between the minimum and maximum
+    // Sujeta el valor entre el mínimo y máximo
     double clampedZoom = zoom.clamp(_minZoom, _maxZoom);
     await controller!.setZoomLevel(clampedZoom);
   }
