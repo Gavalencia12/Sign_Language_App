@@ -20,9 +20,6 @@
   "waiting_prediction": "Esperando predicción...",
   "predictions_paused": "Predicciones en pausa",
   "camera_not_active": "Cámara no activa",
-  "refresh": "Refrescar",
-  "pause": "Pausar",
-  "resume":"Reudar",
   "detected_letter": "Letra detectada: {letter}",
   "@detected_letter": {
     "description": "Muestra la letra detectada",

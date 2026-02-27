@@ -350,32 +350,24 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
 
                         // Controls
                         TranslatorControls(
-                          isPaused: _isPaused,
                           onRefresh: () {
                             setState(() {
                               _isPaused = false; // Resume if paused
                               _translationResult = loc.waiting_prediction;
                             });
-                            _delayTimer?.cancel();
-                            _cooldownTimer?.cancel();
-                            _canDetect = true;
                           },
                           onPause: () {
                             if (!_isCameraActive) return; 
                             
                             setState(() {
-                              // Invierte el estado de pausa
-                              _isPaused = !_isPaused; 
-
-                              if (_isPaused) {
-                                _translationResult = loc.predictions_paused; 
-                                _delayTimer?.cancel();
-                                _cooldownTimer?.cancel();
-                                _canDetect = true;
-                              } else {
-                                _translationResult = loc.waiting_prediction;
-                              }
+                              _isPaused = true; //pause detection
+                              _translationResult = loc.predictions_paused; 
                             });
+                            
+                            //Cancel timers
+                            _delayTimer?.cancel();
+                            _cooldownTimer?.cancel();
+                            _canDetect = true;
                           },
                         ),
                       ],

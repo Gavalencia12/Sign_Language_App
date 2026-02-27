@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:speakhands_mobile/theme/app_colors.dart';
-import 'package:speakhands_mobile/l10n/app_localizations.dart';
 
 // A reusable control panel widget that provides quick-access
 // buttons for refreshing and pausing the translation process.
@@ -19,13 +18,11 @@ class TranslatorControls extends StatelessWidget {
 
   // Callback triggered when the user taps the "Pause" button.
   final VoidCallback onPause;
-  final bool isPaused;
 
   const TranslatorControls({
     super.key,
     required this.onRefresh,
     required this.onPause,
-    required this.isPaused,
   });
 
   // Builds a circular action button with the given [icon], [color],
@@ -37,27 +34,19 @@ class TranslatorControls extends StatelessWidget {
     Color color,
     VoidCallback onPressed,
   ) {
-    final loc = AppLocalizations.of(context)!;
     return Material(
       color: color,
       shape: const CircleBorder(),
       child: IconButton(
         icon: Icon(icon, color: AppColors.onPrimary(context)),
         onPressed: onPressed,
-        tooltip: icon == Icons.refresh ? loc.refresh : (isPaused ? loc.resume : loc.pause),
+        tooltip: icon == Icons.refresh ? "Refrescar" : "Pausar",
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context)!;
-
-    // Determine the values ​​for the Pause/Resume button
-    final IconData pauseIcon = isPaused ? Icons.play_arrow_rounded : Icons.pause;
-    final String pauseText = isPaused ? loc.resume : loc.pause;
-    final Color pauseColor = isPaused ? AppColors.primary(context) : AppColors.secondary(context);
-    
     return Container(
       margin: const EdgeInsets.only(top: 8),
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
@@ -88,7 +77,7 @@ class TranslatorControls extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                loc.refresh,
+                "Refrescar",
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
@@ -104,13 +93,13 @@ class TranslatorControls extends StatelessWidget {
             children: [
               _circleButton(
                 context,
-                pauseIcon,
-                pauseColor,
+                Icons.pause,
+                AppColors.secondary(context),
                 onPause,
               ),
               const SizedBox(height: 4),
               Text(
-                pauseText,
+                "Pausar",
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,

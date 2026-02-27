@@ -20,9 +20,6 @@
   "waiting_prediction": "Waiting for prediction...",
   "predictions_paused": "Predictions paused",
   "camera_not_active": "Camera not active",
-  "refresh": "Refresh",
-  "pause": "Pause",
-  "resume":"Resume",
   "detected_letter": "Detected letter: {letter}",
   "@detected_letter": {
     "description": "Shows the detected letter",
