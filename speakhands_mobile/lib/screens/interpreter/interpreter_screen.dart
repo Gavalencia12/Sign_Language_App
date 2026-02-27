@@ -443,7 +443,6 @@ class _InterpreterScreenState extends State<InterpreterScreen> {
                     maxLines: null,
                     minLines: 3,
                     keyboardType: TextInputType.multiline,
-                    textInputAction: TextInputAction.done,
                     textAlign: TextAlign.left,
                     decoration: InputDecoration(
                       isCollapsed: true,

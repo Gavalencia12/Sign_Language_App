@@ -185,12 +185,6 @@ abstract class AppLocalizations {
   /// **'Waiting for prediction...'**
   String get waiting_prediction;
 
-  /// No description provided for @predictions_paused.
-  ///
-  /// In en, this message translates to:
-  /// **'Predictions paused'**
-  String get predictions_paused;
-
   /// No description provided for @camera_not_active.
   ///
   /// In en, this message translates to:
