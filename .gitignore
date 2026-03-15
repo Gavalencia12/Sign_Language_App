@@ -44,10 +44,6 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# ----------------------------
-# 🔥 Agregado para proteger tu proyecto
-# ----------------------------
-
 # Builds por plataforma
 windows/
 linux/
@@ -84,3 +80,16 @@ build/**
 # Firebase hosting config
 firebase.json
 firebase-debug.log
+
+# ==============================
+# DATASETS
+# ==============================
+
+process_img_mp4/process_video/videos/
+process_img_mp4/process_video/landmarks_out/
+
+# ==============================
+# TRAINED MODELS
+# ==============================
+*.pt
+*.pth
